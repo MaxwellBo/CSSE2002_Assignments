@@ -54,6 +54,28 @@ public class SectionTest {
         // check invariants
         Assert.assertTrue(section1.checkInvariant());
     }
+    // TODO: Test for the things at the top of Section.java
+    @Test(expected = NullPointerException.class)
+    public void testNullConstructor () {
+        Section section1 = new Section(5, null, null);
+    }
 
-//    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
+    public void testNegativeLength() {
+        JunctionBranch endPoint1 =
+                new JunctionBranch(new Junction("j1"), Branch.FACING);
+        JunctionBranch endPoint2 =
+                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
+        Section section1 = new Section(-5, endPoint1, endPoint2);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testEquivalentEndpoints() {
+        JunctionBranch endPoint1 =
+                new JunctionBranch(new Junction("j1"), Branch.FACING);
+        JunctionBranch endPoint1a =
+                new JunctionBranch(new Junction("j1"), Branch.FACING);
+        Section section1 = new Section(1, endPoint1, endPoint1a);
+    }
+
 }
