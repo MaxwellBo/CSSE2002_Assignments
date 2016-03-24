@@ -126,7 +126,7 @@ public class Section {
      * end-points, followed by the single space character ' ', followed by the
      * toString() representation of the other end-point.
      * </p>
-     * 
+     *
      * <p>
      * The end-points can occur in any order, so that either the string
      * "9 (j1, FACING) (j2, NORMAL)" or the string
@@ -144,7 +144,7 @@ public class Section {
      * Returns true if and only if the given object is an instance of the class
      * Section with the same length as this one, and equivalent end-points.
      * </p>
-     * 
+     *
      * <p>
      * The end-points of Section a and Section b are equivalent if and only if,
      * for each end-point of a, there is an equivalent end-point of b. (Two
@@ -153,13 +153,22 @@ public class Section {
      * </p>
      */
     @Override
-    public boolean equals(Object object) {
-        return super.equals(object); // REMOVE THIS LINE AND WRITE THIS METHOD
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Section section = (Section) o;
+
+        if (length != section.length) return false;
+        return endPoints.equals(section.endPoints);
+
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode(); // REMOVE THIS LINE AND WRITE THIS METHOD
+        int result = length;
+        result = 31 * result + endPoints.hashCode();
+        return result;
     }
 
     /**
