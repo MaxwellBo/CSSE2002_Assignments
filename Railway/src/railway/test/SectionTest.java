@@ -12,7 +12,7 @@ import org.junit.Test;
 public class SectionTest {
 
     // TODO: Comment
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testBasicSection() {
         JunctionBranch endPoint1 =
                 new JunctionBranch(new Junction("j1"), Branch.FACING);
