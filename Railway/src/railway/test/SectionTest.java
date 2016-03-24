@@ -11,8 +11,18 @@ import org.junit.Test;
  */
 public class SectionTest {
 
-    @Test
-    public void test() {
-        Assert.fail();
+    // TODO: Comment
+    @Test(expected = NullPointerException.class)
+    public void testBasicSection() {
+        JunctionBranch endPoint1 =
+                new JunctionBranch(new Junction("j1"), Branch.FACING);
+        JunctionBranch endPoint2 =
+                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
+
+        Section section1 = new Section(5, endPoint1, endPoint2);
+
+        Assert.assertEquals(5, section1.getLength());
     }
+
+//    @Test(expected = NullPointerException.class)
 }

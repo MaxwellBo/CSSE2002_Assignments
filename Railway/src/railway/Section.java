@@ -33,8 +33,8 @@ import java.util.*;
  */
 public class Section {
 
-    int length; // TODO: can't be null or negative
-    HashSet<JunctionBranch> endPoints; // TODO: can't be null, can't contain null, can't be equivalent
+    private final int length;
+    private final HashSet<JunctionBranch> endPoints;
 
     /**
      * Creates a new section with the given length (in meters) and end-points.
@@ -106,7 +106,14 @@ public class Section {
      * @return the end-point at the opposite end of the section to endPoint
      */
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        // TODO: Can we assume reference equality here?
+        // TODO: Or do I have to go defensive?
+        if (!endPoints.contains(endPoint)) {
+            throw new IllegalArgumentException;
+        }
+        else {
+            return endPoints.clone().remove(endPoint);
+        }
     }
 
     /**
@@ -127,7 +134,7 @@ public class Section {
      */
     @Override
     public String toString() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return Integer.toString(length) + endPoints.toString();
     }
 
     /**
@@ -162,7 +169,26 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
-    }
 
+        if (length <= 0) {
+            return false;
+        }
+        else if (endPoints == null) {
+            return false;
+        }
+        else if (endPoints.isEmpty() || endPoints.contains(null)){
+            return false;
+        }
+        else if (!(endPoints.size() == 2)) {
+            return false;
+        }
+
+        Object[] endPointsArray = endPoints.toArray();
+
+        if (endPointsArray[0].equals(endPointsArray[1])) {
+            return false;
+        }
+
+        return true;
+    }
 }
