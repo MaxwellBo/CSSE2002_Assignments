@@ -136,7 +136,10 @@ public class Section {
      */
     @Override
     public String toString() {
-        return Integer.toString(length) + endPoints.toString();
+        Object[] endPointsArray = endPoints.toArray();
+        String strP1 =  endPointsArray[0].toString();
+        String strP2 =  endPointsArray[1].toString();
+        return Integer.toString(length) + " " + strP1 + " " + strP2;
     }
 
     /**
