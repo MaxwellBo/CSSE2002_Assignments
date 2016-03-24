@@ -33,8 +33,8 @@ import java.util.*;
  */
 public class Section {
 
-    // REMOVE THIS LINE AND INSERT YOUR INSTANCE VARIABLES AND IMPLEMENTATION
-    // INVARIANT HERE
+    int length; // TODO: can't be null or negative
+    HashSet<JunctionBranch> endPoints; // TODO: can't be null, can't contain null, can't be equivalent
 
     /**
      * Creates a new section with the given length (in meters) and end-points.
@@ -57,7 +57,22 @@ public class Section {
     public Section(int length, JunctionBranch endPoint1,
             JunctionBranch endPoint2) throws NullPointerException,
             IllegalArgumentException {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+
+        if (endPoint1 == null || endPoint2 == null) {
+            throw new NullPointerException(); // TODO: Error message?
+        }
+        else if (length <= 0) {
+            throw new IllegalArgumentException();
+        }
+        else if (endPoint1.equals(endPoint2)) {
+            throw new IllegalArgumentException();
+        }
+        else {
+            this.length = length;
+            this.endPoints = new HashSet<>();
+            endPoints.add(endPoint1);
+            endPoints.add(endPoint2);
+        }
     }
 
     /**
@@ -66,7 +81,7 @@ public class Section {
      * @return the length of the section
      */
     public int getLength() {
-        return -1; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return length;
     }
 
     /**
@@ -75,7 +90,7 @@ public class Section {
      * @return a set of the end-points of the section.
      */
     public Set<JunctionBranch> getEndPoints() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return endPoints;
     }
 
     /**
