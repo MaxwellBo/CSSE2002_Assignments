@@ -109,10 +109,12 @@ public class Section {
         // TODO: Can we assume reference equality here?
         // TODO: Or do I have to go defensive?
         if (!endPoints.contains(endPoint)) {
-            throw new IllegalArgumentException;
+            throw new IllegalArgumentException();
         }
         else {
-            return endPoints.clone().remove(endPoint);
+            HashSet<JunctionBranch> clonedEndPoints = new HashSet<>(endPoints);
+            clonedEndPoints.remove(endPoint);
+            return (JunctionBranch) clonedEndPoints.toArray()[0];
         }
     }
 
