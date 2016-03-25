@@ -140,7 +140,7 @@ public class Location {
      * @return whether or not this location is at a junction
      */
     public boolean atAJunction() {
-        return (offset == 0);
+        return (getOffset() == 0);
     }
 
     /**
@@ -159,7 +159,22 @@ public class Location {
      * @return true iff this location lies on the given section
      */
     public boolean onSection(Section section) {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (getSection().equals(section)) {
+            return true;
+        }
+        else if (atAJunction()) {
+            Junction thisJunction = getEndPoint().getJunction();
+
+            for (JunctionBranch endPoint : section.getEndPoints()) {
+                if (thisJunction.equals(endPoint.getJunction())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
