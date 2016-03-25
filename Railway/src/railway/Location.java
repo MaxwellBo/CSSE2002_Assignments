@@ -30,8 +30,9 @@ package railway;
  */
 public class Location {
 
-    // REMOVE THIS LINE AND INSERT YOUR INSTANCE VARIABLES AND IMPLEMENTATION
-    // INVARIANT HERE
+    private final Section section;
+    private final JunctionBranch endPoint;
+    private final int offset;
 
     /**
      * Creates a new location that lies on the given section at a distance of
@@ -55,7 +56,20 @@ public class Location {
      *             not equivalent to an end-point of the given section.
      */
     public Location(Section section, JunctionBranch endPoint, int offset) {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (section == null || endPoint == null) {
+            throw new NullPointerException(); // TODO: Test
+        }
+        else if (offset < 0 || offset >= section.getLength()) {
+            throw new IllegalArgumentException(); // TODO: Test
+        }
+        else if (!(getSection().getEndPoints().contains(endPoint))) {
+            throw new IllegalArgumentException(); // TODO: Test
+        }
+        else {
+            this.section = section;
+            this.endPoint = endPoint;
+            this.offset = offset;
+        }
     }
 
     /**
