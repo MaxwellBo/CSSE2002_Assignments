@@ -217,24 +217,24 @@ public class Location {
      * <p>
      * Two locations are equivalent if either: <br>
      * <br>
-     * 
+     *
      * (i) their offsets are both zero and their end-points are at the same
      * junction (two junctions are considered to be the same if they are
      * equivalent according to the equals method of the Junction class) or <br>
      * <br>
-     * 
+     *
      * (ii) if their end-points are equivalent and their offsets are equal, or <br>
      * <br>
-     * 
+     *
      * (iii) if their end-points are not equivalent, but they lie on the same
      * section, and the sum of the length of their offsets equals the length of
      * the section that they lie on. (Two sections are considered to be the same
      * if they are equal according to the equals method of the Section class.) <br>
      * <br>
-     * 
+     *
      * and they are not equivalent otherwise.
      * </p>
-     * 
+     *
      * <p>
      * This method returns true if and only if the given object is an instance
      * of the class Location, and the locations are equivalent according to the
@@ -242,13 +242,24 @@ public class Location {
      * </p>
      */
     @Override
-    public boolean equals(Object object) {
-        return super.equals(object); // REMOVE THIS LINE AND WRITE THIS METHOD
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Location location = (Location) o;
+
+        if (offset != location.offset) return false;
+        if (!section.equals(location.section)) return false;
+        return endPoint.equals(location.endPoint);
+
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode(); // REMOVE THIS LINE AND WRITE THIS METHOD
+        int result = section.hashCode();
+        result = 31 * result + endPoint.hashCode();
+        result = 31 * result + offset;
+        return result;
     }
 
     /**
