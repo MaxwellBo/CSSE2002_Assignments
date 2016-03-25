@@ -62,7 +62,7 @@ public class Location {
         else if (offset < 0 || offset >= section.getLength()) {
             throw new IllegalArgumentException(); // TODO: Test
         }
-        else if (!(getSection().getEndPoints().contains(endPoint))) {
+        else if (!(section.getEndPoints().contains(endPoint))) {
             throw new IllegalArgumentException(); // TODO: Test
         }
         else {
