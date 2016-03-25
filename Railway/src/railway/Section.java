@@ -90,7 +90,7 @@ public class Section {
      * @return a set of the end-points of the section.
      */
     public Set<JunctionBranch> getEndPoints() {
-        return endPoints;
+        return new HashSet<>(endPoints);
     }
 
     /**
@@ -110,7 +110,8 @@ public class Section {
             throw new IllegalArgumentException();
         }
         else {
-            HashSet<JunctionBranch> clonedEndPoints = new HashSet<>(endPoints);
+            HashSet<JunctionBranch> clonedEndPoints =
+                    new HashSet<>(getEndPoints());
             clonedEndPoints.remove(endPoint);
             return (JunctionBranch) clonedEndPoints.toArray()[0];
         }
