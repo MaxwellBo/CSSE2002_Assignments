@@ -87,7 +87,7 @@ public class Location {
      * @return a section that this location lies on
      */
     public Section getSection() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return section;
     }
 
     /**
@@ -105,7 +105,7 @@ public class Location {
      * @return an end-point of this.getSection()
      */
     public JunctionBranch getEndPoint() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return endPoint;
     }
 
     /**
@@ -130,7 +130,7 @@ public class Location {
      * 
      */
     public int getOffset() {
-        return -1; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return offset;
     }
 
     /**
@@ -140,7 +140,7 @@ public class Location {
      * @return whether or not this location is at a junction
      */
     public boolean atAJunction() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return (offset == 0);
     }
 
     /**
