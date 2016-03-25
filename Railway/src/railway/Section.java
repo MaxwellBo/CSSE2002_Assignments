@@ -33,8 +33,8 @@ import java.util.*;
  */
 public class Section {
 
-    // REMOVE THIS LINE AND INSERT YOUR INSTANCE VARIABLES AND IMPLEMENTATION
-    // INVARIANT HERE
+    private final int length;
+    private final HashSet<JunctionBranch> endPoints;
 
     /**
      * Creates a new section with the given length (in meters) and end-points.
@@ -57,7 +57,22 @@ public class Section {
     public Section(int length, JunctionBranch endPoint1,
             JunctionBranch endPoint2) throws NullPointerException,
             IllegalArgumentException {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+
+        if (endPoint1 == null || endPoint2 == null) {
+            throw new NullPointerException(); // TODO: Error message?
+        }
+        else if (length <= 0) {
+            throw new IllegalArgumentException();
+        }
+        else if (endPoint1.equals(endPoint2)) {
+            throw new IllegalArgumentException();
+        }
+        else {
+            this.length = length;
+            this.endPoints = new HashSet<>();
+            endPoints.add(endPoint1);
+            endPoints.add(endPoint2);
+        }
     }
 
     /**
@@ -66,7 +81,7 @@ public class Section {
      * @return the length of the section
      */
     public int getLength() {
-        return -1; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return length;
     }
 
     /**
@@ -75,7 +90,7 @@ public class Section {
      * @return a set of the end-points of the section.
      */
     public Set<JunctionBranch> getEndPoints() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return endPoints;
     }
 
     /**
@@ -91,7 +106,14 @@ public class Section {
      * @return the end-point at the opposite end of the section to endPoint
      */
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (!endPoints.contains(endPoint)) {
+            throw new IllegalArgumentException();
+        }
+        else {
+            HashSet<JunctionBranch> clonedEndPoints = new HashSet<>(endPoints);
+            clonedEndPoints.remove(endPoint);
+            return (JunctionBranch) clonedEndPoints.toArray()[0];
+        }
     }
 
     /**
@@ -102,7 +124,7 @@ public class Section {
      * end-points, followed by the single space character ' ', followed by the
      * toString() representation of the other end-point.
      * </p>
-     * 
+     *
      * <p>
      * The end-points can occur in any order, so that either the string
      * "9 (j1, FACING) (j2, NORMAL)" or the string
@@ -112,7 +134,10 @@ public class Section {
      */
     @Override
     public String toString() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        Object[] endPointsArray = endPoints.toArray();
+        String strP1 =  endPointsArray[0].toString();
+        String strP2 =  endPointsArray[1].toString();
+        return Integer.toString(length) + " " + strP1 + " " + strP2;
     }
 
     /**
@@ -120,7 +145,7 @@ public class Section {
      * Returns true if and only if the given object is an instance of the class
      * Section with the same length as this one, and equivalent end-points.
      * </p>
-     * 
+     *
      * <p>
      * The end-points of Section a and Section b are equivalent if and only if,
      * for each end-point of a, there is an equivalent end-point of b. (Two
@@ -129,13 +154,21 @@ public class Section {
      * </p>
      */
     @Override
-    public boolean equals(Object object) {
-        return super.equals(object); // REMOVE THIS LINE AND WRITE THIS METHOD
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Section section = (Section) o;
+
+        if (length != section.length) return false;
+        return endPoints.equals(section.endPoints);
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode(); // REMOVE THIS LINE AND WRITE THIS METHOD
+        int result = length;
+        result = 31 * result + endPoints.hashCode();
+        return result;
     }
 
     /**
@@ -147,7 +180,25 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
-    }
+        if (length <= 0) {
+            return false;
+        }
+        else if (endPoints == null) {
+            return false;
+        }
+        else if (endPoints.isEmpty() || endPoints.contains(null)){
+            return false;
+        }
+        else if (!(endPoints.size() == 2)) {
+            return false;
+        }
 
+        Object[] endPointsArray = endPoints.toArray();
+
+        if (endPointsArray[0].equals(endPointsArray[1])) {
+            return false;
+        }
+
+        return true;
+    }
 }
