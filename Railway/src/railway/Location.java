@@ -208,7 +208,8 @@ public class Location {
         else {
             return "Distance " + Integer.toString(getOffset()) +
                     " from " + getEndPoint().getJunction().toString() +
-                    " along the " + getEndPoint().getBranch().toString();
+                    " along the " + getEndPoint().getBranch().toString() +
+                    " branch";
         }
     }
 
