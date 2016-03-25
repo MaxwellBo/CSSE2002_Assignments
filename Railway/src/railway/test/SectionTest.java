@@ -14,20 +14,28 @@ import java.util.HashSet;
  */
 public class SectionTest {
 
-//    @Before
-//    public void setUp() {
-//
-//    }
+    JunctionBranch endPoint1;
+    JunctionBranch endPoint2;
+    JunctionBranch endPoint1a; // Same params as endpoint1
+    JunctionBranch endPoint2a; // To test for non-reference equality
+
+    @Before
+    public void setUp() {
+         endPoint1 =
+                new JunctionBranch(new Junction("j1"), Branch.FACING);
+         endPoint2 =
+                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
+        endPoint1a =
+                new JunctionBranch(new Junction("j1"), Branch.FACING);
+        endPoint2a =
+                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
+    }
 
     /** Test Section with valid parameters */
     @Test
     public void testBasicSection() {
 
         // setup
-        JunctionBranch endPoint1 =
-                new JunctionBranch(new Junction("j1"), Branch.FACING);
-        JunctionBranch endPoint2 =
-                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
         Section section1 = new Section(5, endPoint1, endPoint2);
 
         // check length getter
@@ -45,16 +53,11 @@ public class SectionTest {
         // check toString method
         String s1s = section1.toString();
         String optionA = "5 (j1, FACING) (j2, REVERSE)";
-        String optionB = "5 (j2, REVERSE) (j1, FACIING)";
+        String optionB = "5 (j2, REVERSE) (j1, FACING)";
         Assert.assertTrue(s1s.equals(optionA) || s1s.equals(optionB));
 
         // check equals method
-        JunctionBranch endPoint1a =
-                new JunctionBranch(new Junction("j1"), Branch.FACING);
-        JunctionBranch endPoint2a =
-                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
         Section section2 = new Section(5, endPoint1a, endPoint2a);
-
         Assert.assertTrue(section1.equals(section2));
 
         // check invariants
@@ -68,20 +71,11 @@ public class SectionTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testNegativeLength() {
-        JunctionBranch endPoint1 =
-                new JunctionBranch(new Junction("j1"), Branch.FACING);
-        JunctionBranch endPoint2 =
-                new JunctionBranch(new Junction("j2"), Branch.REVERSE);
         Section section1 = new Section(-5, endPoint1, endPoint2);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testEquivalentEndpoints() {
-        JunctionBranch endPoint1 =
-                new JunctionBranch(new Junction("j1"), Branch.FACING);
-        JunctionBranch endPoint1a =
-                new JunctionBranch(new Junction("j1"), Branch.FACING);
         Section section1 = new Section(1, endPoint1, endPoint1a);
     }
-
 }
