@@ -269,10 +269,23 @@ public class Location {
 
     @Override
     public int hashCode() { // TODO: Make sure this works with the above
-        int result = section.hashCode();
-        result = 31 * result + endPoint.hashCode();
-        result = 31 * result + offset;
-        return result;
+        if (atAJunction()) {
+            return getEndPoint().getJunction().hashCode();
+        }
+        else {
+            int result = section.hashCode();
+
+            if (offset > section.getLength() / 2) {
+                result = 31 * result
+                        + section.otherEndPoint(endPoint).hashCode();
+                result = 31 * result + (section.getLength() - offset);
+            }
+            else {
+                result = 31 * result + endPoint.hashCode();
+                result = 31 * result + offset;
+            }
+            return result;
+        }
     }
 
     /**
