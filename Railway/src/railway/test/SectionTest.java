@@ -1,5 +1,6 @@
 package railway.test;
 
+import org.junit.Before;
 import railway.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,6 +13,11 @@ import java.util.HashSet;
  * Write your own junit4 tests for the class here.
  */
 public class SectionTest {
+
+//    @Before
+//    public void setUp() {
+//
+//    }
 
     /** Test Section with valid parameters */
     @Test

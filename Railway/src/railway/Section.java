@@ -106,8 +106,6 @@ public class Section {
      * @return the end-point at the opposite end of the section to endPoint
      */
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
-        // TODO: Can we assume reference equality here?
-        // TODO: Or do I have to go defensive?
         if (!endPoints.contains(endPoint)) {
             throw new IllegalArgumentException();
         }
@@ -164,7 +162,6 @@ public class Section {
 
         if (length != section.length) return false;
         return endPoints.equals(section.endPoints);
-
     }
 
     @Override
@@ -183,7 +180,6 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-
         if (length <= 0) {
             return false;
         }
