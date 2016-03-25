@@ -248,14 +248,27 @@ public class Location {
 
         Location location = (Location) o;
 
-        if (offset != location.offset) return false;
-        if (!section.equals(location.section)) return false;
-        return endPoint.equals(location.endPoint);
-
+        if (atAJunction() && location.atAJunction() // (i)
+                && onSection(location.getSection())
+                && location.onSection(getSection())) {
+            return true;
+        }
+        else if (getEndPoint().equals(location.getEndPoint()) // (ii)
+                && getOffset() == location.getOffset()) {
+            return true;
+        }
+        else if (getSection().equals(location.getSection()) //( (iii)
+                && (getOffset() + location.getOffset()
+                        == getSection().getLength())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode() { // TODO: Make sure this works with the above
         int result = section.hashCode();
         result = 31 * result + endPoint.hashCode();
         result = 31 * result + offset;
