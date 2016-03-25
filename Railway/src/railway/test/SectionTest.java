@@ -35,7 +35,6 @@ public class SectionTest {
                 new JunctionBranch(new Junction("j2"), Branch.REVERSE);
         endPoint3N =
                 new JunctionBranch(new Junction("j3"), Branch.NORMAL);
-
     }
 
     /** Test Section with valid parameters */
@@ -49,10 +48,10 @@ public class SectionTest {
         Assert.assertEquals(5, section1.getLength());
 
         // check endpoint set getter
-        HashSet<JunctionBranch> endPoints12 = new HashSet<>();
-        endPoints12.add(endPoint1F);
-        endPoints12.add(endPoint2R);
-        Assert.assertEquals(endPoints12, section1.getEndPoints());
+        HashSet<JunctionBranch> endPoints1F2R = new HashSet<>();
+        endPoints1F2R.add(endPoint1F);
+        endPoints1F2R.add(endPoint2R);
+        Assert.assertEquals(section1.getEndPoints(), endPoints1F2R);
 
         // check endpoint partner getter
         Assert.assertEquals(section1.otherEndPoint(endPoint1F), endPoint2R);
@@ -69,6 +68,7 @@ public class SectionTest {
 
         // check invariants
         Assert.assertTrue(section1.checkInvariant());
+        Assert.assertTrue(section2.checkInvariant());
     }
 
     @Test
