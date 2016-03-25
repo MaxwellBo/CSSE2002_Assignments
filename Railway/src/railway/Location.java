@@ -202,7 +202,14 @@ public class Location {
      */
     @Override
     public String toString() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (atAJunction()) {
+            return getEndPoint().getJunction().toString();
+        }
+        else {
+            return "Distance " + Integer.toString(getOffset()) +
+                    " from " + getEndPoint().getJunction().toString() +
+                    " along the " + getEndPoint().getBranch().toString();
+        }
     }
 
     /**
