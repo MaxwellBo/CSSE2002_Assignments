@@ -300,7 +300,21 @@ public class Location {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (section == null || endPoint == null) {
+            return false;
+        }
+        else if (offset < 0 || offset >= section.getLength()) {
+            return false;
+        }
+        else if (!(section.getEndPoints().contains(endPoint))) {
+            return false;
+        }
+        else if (!section.checkInvariant()) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 }
