@@ -280,13 +280,13 @@ public class Location {
                         + section.otherEndPoint(endPoint).hashCode();
                 result = 31 * result + (section.getLength() - offset);
             }
-            else if (offset == section.getLength() / 2) {
-                result = 31 * result + section.hashCode();
-            }
-            else {
+            else if (offset < section.getLength() / 2) {
                 result = 31 * result + endPoint.hashCode();
                 result = 31 * result + offset;
             }
+            // Case
+            // (offset == section.getLength() / 2)
+            // deliberately uncovered
             return result;
         }
     }
