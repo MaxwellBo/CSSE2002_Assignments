@@ -125,4 +125,64 @@ public class LocationTest {
 
     }
 
+    @Test
+    public void testTriangle() {
+        // things might break
+        int stdLength = 10; // doesn't floor when divided
+
+        Junction bottomLeftNode = new Junction ("bottomLeftNode");
+        Junction topNode = new Junction ("topNode");
+        Junction bottomRightNode = new Junction("bottomRightNode");
+
+        Section leftSide = new Section(stdLength,
+                new JunctionBranch(bottomLeftNode, Branch.REVERSE),
+                new JunctionBranch(topNode, Branch.REVERSE));
+
+        Section rightSide = new Section(stdLength,
+                new JunctionBranch(topNode, Branch.FACING),
+                new JunctionBranch(bottomRightNode, Branch.FACING));
+
+        Section bottomSide = new Section(stdLength,
+                new JunctionBranch(bottomLeftNode, Branch.NORMAL),
+                new JunctionBranch(bottomRightNode, Branch.NORMAL));
+
+        Location topNodeLocationLSR0 = new Location(leftSide,
+                new JunctionBranch(topNode, Branch.REVERSE),
+                0);
+
+        Assert.assertTrue(topNodeLocationLSR0.atAJunction());
+        Assert.assertTrue(topNodeLocationLSR0.onSection(leftSide));
+        Assert.assertTrue(topNodeLocationLSR0.onSection(rightSide));
+
+        Location topNodeLocationRSF0 = new Location(rightSide,
+                new JunctionBranch(topNode, Branch.FACING),
+                0);
+
+        Assert.assertTrue(topNodeLocationRSF0.atAJunction());
+        Assert.assertTrue(topNodeLocationRSF0.onSection(leftSide));
+        Assert.assertTrue(topNodeLocationRSF0.onSection(rightSide));
+
+        Assert.assertTrue(topNodeLocationLSR0.equals(topNodeLocationLSR0)); // Reflexive
+
+        Assert.assertTrue(topNodeLocationLSR0.equals(topNodeLocationRSF0)); // Symmetric
+        Assert.assertTrue(topNodeLocationRSF0.equals(topNodeLocationLSR0)); // Symmetric
+
+        Assert.assertEquals(topNodeLocationLSR0.hashCode(), topNodeLocationRSF0.hashCode());
+
+        Location bottomMiddleLocationBSBLN5 = new Location(bottomSide,
+                new JunctionBranch(bottomLeftNode, Branch.NORMAL),
+                5);
+
+        Location bottomMiddleLocationBSBRN5 = new Location(bottomSide,
+                new JunctionBranch(bottomRightNode, Branch.NORMAL),
+                5);
+
+        Assert.assertTrue(bottomMiddleLocationBSBLN5.equals(bottomMiddleLocationBSBLN5)); // Reflexive
+
+        Assert.assertTrue(bottomMiddleLocationBSBLN5.equals(bottomMiddleLocationBSBRN5)); // Symmetric
+        Assert.assertTrue(bottomMiddleLocationBSBRN5.equals(bottomMiddleLocationBSBLN5)); // Symmetric
+
+        Assert.assertEquals(bottomMiddleLocationBSBLN5.hashCode(),
+                bottomMiddleLocationBSBRN5.hashCode());
+    }
 }

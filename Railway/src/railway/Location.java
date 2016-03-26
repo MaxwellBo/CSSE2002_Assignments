@@ -30,8 +30,9 @@ package railway;
  */
 public class Location {
 
-    // REMOVE THIS LINE AND INSERT YOUR INSTANCE VARIABLES AND IMPLEMENTATION
-    // INVARIANT HERE
+    private final Section section;
+    private final JunctionBranch endPoint;
+    private final int offset;
 
     /**
      * Creates a new location that lies on the given section at a distance of
@@ -55,7 +56,20 @@ public class Location {
      *             not equivalent to an end-point of the given section.
      */
     public Location(Section section, JunctionBranch endPoint, int offset) {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (section == null || endPoint == null) {
+            throw new NullPointerException(); // TODO: Test
+        }
+        else if (offset < 0 || offset >= section.getLength()) {
+            throw new IllegalArgumentException(); // TODO: Test
+        }
+        else if (!(section.getEndPoints().contains(endPoint))) {
+            throw new IllegalArgumentException(); // TODO: Test
+        }
+        else {
+            this.section = section;
+            this.endPoint = endPoint;
+            this.offset = offset;
+        }
     }
 
     /**
@@ -73,7 +87,7 @@ public class Location {
      * @return a section that this location lies on
      */
     public Section getSection() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return section;
     }
 
     /**
@@ -91,7 +105,7 @@ public class Location {
      * @return an end-point of this.getSection()
      */
     public JunctionBranch getEndPoint() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return endPoint;
     }
 
     /**
@@ -116,7 +130,7 @@ public class Location {
      * 
      */
     public int getOffset() {
-        return -1; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return offset;
     }
 
     /**
@@ -126,7 +140,7 @@ public class Location {
      * @return whether or not this location is at a junction
      */
     public boolean atAJunction() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return (getOffset() == 0);
     }
 
     /**
@@ -145,7 +159,22 @@ public class Location {
      * @return true iff this location lies on the given section
      */
     public boolean onSection(Section section) {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (getSection().equals(section)) {
+            return true;
+        }
+        else if (atAJunction()) {
+            Junction thisJunction = getEndPoint().getJunction();
+
+            for (JunctionBranch endPoint : section.getEndPoints()) {
+                if (thisJunction.equals(endPoint.getJunction())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
@@ -173,31 +202,39 @@ public class Location {
      */
     @Override
     public String toString() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (atAJunction()) {
+            return getEndPoint().getJunction().toString();
+        }
+        else {
+            return "Distance " + Integer.toString(getOffset()) +
+                    " from " + getEndPoint().getJunction().toString() +
+                    " along the " + getEndPoint().getBranch().toString() +
+                    " branch";
+        }
     }
 
     /**
      * <p>
      * Two locations are equivalent if either: <br>
      * <br>
-     * 
+     *
      * (i) their offsets are both zero and their end-points are at the same
      * junction (two junctions are considered to be the same if they are
      * equivalent according to the equals method of the Junction class) or <br>
      * <br>
-     * 
+     *
      * (ii) if their end-points are equivalent and their offsets are equal, or <br>
      * <br>
-     * 
+     *
      * (iii) if their end-points are not equivalent, but they lie on the same
      * section, and the sum of the length of their offsets equals the length of
      * the section that they lie on. (Two sections are considered to be the same
      * if they are equal according to the equals method of the Section class.) <br>
      * <br>
-     * 
+     *
      * and they are not equivalent otherwise.
      * </p>
-     * 
+     *
      * <p>
      * This method returns true if and only if the given object is an instance
      * of the class Location, and the locations are equivalent according to the
@@ -205,13 +242,53 @@ public class Location {
      * </p>
      */
     @Override
-    public boolean equals(Object object) {
-        return super.equals(object); // REMOVE THIS LINE AND WRITE THIS METHOD
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Location location = (Location) o;
+
+        if (atAJunction() && location.atAJunction() // (i) // TODO: Tests
+                && onSection(location.getSection())
+                && location.onSection(getSection())) {
+            return true;
+        }
+        else if (getEndPoint().equals(location.getEndPoint()) // (ii) // TODO: Tests
+                && getOffset() == location.getOffset()) {
+            return true;
+        }
+        else if (getSection().equals(location.getSection()) //( (iii) // TODO: Tests
+                && (getOffset() + location.getOffset()
+                        == getSection().getLength())) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode(); // REMOVE THIS LINE AND WRITE THIS METHOD
+    public int hashCode() { // TODO: Make sure this works with the above
+        if (atAJunction()) {
+            return getEndPoint().getJunction().hashCode();
+        }
+        else {
+            int result = section.hashCode();
+
+            if (offset > section.getLength() / 2) {
+                result = 31 * result
+                        + section.otherEndPoint(endPoint).hashCode();
+                result = 31 * result + (section.getLength() - offset);
+            }
+            else if (offset < section.getLength() / 2) {
+                result = 31 * result + endPoint.hashCode();
+                result = 31 * result + offset;
+            }
+            // Case
+            // (offset == section.getLength() / 2)
+            // deliberately uncovered
+            return result;
+        }
     }
 
     /**
@@ -223,7 +300,21 @@ public class Location {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (section == null || endPoint == null) {
+            return false;
+        }
+        else if (offset < 0 || offset >= section.getLength()) {
+            return false;
+        }
+        else if (!(section.getEndPoints().contains(endPoint))) {
+            return false;
+        }
+        else if (!section.checkInvariant()) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 }

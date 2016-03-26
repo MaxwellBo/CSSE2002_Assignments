@@ -64,7 +64,10 @@ public class SectionTest {
 
         // check equals method
         Section section2 = new Section(5, endPoint1Fc, endPoint2Rc);
-        Assert.assertTrue(section1.equals(section2));
+        Assert.assertTrue(section1.equals(section1)); // Reflexive
+
+        Assert.assertTrue(section1.equals(section2)); // Symmetric ;
+        Assert.assertTrue(section2.equals(section1));
 
         // check invariants
         Assert.assertTrue(section1.checkInvariant());
