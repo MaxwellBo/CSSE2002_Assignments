@@ -280,6 +280,9 @@ public class Location {
                         + section.otherEndPoint(endPoint).hashCode();
                 result = 31 * result + (section.getLength() - offset);
             }
+            else if (offset == section.getLength() / 2) {
+                result = 31 * result + section.hashCode();
+            }
             else {
                 result = 31 * result + endPoint.hashCode();
                 result = 31 * result + offset;
