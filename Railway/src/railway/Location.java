@@ -170,11 +170,9 @@ public class Location {
                     return true;
                 }
             }
-            return false;
         }
-        else {
-            return false;
-        }
+
+        return false;
     }
 
     /**
