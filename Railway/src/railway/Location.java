@@ -246,16 +246,16 @@ public class Location {
 
         Location location = (Location) o;
 
-        if (atAJunction() && location.atAJunction() // (i) // TODO: Tests
+        if (atAJunction() && location.atAJunction() // (i)
                 && onSection(location.getSection())
                 && location.onSection(getSection())) {
             return true;
         }
-        else if (getEndPoint().equals(location.getEndPoint()) // (ii) // TODO: Tests
+        else if (getEndPoint().equals(location.getEndPoint()) // (ii)
                 && getOffset() == location.getOffset()) {
             return true;
         }
-        else if (getSection().equals(location.getSection()) //( (iii) // TODO: Tests
+        else if (getSection().equals(location.getSection()) //( (iii)
                 && (getOffset() + location.getOffset()
                         == getSection().getLength())) {
             return true;
