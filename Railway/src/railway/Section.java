@@ -106,15 +106,16 @@ public class Section {
      * @return the end-point at the opposite end of the section to endPoint
      */
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
-        if (!endPoints.contains(endPoint)) {
-            throw new IllegalArgumentException();
-        }
-        else {
+        if (endPoints.contains(endPoint)) {
             for (JunctionBranch ji : endPoints) {
                 if (!ji.equals(endPoint)) {
                     return ji;
                 }
             }
+            // Required, but redundant
+            throw new IllegalArgumentException();
+        }
+        else {
             throw new IllegalArgumentException();
         }
     }
