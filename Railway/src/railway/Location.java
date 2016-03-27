@@ -56,14 +56,24 @@ public class Location {
      *             not equivalent to an end-point of the given section.
      */
     public Location(Section section, JunctionBranch endPoint, int offset) {
-        if (section == null || endPoint == null) {
-            throw new NullPointerException(); // TODO: Test
+        if (section == null) {
+            throw new NullPointerException("section parameter is null");
         }
-        else if (offset < 0 || offset >= section.getLength()) {
-            throw new IllegalArgumentException(); // TODO: Test
+        else if (endPoint == null) {
+            throw new NullPointerException("endPoint parameter is null");
+        }
+        else if (offset < 0) {
+            throw new IllegalArgumentException("offset parameter"
+                    + " is less than zero");
+        }
+        else if (offset >= section.getLength()) {
+            throw new IllegalArgumentException( "offset from the start point"
+                    + " is greater than or equal to the length"
+                    + " of the section parameter's length");
         }
         else if (!(section.getEndPoints().contains(endPoint))) {
-            throw new IllegalArgumentException(); // TODO: Test
+            throw new IllegalArgumentException("section parameter"
+                    + " does not contain endPoint parameter");
         }
         else {
             this.section = section;
