@@ -117,13 +117,13 @@ public class Track implements Iterable<Section> {
      * @return The set of junctions in the track.
      */
     public Set<Junction> getJunctions() {
-        HashSet<Junction> junctionHashSet = new HashSet<>();
+        HashSet<Junction> junctionSet = new HashSet<>();
         for (Section si : trackSections) {
             for (JunctionBranch ji : si.getEndPoints()) {
-                junctionHashSet.add(ji.getJunction());
+                junctionSet.add(ji.getJunction());
             }
         }
-        return junctionHashSet;
+        return junctionSet;
     }
 
     /**
