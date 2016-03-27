@@ -1,5 +1,6 @@
 package railway;
 
+import java.awt.dnd.InvalidDnDOperationException;
 import java.util.*;
 
 /**
@@ -75,12 +76,10 @@ public class Track implements Iterable<Section> {
         }
         else {
             for (Section si : trackSections) {
-                HashSet<JunctionBranch> siEndPoints
-                        = new HashSet<>(si.getEndPoints());
-
-                // removeAll returns true if any intersection
-                if (siEndPoints.removeAll(section.getEndPoints())) {
-                    throw new InvalidTrackException();
+                for (JunctionBranch ji : si.getEndPoints()) {
+                    if (section.getEndPoints().contains(ji)) {
+                        throw new InvalidTrackException();
+                    }
                 }
             }
 
