@@ -21,14 +21,13 @@ import java.util.*;
  */
 public class Track implements Iterable<Section> {
 
-    // REMOVE THIS LINE AND INSERT YOUR INSTANCE VARIABLES AND IMPLEMENTATION
-    // INVARIANT HERE
+    HashSet<Section> trackSections;
 
     /**
      * Creates a new track with no sections.
      */
     public Track() {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        HashSet<Section> trackSections = new HashSet<>();
     }
 
     /**
@@ -71,7 +70,18 @@ public class Track implements Iterable<Section> {
      */
     public void addSection(Section section) throws NullPointerException,
             IllegalArgumentException {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (section == null) {
+            throw new NullPointerException();
+        }
+        else if (trackSections.contains(section)) {
+            // do nothing
+        }
+        else if () {
+            // TODO: Implement
+        }
+        else {
+            trackSections.add(section);
+        }
     }
 
     /**
