@@ -112,9 +112,9 @@ public class Section {
      */
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
         if (endPoints.contains(endPoint)) {
-            for (JunctionBranch ji : endPoints) {
-                if (!ji.equals(endPoint)) {
-                    return ji;
+            for (JunctionBranch i : endPoints) {
+                if (!i.equals(endPoint)) {
+                    return i;
                 }
             }
             // Required, but redundant

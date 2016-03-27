@@ -175,8 +175,8 @@ public class Track implements Iterable<Section> {
     public String toString() {
         String base = "";
 
-        for (Section si : trackSections) {
-            base += si.toString()
+        for (Section i : trackSections) {
+            base += i.toString()
                     + System.getProperty("line.separator");
         }
 
@@ -192,8 +192,8 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        for (Section si : trackSections) {
-            if (!si.checkInvariant()) {
+        for (Section i : trackSections) {
+            if (!i.checkInvariant()) {
                 return false;
             }
         }

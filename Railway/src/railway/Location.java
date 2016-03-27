@@ -175,8 +175,8 @@ public class Location {
         else if (atAJunction()) {
             Junction thisJunction = getEndPoint().getJunction();
 
-            for (JunctionBranch endPoint : section.getEndPoints()) {
-                if (thisJunction.equals(endPoint.getJunction())) {
+            for (JunctionBranch i : section.getEndPoints()) {
+                if (thisJunction.equals(i.getJunction())) {
                     return true;
                 }
             }
