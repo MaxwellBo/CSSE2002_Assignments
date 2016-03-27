@@ -157,7 +157,7 @@ public class Track implements Iterable<Section> {
      */
     @Override
     public Iterator<Section> iterator() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return trackSections.iterator();
     }
 
     /**
@@ -171,7 +171,14 @@ public class Track implements Iterable<Section> {
      */
     @Override
     public String toString() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        String base = "";
+
+        for (Section si : trackSections) {
+            base += si.toString()
+                    + System.getProperty("line.separator");
+        }
+
+        return base;
     }
 
     /**
