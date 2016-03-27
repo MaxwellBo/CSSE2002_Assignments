@@ -153,6 +153,7 @@ public class LocationTest {
         Assert.assertTrue(topNodeLocationLSR0.atAJunction());
         Assert.assertTrue(topNodeLocationLSR0.onSection(leftSide));
         Assert.assertTrue(topNodeLocationLSR0.onSection(rightSide));
+        Assert.assertFalse(topNodeLocationLSR0.onSection(bottomSide));
 
         Location topNodeLocationRSF0 = new Location(rightSide,
                 new JunctionBranch(topNode, Branch.FACING),
@@ -161,6 +162,7 @@ public class LocationTest {
         Assert.assertTrue(topNodeLocationRSF0.atAJunction());
         Assert.assertTrue(topNodeLocationRSF0.onSection(leftSide));
         Assert.assertTrue(topNodeLocationRSF0.onSection(rightSide));
+        Assert.assertFalse(topNodeLocationRSF0.onSection(bottomSide));
 
         Assert.assertTrue(topNodeLocationLSR0.equals(topNodeLocationLSR0)); // Reflexive
 
@@ -176,6 +178,15 @@ public class LocationTest {
         Location bottomMiddleLocationBSBRN5 = new Location(bottomSide,
                 new JunctionBranch(bottomRightNode, Branch.NORMAL),
                 5);
+
+        Assert.assertTrue(bottomMiddleLocationBSBLN5.onSection(bottomSide));
+        Assert.assertFalse(bottomMiddleLocationBSBLN5.onSection(leftSide));
+        Assert.assertFalse(bottomMiddleLocationBSBLN5.onSection(rightSide));
+
+
+        Assert.assertTrue(bottomMiddleLocationBSBRN5.onSection(bottomSide));
+        Assert.assertFalse(bottomMiddleLocationBSBRN5.onSection(leftSide));
+        Assert.assertFalse(bottomMiddleLocationBSBRN5.onSection(rightSide));
 
         Assert.assertTrue(bottomMiddleLocationBSBLN5.equals(bottomMiddleLocationBSBLN5)); // Reflexive
 
