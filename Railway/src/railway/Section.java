@@ -110,10 +110,12 @@ public class Section {
             throw new IllegalArgumentException();
         }
         else {
-            HashSet<JunctionBranch> clonedEndPoints =
-                    new HashSet<>(getEndPoints());
-            clonedEndPoints.remove(endPoint);
-            return (JunctionBranch) clonedEndPoints.toArray()[0];
+            for (JunctionBranch ji : endPoints) {
+                if (!ji.equals(endPoint)) {
+                    return ji;
+                }
+            }
+            throw new IllegalArgumentException();
         }
     }
 
