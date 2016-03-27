@@ -140,7 +140,15 @@ public class Track implements Iterable<Section> {
      *         given branch, if there is one, otherwise null
      */
     public Section getTrackSection(Junction junction, Branch branch) {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        for (Section si : trackSections) {
+            for (JunctionBranch ji : si.getEndPoints()) {
+                if (ji.getJunction().equals(junction)
+                        && ji.getBranch().equals(branch)) {
+                    return si;
+                }
+            }
+        }
+        return null;
     }
 
     /**
