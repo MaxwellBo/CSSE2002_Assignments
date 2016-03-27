@@ -58,14 +58,19 @@ public class Section {
             JunctionBranch endPoint2) throws NullPointerException,
             IllegalArgumentException {
 
-        if (endPoint1 == null || endPoint2 == null) {
-            throw new NullPointerException(); // TODO: Error message?
+        if (endPoint1 == null) {
+            throw new NullPointerException("endPoint1 parameter is null");
+        }
+        else if (endPoint2 == null) {
+            throw new NullPointerException("endPoint2 parameter is null");
         }
         else if (length <= 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("length parameter is less than"
+                    + " or equal to zero");
         }
         else if (endPoint1.equals(endPoint2)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("endPoint1 parameter"
+                    + " is equal to endPoint2 parameter");
         }
         else {
             this.length = length;

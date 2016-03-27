@@ -71,13 +71,15 @@ public class Track implements Iterable<Section> {
     public void addSection(Section section) throws NullPointerException,
             IllegalArgumentException {
         if (section == null) {
-            throw new NullPointerException();
+            throw new NullPointerException("section parameter is null");
         }
         else {
             for (Section si : trackSections) {
-                for (JunctionBranch ji : si.getEndPoints()) {
-                    if (section.getEndPoints().contains(ji)) {
-                        throw new InvalidTrackException();
+                for (JunctionBranch jj : si.getEndPoints()) {
+                    if (section.getEndPoints().contains(jj)) {
+                        throw new InvalidTrackException("section parameter"
+                        + " contains a JunctionBranch already contained"
+                        + " within this Track");
                     }
                 }
             }
@@ -119,8 +121,8 @@ public class Track implements Iterable<Section> {
     public Set<Junction> getJunctions() {
         HashSet<Junction> junctionSet = new HashSet<>();
         for (Section si : trackSections) {
-            for (JunctionBranch ji : si.getEndPoints()) {
-                junctionSet.add(ji.getJunction());
+            for (JunctionBranch jj : si.getEndPoints()) {
+                junctionSet.add(jj.getJunction());
             }
         }
         return junctionSet;
@@ -141,9 +143,9 @@ public class Track implements Iterable<Section> {
      */
     public Section getTrackSection(Junction junction, Branch branch) {
         for (Section si : trackSections) {
-            for (JunctionBranch ji : si.getEndPoints()) {
-                if (ji.getJunction().equals(junction)
-                        && ji.getBranch().equals(branch)) {
+            for (JunctionBranch jj : si.getEndPoints()) {
+                if (jj.getJunction().equals(junction)
+                        && jj.getBranch().equals(branch)) {
                     return si;
                 }
             }

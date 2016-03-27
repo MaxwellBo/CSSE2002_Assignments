@@ -67,7 +67,7 @@ public class Location {
                     + " is less than zero");
         }
         else if (offset >= section.getLength()) {
-            throw new IllegalArgumentException( "offset from the start point"
+            throw new IllegalArgumentException("offset from the start point"
                     + " is greater than or equal to the length"
                     + " of the section parameter's length");
         }
