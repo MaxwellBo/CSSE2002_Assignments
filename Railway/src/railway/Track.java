@@ -21,13 +21,13 @@ import java.util.*;
  */
 public class Track implements Iterable<Section> {
 
-    HashSet<Section> trackSections;
+    private final HashSet<Section> trackSections;
 
     /**
      * Creates a new track with no sections.
      */
     public Track() {
-        HashSet<Section> trackSections = new HashSet<>();
+        this.trackSections = new HashSet<>();
     }
 
     /**
@@ -73,14 +73,12 @@ public class Track implements Iterable<Section> {
         if (section == null) {
             throw new NullPointerException();
         }
-        else if (trackSections.contains(section)) {
-            // do nothing
-        }
         else {
             for (Section si : trackSections) {
                 HashSet<JunctionBranch> siEndPoints
                         = new HashSet<>(si.getEndPoints());
-                // removeAll returns true if any overlap
+
+                // removeAll returns true if any intersection
                 if (siEndPoints.removeAll(section.getEndPoints())) {
                     throw new InvalidTrackException();
                 }
@@ -99,7 +97,7 @@ public class Track implements Iterable<Section> {
      *            the section to be removed from the track
      */
     public void removeSection(Section section) {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        trackSections.remove(section);
     }
 
     /**
@@ -111,7 +109,7 @@ public class Track implements Iterable<Section> {
      *         given parameter.
      */
     public boolean contains(Section section) {
-        return false; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return trackSections.contains(section);
     }
 
     /**
@@ -121,7 +119,13 @@ public class Track implements Iterable<Section> {
      * @return The set of junctions in the track.
      */
     public Set<Junction> getJunctions() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        HashSet<Junction> junctionHashSet = new HashSet<>();
+        for (Section si : trackSections) {
+            for (JunctionBranch ji : si.getEndPoints()) {
+                junctionHashSet.add(ji.getJunction());
+            }
+        }
+        return junctionHashSet;
     }
 
     /**
