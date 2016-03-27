@@ -21,14 +21,13 @@ import java.util.*;
  */
 public class Track implements Iterable<Section> {
 
-    // REMOVE THIS LINE AND INSERT YOUR INSTANCE VARIABLES AND IMPLEMENTATION
-    // INVARIANT HERE
+    private final HashSet<Section> trackSections;
 
     /**
      * Creates a new track with no sections.
      */
     public Track() {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        this.trackSections = new HashSet<>();
     }
 
     /**
@@ -71,7 +70,20 @@ public class Track implements Iterable<Section> {
      */
     public void addSection(Section section) throws NullPointerException,
             IllegalArgumentException {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        if (section == null) {
+            throw new NullPointerException();
+        }
+        else {
+            for (Section si : trackSections) {
+                for (JunctionBranch ji : si.getEndPoints()) {
+                    if (section.getEndPoints().contains(ji)) {
+                        throw new InvalidTrackException();
+                    }
+                }
+            }
+
+            trackSections.add(section);
+        }
     }
 
     /**
@@ -83,7 +95,7 @@ public class Track implements Iterable<Section> {
      *            the section to be removed from the track
      */
     public void removeSection(Section section) {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
+        trackSections.remove(section);
     }
 
     /**
@@ -95,7 +107,7 @@ public class Track implements Iterable<Section> {
      *         given parameter.
      */
     public boolean contains(Section section) {
-        return false; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return trackSections.contains(section);
     }
 
     /**
@@ -105,7 +117,13 @@ public class Track implements Iterable<Section> {
      * @return The set of junctions in the track.
      */
     public Set<Junction> getJunctions() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        HashSet<Junction> junctionSet = new HashSet<>();
+        for (Section si : trackSections) {
+            for (JunctionBranch ji : si.getEndPoints()) {
+                junctionSet.add(ji.getJunction());
+            }
+        }
+        return junctionSet;
     }
 
     /**
@@ -122,7 +140,15 @@ public class Track implements Iterable<Section> {
      *         given branch, if there is one, otherwise null
      */
     public Section getTrackSection(Junction junction, Branch branch) {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        for (Section si : trackSections) {
+            for (JunctionBranch ji : si.getEndPoints()) {
+                if (ji.getJunction().equals(junction)
+                        && ji.getBranch().equals(branch)) {
+                    return si;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -131,7 +157,7 @@ public class Track implements Iterable<Section> {
      */
     @Override
     public Iterator<Section> iterator() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        return trackSections.iterator();
     }
 
     /**
@@ -145,7 +171,14 @@ public class Track implements Iterable<Section> {
      */
     @Override
     public String toString() {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        String base = "";
+
+        for (Section si : trackSections) {
+            base += si.toString()
+                    + System.getProperty("line.separator");
+        }
+
+        return base;
     }
 
     /**
