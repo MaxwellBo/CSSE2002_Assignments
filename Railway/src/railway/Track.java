@@ -76,10 +76,16 @@ public class Track implements Iterable<Section> {
         else if (trackSections.contains(section)) {
             // do nothing
         }
-        else if () {
-            // TODO: Implement
-        }
         else {
+            for (Section si : trackSections) {
+                HashSet<JunctionBranch> siEndPoints
+                        = new HashSet<>(si.getEndPoints());
+                // removeAll returns true if any overlap
+                if (siEndPoints.removeAll(section.getEndPoints())) {
+                    throw new InvalidTrackException();
+                }
+            }
+
             trackSections.add(section);
         }
     }
