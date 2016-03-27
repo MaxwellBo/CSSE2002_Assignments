@@ -190,7 +190,11 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
+        for (Section si : trackSections) {
+            if (!si.checkInvariant()) {
+                return false;
+            }
+        }
+        return true;
     }
-
 }
