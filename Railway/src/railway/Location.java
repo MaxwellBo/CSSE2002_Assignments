@@ -283,14 +283,14 @@ public class Location {
         else {
             int result = section.hashCode();
 
-            if (offset > section.getLength() / 2) {
+            if (offset < section.getLength() / 2.0) { // to prevent flooring
+                result = 31 * result + endPoint.hashCode();
+                result = 31 * result + offset;
+            }
+            else if (offset > section.getLength() / 2.0) {
                 result = 31 * result
                         + section.otherEndPoint(endPoint).hashCode();
                 result = 31 * result + (section.getLength() - offset);
-            }
-            else if (offset < section.getLength() / 2) {
-                result = 31 * result + endPoint.hashCode();
-                result = 31 * result + offset;
             }
             // Case
             // (offset == section.getLength() / 2)
