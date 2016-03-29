@@ -189,16 +189,11 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (length <= 0) {
-            return false;
-        }
-        else if (endPoints == null) {
-            return false;
-        }
-        else if (endPoints.isEmpty() || endPoints.contains(null)){
-            return false;
-        }
-        else if (!(endPoints.size() == 2)) {
+        if (length <= 0
+                || endPoints == null
+                || endPoints.isEmpty()
+                || endPoints.contains(null)
+                || !(endPoints.size() == 2)) {
             return false;
         }
 
