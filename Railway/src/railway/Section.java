@@ -118,10 +118,14 @@ public class Section {
                 }
             }
             // Required, but redundant
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("endPoint parameter"
+                    + " is not an equivalent to an end-point"
+                    + " of the given section");
         }
         else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("endPoint parameter"
+                    + " is not an equivalent to an end-point"
+                    + " of the given section");
         }
     }
 
@@ -143,10 +147,11 @@ public class Section {
      */
     @Override
     public String toString() {
-        Object[] endPointsArray = endPoints.toArray();
-        String strP1 =  endPointsArray[0].toString();
-        String strP2 =  endPointsArray[1].toString();
-        return Integer.toString(length) + " " + strP1 + " " + strP2;
+        String base = Integer.toString(length);
+        for (JunctionBranch i : endPoints) {
+            base += " " + i.toString();
+        }
+        return base;
     }
 
     /**

@@ -174,12 +174,10 @@ public class Track implements Iterable<Section> {
     @Override
     public String toString() {
         String base = "";
-
         for (Section i : trackSections) {
             base += i.toString()
                     + System.getProperty("line.separator");
         }
-
         return base;
     }
 
