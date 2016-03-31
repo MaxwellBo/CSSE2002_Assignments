@@ -169,10 +169,7 @@ public class Location {
      * @return true iff this location lies on the given section
      */
     public boolean onSection(Section section) {
-        if (getSection().equals(section)) {
-            return true;
-        }
-        else if (atAJunction()) {
+        if (atAJunction()) {
             Junction thisJunction = getEndPoint().getJunction();
 
             for (JunctionBranch i : section.getEndPoints()) {
@@ -181,8 +178,10 @@ public class Location {
                 }
             }
         }
-
-        return false;
+        else {
+            return getSection().equals(section);
+        }
+        return false; // unreachable
     }
 
     /**
