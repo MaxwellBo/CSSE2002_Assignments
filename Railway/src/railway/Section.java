@@ -117,16 +117,11 @@ public class Section {
                     return i;
                 }
             }
-            // Required, but redundant
-            throw new IllegalArgumentException("endPoint parameter"
-                    + " is not an equivalent to an end-point"
-                    + " of the given section");
         }
-        else {
-            throw new IllegalArgumentException("endPoint parameter"
-                    + " is not an equivalent to an end-point"
-                    + " of the given section");
-        }
+        // fallthrough to error
+        throw new IllegalArgumentException("endPoint parameter"
+                + " is not an equivalent to an end-point"
+                + " of the given section");
     }
 
     /**
@@ -203,7 +198,6 @@ public class Section {
         }
 
         Object[] endPointsArray = endPoints.toArray();
-
         if (endPointsArray[0].equals(endPointsArray[1])) {
             return false;
         }

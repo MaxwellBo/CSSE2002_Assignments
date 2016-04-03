@@ -181,7 +181,8 @@ public class Location {
         else {
             return getSection().equals(section);
         }
-        return false; // unreachable
+        assert(false); // unreachable
+        return false;
     }
 
     /**
