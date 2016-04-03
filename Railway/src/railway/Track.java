@@ -71,15 +71,13 @@ public class Track implements Iterable<Section> {
     public void addSection(Section section) throws NullPointerException,
             IllegalArgumentException {
         if (section == null) {
-            throw new NullPointerException("section parameter is null");
+            throw new NullPointerException();
         }
         else {
             for (Section si : trackSections) {
-                for (JunctionBranch jj : si.getEndPoints()) {
-                    if (section.getEndPoints().contains(jj)) {
-                        throw new InvalidTrackException("section parameter"
-                        + " contains a JunctionBranch already contained"
-                        + " within this Track");
+                for (JunctionBranch ji : si.getEndPoints()) {
+                    if (section.getEndPoints().contains(ji)) {
+                        throw new InvalidTrackException();
                     }
                 }
             }
@@ -121,8 +119,8 @@ public class Track implements Iterable<Section> {
     public Set<Junction> getJunctions() {
         HashSet<Junction> junctionSet = new HashSet<>();
         for (Section si : trackSections) {
-            for (JunctionBranch jj : si.getEndPoints()) {
-                junctionSet.add(jj.getJunction());
+            for (JunctionBranch ji : si.getEndPoints()) {
+                junctionSet.add(ji.getJunction());
             }
         }
         return junctionSet;
@@ -143,9 +141,9 @@ public class Track implements Iterable<Section> {
      */
     public Section getTrackSection(Junction junction, Branch branch) {
         for (Section si : trackSections) {
-            for (JunctionBranch jj : si.getEndPoints()) {
-                if (jj.getJunction().equals(junction)
-                        && jj.getBranch().equals(branch)) {
+            for (JunctionBranch ji : si.getEndPoints()) {
+                if (ji.getJunction().equals(junction)
+                        && ji.getBranch().equals(branch)) {
                     return si;
                 }
             }
@@ -174,10 +172,12 @@ public class Track implements Iterable<Section> {
     @Override
     public String toString() {
         String base = "";
-        for (Section i : trackSections) {
-            base += i.toString()
+
+        for (Section si : trackSections) {
+            base += si.toString()
                     + System.getProperty("line.separator");
         }
+
         return base;
     }
 
@@ -190,11 +190,7 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        for (Section i : trackSections) {
-            if (!i.checkInvariant()) {
-                return false;
-            }
-        }
-        return true;
+        return true; // REMOVE THIS LINE AND WRITE THIS METHOD
     }
+
 }

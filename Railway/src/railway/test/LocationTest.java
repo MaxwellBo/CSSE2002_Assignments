@@ -128,7 +128,7 @@ public class LocationTest {
     @Test
     public void testTriangle() {
         // things might break
-        int stdLength = 9; // doesn't floor when divided
+        int stdLength = 10; // doesn't floor when divided
 
         Junction bottomLeftNode = new Junction ("bottomLeftNode");
         Junction topNode = new Junction ("topNode");
@@ -177,7 +177,7 @@ public class LocationTest {
 
         Location bottomMiddleLocationBSBRN5 = new Location(bottomSide,
                 new JunctionBranch(bottomRightNode, Branch.NORMAL),
-                4);
+                5);
 
         Assert.assertTrue(bottomMiddleLocationBSBLN5.onSection(bottomSide));
         Assert.assertFalse(bottomMiddleLocationBSBLN5.onSection(leftSide));
