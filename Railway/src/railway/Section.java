@@ -58,14 +58,19 @@ public class Section {
             JunctionBranch endPoint2) throws NullPointerException,
             IllegalArgumentException {
 
-        if (endPoint1 == null || endPoint2 == null) {
-            throw new NullPointerException(); // TODO: Error message?
+        if (endPoint1 == null) {
+            throw new NullPointerException("endPoint1 parameter is null");
+        }
+        else if (endPoint2 == null) {
+            throw new NullPointerException("endPoint2 parameter is null");
         }
         else if (length <= 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("length parameter is less than"
+                    + " or equal to zero");
         }
         else if (endPoint1.equals(endPoint2)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("endPoint1 parameter"
+                    + " is equal to endPoint2 parameter");
         }
         else {
             this.length = length;
@@ -106,16 +111,21 @@ public class Section {
      * @return the end-point at the opposite end of the section to endPoint
      */
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
-        if (!endPoints.contains(endPoint)) {
-            throw new IllegalArgumentException();
-        }
-        else {
-            for (JunctionBranch ji : endPoints) {
-                if (!ji.equals(endPoint)) {
-                    return ji;
+        if (endPoints.contains(endPoint)) {
+            for (JunctionBranch i : endPoints) {
+                if (!i.equals(endPoint)) {
+                    return i;
                 }
             }
-            throw new IllegalArgumentException();
+            // Required, but redundant
+            throw new IllegalArgumentException("endPoint parameter"
+                    + " is not an equivalent to an end-point"
+                    + " of the given section");
+        }
+        else {
+            throw new IllegalArgumentException("endPoint parameter"
+                    + " is not an equivalent to an end-point"
+                    + " of the given section");
         }
     }
 
@@ -137,10 +147,11 @@ public class Section {
      */
     @Override
     public String toString() {
-        Object[] endPointsArray = endPoints.toArray();
-        String strP1 =  endPointsArray[0].toString();
-        String strP2 =  endPointsArray[1].toString();
-        return Integer.toString(length) + " " + strP1 + " " + strP2;
+        String base = Integer.toString(length);
+        for (JunctionBranch i : endPoints) {
+            base += " " + i.toString();
+        }
+        return base;
     }
 
     /**
@@ -183,16 +194,11 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (length <= 0) {
-            return false;
-        }
-        else if (endPoints == null) {
-            return false;
-        }
-        else if (endPoints.isEmpty() || endPoints.contains(null)){
-            return false;
-        }
-        else if (!(endPoints.size() == 2)) {
+        if (length <= 0
+                || endPoints == null
+                || endPoints.isEmpty()
+                || endPoints.contains(null)
+                || !(endPoints.size() == 2)) {
             return false;
         }
 

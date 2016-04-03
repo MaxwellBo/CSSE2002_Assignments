@@ -56,14 +56,24 @@ public class Location {
      *             not equivalent to an end-point of the given section.
      */
     public Location(Section section, JunctionBranch endPoint, int offset) {
-        if (section == null || endPoint == null) {
-            throw new NullPointerException(); // TODO: Test
+        if (section == null) {
+            throw new NullPointerException("section parameter is null");
         }
-        else if (offset < 0 || offset >= section.getLength()) {
-            throw new IllegalArgumentException(); // TODO: Test
+        else if (endPoint == null) {
+            throw new NullPointerException("endPoint parameter is null");
+        }
+        else if (offset < 0) {
+            throw new IllegalArgumentException("offset parameter"
+                    + " is less than zero");
+        }
+        else if (offset >= section.getLength()) {
+            throw new IllegalArgumentException("offset from the start point"
+                    + " is greater than or equal to the length"
+                    + " of the section parameter's length");
         }
         else if (!(section.getEndPoints().contains(endPoint))) {
-            throw new IllegalArgumentException(); // TODO: Test
+            throw new IllegalArgumentException("section parameter"
+                    + " does not contain endPoint parameter");
         }
         else {
             this.section = section;
@@ -159,22 +169,19 @@ public class Location {
      * @return true iff this location lies on the given section
      */
     public boolean onSection(Section section) {
-        if (getSection().equals(section)) {
-            return true;
-        }
-        else if (atAJunction()) {
+        if (atAJunction()) {
             Junction thisJunction = getEndPoint().getJunction();
 
-            for (JunctionBranch endPoint : section.getEndPoints()) {
-                if (thisJunction.equals(endPoint.getJunction())) {
+            for (JunctionBranch i : section.getEndPoints()) {
+                if (thisJunction.equals(i.getJunction())) {
                     return true;
                 }
             }
-            return false;
         }
         else {
-            return false;
+            return getSection().equals(section);
         }
+        return false; // unreachable
     }
 
     /**
@@ -248,16 +255,16 @@ public class Location {
 
         Location location = (Location) o;
 
-        if (atAJunction() && location.atAJunction() // (i) // TODO: Tests
+        if (atAJunction() && location.atAJunction() // (i)
                 && onSection(location.getSection())
                 && location.onSection(getSection())) {
             return true;
         }
-        else if (getEndPoint().equals(location.getEndPoint()) // (ii) // TODO: Tests
+        else if (getEndPoint().equals(location.getEndPoint()) // (ii)
                 && getOffset() == location.getOffset()) {
             return true;
         }
-        else if (getSection().equals(location.getSection()) //( (iii) // TODO: Tests
+        else if (getSection().equals(location.getSection()) //( (iii)
                 && (getOffset() + location.getOffset()
                         == getSection().getLength())) {
             return true;
@@ -275,14 +282,14 @@ public class Location {
         else {
             int result = section.hashCode();
 
-            if (offset > section.getLength() / 2) {
+            if (offset < section.getLength() / 2.0) { // to prevent flooring
+                result = 31 * result + endPoint.hashCode();
+                result = 31 * result + offset;
+            }
+            else if (offset > section.getLength() / 2.0) {
                 result = 31 * result
                         + section.otherEndPoint(endPoint).hashCode();
                 result = 31 * result + (section.getLength() - offset);
-            }
-            else if (offset < section.getLength() / 2) {
-                result = 31 * result + endPoint.hashCode();
-                result = 31 * result + offset;
             }
             // Case
             // (offset == section.getLength() / 2)
@@ -300,21 +307,16 @@ public class Location {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (section == null || endPoint == null) {
-            return false;
-        }
-        else if (offset < 0 || offset >= section.getLength()) {
-            return false;
-        }
-        else if (!(section.getEndPoints().contains(endPoint))) {
-            return false;
-        }
-        else if (!section.checkInvariant()) {
+        if (section == null
+                || endPoint == null
+                || offset < 0
+                || offset >= section.getLength()
+                || !(section.getEndPoints().contains(endPoint))
+                || !(section.checkInvariant())) {
             return false;
         }
         else {
             return true;
         }
     }
-
 }
