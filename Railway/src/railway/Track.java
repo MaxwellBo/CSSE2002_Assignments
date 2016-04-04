@@ -74,9 +74,9 @@ public class Track implements Iterable<Section> {
             throw new NullPointerException("section parameter is null");
         }
         else {
-            for (Section si : trackSections) {
-                for (JunctionBranch jj : si.getEndPoints()) {
-                    if (section.getEndPoints().contains(jj)) {
+            for (Section i : trackSections) {
+                for (JunctionBranch j : i.getEndPoints()) {
+                    if (section.getEndPoints().contains(j)) {
                         throw new InvalidTrackException("section parameter"
                         + " contains a JunctionBranch already contained"
                         + " within this Track");
@@ -119,9 +119,9 @@ public class Track implements Iterable<Section> {
      */
     public Set<Junction> getJunctions() {
         HashSet<Junction> junctionSet = new HashSet<>();
-        for (Section si : trackSections) {
-            for (JunctionBranch jj : si.getEndPoints()) {
-                junctionSet.add(jj.getJunction());
+        for (Section i : trackSections) {
+            for (JunctionBranch j : i.getEndPoints()) {
+                junctionSet.add(j.getJunction());
             }
         }
         return junctionSet;
@@ -141,11 +141,11 @@ public class Track implements Iterable<Section> {
      *         given branch, if there is one, otherwise null
      */
     public Section getTrackSection(Junction junction, Branch branch) {
-        for (Section si : trackSections) {
-            for (JunctionBranch jj : si.getEndPoints()) {
-                if (jj.getJunction().equals(junction)
-                        && jj.getBranch().equals(branch)) {
-                    return si;
+        for (Section i : trackSections) {
+            for (JunctionBranch j : i.getEndPoints()) {
+                if (j.getJunction().equals(junction)
+                        && j.getBranch().equals(branch)) {
+                    return i;
                 }
             }
         }
