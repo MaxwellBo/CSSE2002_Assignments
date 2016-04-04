@@ -83,6 +83,7 @@ public class Track implements Iterable<Section> {
                     }
                 }
             }
+
             trackSections.add(section);
         }
     }
