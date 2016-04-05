@@ -177,12 +177,11 @@ public class Location {
                     return true;
                 }
             }
+            return false;
         }
         else {
             return getSection().equals(section);
         }
-        assert(false); // unreachable
-        return false;
     }
 
     /**
