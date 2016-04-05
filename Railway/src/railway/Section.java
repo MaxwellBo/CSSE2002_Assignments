@@ -36,6 +36,9 @@ public class Section {
     private final int length;
     private final HashSet<JunctionBranch> endPoints;
 
+    /* TODO: Invariant
+     */
+
     /**
      * Creates a new section with the given length (in meters) and end-points.
      * 

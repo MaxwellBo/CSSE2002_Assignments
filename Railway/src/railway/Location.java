@@ -34,6 +34,9 @@ public class Location {
     private final JunctionBranch endPoint;
     private final int offset;
 
+    /* TODO: Invariant
+     */
+
     /**
      * Creates a new location that lies on the given section at a distance of
      * offset meters from endPoint.getJunction() along endPoint.getBranch().

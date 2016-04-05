@@ -23,6 +23,10 @@ public class Track implements Iterable<Section> {
 
     private final HashSet<Section> trackSections;
 
+
+    /* TODO: Invariant
+     */
+
     /**
      * Creates a new track with no sections.
      */
