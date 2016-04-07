@@ -34,7 +34,17 @@ public class Location {
     private final JunctionBranch endPoint;
     private final int offset;
 
-    /* TODO: Invariant
+
+    /*
+     * invariant: section != null
+     *
+     *         && endPoint != null
+     *
+     *         && offset >= 0
+     *
+     *         &&  offset < section.getLength()
+     *
+     *         && section.getEndPoints.contains(endPoint)
      */
 
     /**

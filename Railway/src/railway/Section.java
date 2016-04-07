@@ -194,9 +194,8 @@ public class Section {
     public boolean checkInvariant() {
         if (length <= 0
                 || endPoints == null
-                || endPoints.isEmpty()
                 || endPoints.contains(null)
-                || !(endPoints.size() == 2)) {
+                || endPoints.size() != 2) {
             return false;
         }
 
