@@ -73,7 +73,7 @@ public class Track implements Iterable<Section> {
      *             JunctionBranch class.
      */
     public void addSection(Section section) throws NullPointerException,
-            IllegalArgumentException {
+            InvalidTrackException {
         if (section == null) {
             throw new NullPointerException("section parameter is null");
         }

@@ -93,7 +93,7 @@ public class Location {
      * </p>
      * 
      * <p>
-     * Note: sections that are equivalent according to the equals method of this
+     * Note: locations that are equivalent according to the equals method of this
      * class may have different return-values of this method.
      * </p>
      * 
@@ -109,9 +109,9 @@ public class Location {
      * this location lies on. The end-point that is returned is the one that
      * this class was constructed with.
      * </p>
-     * 
+     *
      * <p>
-     * Note: sections that are equivalent according to the equals method of this
+     * Note: locations that are equivalent according to the equals method of this
      * class may have different return-values of this method.
      * </p>
      * 
@@ -135,7 +135,7 @@ public class Location {
      * </p>
      * 
      * <p>
-     * Note: sections that are equivalent according to the equals method of this
+     * Note: locations that are equivalent according to the equals method of this
      * class may have different return-values of this method.
      * </p>
      * 
@@ -206,7 +206,7 @@ public class Location {
      * </p>
      * 
      * <p>
-     * Note: sections that are equivalent according to the equals method of this
+     * Note: locations that are equivalent according to the equals method of this
      * class may have different return-values of this method.
      * </p>
      */
