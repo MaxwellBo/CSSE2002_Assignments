@@ -36,7 +36,14 @@ public class Section {
     private final int length;
     private final HashSet<JunctionBranch> endPoints;
 
-    /* TODO: Invariant
+    /*
+     * invariant: endPoints != null
+     *
+     * && !(endPoints.contains(null))
+     *
+     * && length > 0
+     *
+     * && endPoint1 != endPoint2
      */
 
     /**
@@ -192,18 +199,14 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (length <= 0
-                || endPoints == null
+        if (endPoints == null
                 || endPoints.contains(null)
-                || endPoints.size() != 2) {
+                || endPoints.size() != 2
+                || length <= 0) {
             return false;
         }
 
         Object[] endPointsArray = endPoints.toArray();
-        if (endPointsArray[0].equals(endPointsArray[1])) {
-            return false;
-        }
-
-        return true;
+        return !endPointsArray[0].equals(endPointsArray[1]);
     }
 }

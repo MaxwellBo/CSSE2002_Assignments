@@ -42,9 +42,11 @@ public class Location {
      *
      *         && offset >= 0
      *
-     *         &&  offset < section.getLength()
+     *         && offset < section.getLength()
      *
      *         && section.getEndPoints.contains(endPoint)
+     *         
+     *         && section.checkInvariant()
      */
 
     /**
@@ -320,16 +322,13 @@ public class Location {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (section == null
+        return !(section == null
                 || endPoint == null
                 || offset < 0
                 || offset >= section.getLength()
                 || !(section.getEndPoints().contains(endPoint))
-                || !(section.checkInvariant())) {
-            return false;
-        }
-        else {
-            return true;
-        }
+                || !(section.checkInvariant())
+                );
     }
 }
+
