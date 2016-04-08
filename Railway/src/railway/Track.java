@@ -124,9 +124,11 @@ public class Track implements Iterable<Section> {
     public Set<Junction> getJunctions() {
         HashSet<Junction> junctionSet = new HashSet<>();
 
-        trackSections.forEach(section
-                -> section.getEndPoints().forEach(endPoint
-                -> junctionSet.add(endPoint.getJunction())));
+        trackSections
+                .forEach(section
+                        -> section.getEndPoints()
+                .forEach(endPoint
+                        -> junctionSet.add(endPoint.getJunction())));
         return junctionSet;
     }
 
@@ -144,6 +146,12 @@ public class Track implements Iterable<Section> {
      *         given branch, if there is one, otherwise null
      */
     public Section getTrackSection(Junction junction, Branch branch) {
+//        if (trackSections.forEach(section
+//                -> section.getEndPoints().forEach(endPoint
+//                -> endPoint.getJunction().equals(junction)
+//                    && endPoint.getBranch().equals(branch)
+//                        ? return
+
         for (Section i : trackSections) {
             for (JunctionBranch j : i.getEndPoints()) {
                 if (j.getJunction().equals(junction)
@@ -192,11 +200,10 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        for (Section i : trackSections) {
-            if (!i.checkInvariant()) {
-                return false;
-            }
-        }
+        if (trackSections.stream()
+                .anyMatch(i -> !checkInvariant()))
+            return false;
+
         return true;
     }
 }
