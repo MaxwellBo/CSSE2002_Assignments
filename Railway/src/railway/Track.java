@@ -23,8 +23,14 @@ public class Track implements Iterable<Section> {
 
     private final HashSet<Section> trackSections;
 
-
-    /* TODO: Invariant
+    /*
+     * invariant: trackSections == null
+     *
+     *        && !trackSections.contains(null)
+     *
+     *        && No two sections can be equal
+     *
+     *        && No two sections can be connected to the same junction branch
      */
 
     /**
@@ -194,11 +200,6 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (trackSections
-                .stream()
-                .anyMatch(i -> !i.checkInvariant()))
-            return false;
-
         return true;
     }
 }
