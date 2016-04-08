@@ -146,12 +146,6 @@ public class Track implements Iterable<Section> {
      *         given branch, if there is one, otherwise null
      */
     public Section getTrackSection(Junction junction, Branch branch) {
-//        if (trackSections.forEach(section
-//                -> section.getEndPoints().forEach(endPoint
-//                -> endPoint.getJunction().equals(junction)
-//                    && endPoint.getBranch().equals(branch)
-//                        ? return
-
         for (Section i : trackSections) {
             for (JunctionBranch j : i.getEndPoints()) {
                 if (j.getJunction().equals(junction)
