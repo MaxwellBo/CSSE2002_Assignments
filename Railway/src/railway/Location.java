@@ -45,7 +45,7 @@ public class Location {
      *         && offset < section.getLength()
      *
      *         && section.getEndPoints.contains(endPoint)
-     *         
+     *
      *         && section.checkInvariant()
      */
 
@@ -290,7 +290,7 @@ public class Location {
     }
 
     @Override
-    public int hashCode() { // TODO: Make sure this works with the above
+    public int hashCode() {
         if (atAJunction()) {
             return getEndPoint().getJunction().hashCode();
         }

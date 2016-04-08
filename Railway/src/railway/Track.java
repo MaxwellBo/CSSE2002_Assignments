@@ -123,11 +123,10 @@ public class Track implements Iterable<Section> {
      */
     public Set<Junction> getJunctions() {
         HashSet<Junction> junctionSet = new HashSet<>();
-        for (Section i : trackSections) {
-            for (JunctionBranch j : i.getEndPoints()) {
-                junctionSet.add(j.getJunction());
-            }
-        }
+
+        trackSections.forEach(section
+                -> section.getEndPoints().forEach(endPoint
+                -> junctionSet.add(endPoint.getJunction())));
         return junctionSet;
     }
 
