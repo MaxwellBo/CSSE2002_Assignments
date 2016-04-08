@@ -200,7 +200,8 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        if (trackSections.stream()
+        if (trackSections
+                .stream()
                 .anyMatch(i -> !checkInvariant()))
             return false;
 

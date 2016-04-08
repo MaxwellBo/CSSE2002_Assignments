@@ -187,7 +187,9 @@ public class Location {
         if (atAJunction()) {
             Junction thisJunction = getEndPoint().getJunction();
 
-            return section.getEndPoints().stream()
+            return section
+                    .getEndPoints()
+                    .stream()
                     .anyMatch(endPoint
                         -> thisJunction.equals(endPoint.getJunction()));
         }
