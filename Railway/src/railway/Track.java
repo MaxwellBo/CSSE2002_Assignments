@@ -202,7 +202,7 @@ public class Track implements Iterable<Section> {
     public boolean checkInvariant() {
         if (trackSections
                 .stream()
-                .anyMatch(i -> !checkInvariant()))
+                .anyMatch(i -> !i.checkInvariant()))
             return false;
 
         return true;
