@@ -23,8 +23,13 @@ public class Track implements Iterable<Section> {
 
     private final HashSet<Section> trackSections;
 
-
-    /* TODO: Invariant
+    /* invariant: trackSections == null
+     *
+     *         && !trackSections.contains(null)
+     *
+     *         && No two sections can be equal
+     *
+     *         && No two sections can be connected to the same junction branch
      */
 
     /**
