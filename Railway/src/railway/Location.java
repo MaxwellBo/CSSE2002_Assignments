@@ -45,7 +45,7 @@ public class Location {
      *         && offset < section.getLength()
      *
      *         && section.getEndPoints.contains(endPoint)
-     *
+     *         
      *         && section.checkInvariant()
      */
 
@@ -187,10 +187,12 @@ public class Location {
         if (atAJunction()) {
             Junction thisJunction = getEndPoint().getJunction();
 
-            return section.getEndPoints()
-                    .stream()
-                    .anyMatch(endPoint
-                        -> thisJunction.equals(endPoint.getJunction()));
+            for (JunctionBranch i : section.getEndPoints()) {
+                if (thisJunction.equals(i.getJunction())) {
+                    return true;
+                }
+            }
+            return false;
         }
         else {
             return getSection().equals(section);
