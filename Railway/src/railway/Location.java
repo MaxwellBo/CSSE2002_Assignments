@@ -34,7 +34,6 @@ public class Location {
     private final JunctionBranch endPoint;
     private final int offset;
 
-
     /*
      * invariant: section != null
      *
