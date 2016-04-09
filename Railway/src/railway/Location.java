@@ -270,8 +270,8 @@ public class Location {
         Location location = (Location) o;
 
         if (atAJunction() && location.atAJunction() // (i)
-                && onSection(location.getSection())
-                && location.onSection(getSection())) {
+                && getEndPoint().getJunction().equals(
+                (location.getEndPoint().getJunction()))) {
             return true;
         }
         else if (getEndPoint().equals(location.getEndPoint()) // (ii)
@@ -300,14 +300,14 @@ public class Location {
                 result = 31 * result + endPoint.hashCode();
                 result = 31 * result + offset;
             }
+            else if (offset == section.getLength() / 2.0) {
+                // do nothing
+            }
             else if (offset > section.getLength() / 2.0) {
                 result = 31 * result
                         + section.otherEndPoint(endPoint).hashCode();
                 result = 31 * result + (section.getLength() - offset);
             }
-            // Case
-            // (offset == section.getLength() / 2)
-            // deliberately uncovered
             return result;
         }
     }
