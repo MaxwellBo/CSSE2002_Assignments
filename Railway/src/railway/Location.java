@@ -271,21 +271,24 @@ public class Location {
         Location location = (Location) o;
 
 
-        if (atAJunction() && location.atAJunction()
+        if (atAJunction()
+                && location.atAJunction()
                 && getEndPoint().getJunction().equals(
-                (location.getEndPoint().getJunction()))) {
-            // (i)
+                   (location.getEndPoint().getJunction()))) {
+            // Case (i)
+            // if offsets are both zero -> both atAJunction()
             return true;
         }
         else if (getEndPoint().equals(location.getEndPoint())
                 && getOffset() == location.getOffset()) {
-            // (ii)
+            // Case (ii)
             return true;
         }
         else if (getSection().equals(location.getSection())
                 && (getOffset() + location.getOffset()
                         == getSection().getLength())) {
-            //( (iii)
+            // Case (iii)
+            // end-points are not equivalent as Case (ii) failed
             return true;
         }
         else {
