@@ -1,5 +1,6 @@
 package railway;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -199,11 +200,42 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
+        if (trackSections == null
+                || trackSections.contains(null)) {
+            return false;
+        }
+
+        ArrayList<Section> sectionArray = new ArrayList<>();
+        ArrayList<JunctionBranch> endPointsArray = new ArrayList<>();
+
         for (Section i : trackSections) {
             if (!i.checkInvariant()) {
                 return false;
             }
+            sectionArray.add(i);
+            endPointsArray.addAll(i.getEndPoints());
         }
+
+        // "No two sections can be equal"
+        // checking if any sections are equal
+        for (int i = 0; i < sectionArray.size(); i++) {
+            for (int j = i + 1; j < sectionArray.size(); j++) {
+                if (sectionArray.get(i).equals(sectionArray.get(j))) {
+                    return false;
+                }
+            }
+        }
+
+        // No two sections can be connected to the same junction branch
+        // checking if any junction branch / endpoint is equal
+        for (int i = 0; i < endPointsArray.size(); i++) {
+            for (int j = i + 1; j < endPointsArray.size(); j++) {
+                if (endPointsArray.get(i).equals(endPointsArray.get(j))) {
+                    return false;
+                }
+            }
+        }
+        // fallthrough to
         return true;
     }
 }

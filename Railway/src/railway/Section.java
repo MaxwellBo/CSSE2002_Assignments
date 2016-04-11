@@ -202,7 +202,9 @@ public class Section {
         if (endPoints == null
                 || endPoints.contains(null)
                 || endPoints.size() != 2
-                || length <= 0) {
+                || length <= 0
+                || endPoints.stream().anyMatch(i -> !i.checkInvariant())) {
+            // if any invariants return not true (false), return true
             return false;
         }
 
