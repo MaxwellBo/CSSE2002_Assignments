@@ -24,7 +24,7 @@ public class Track implements Iterable<Section> {
     private final HashSet<Section> trackSections;
 
     /*
-     * invariant: trackSections == null
+     * invariant: trackSections != null
      *
      *        && !trackSections.contains(null)
      *

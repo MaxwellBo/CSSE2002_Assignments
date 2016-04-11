@@ -39,11 +39,11 @@ public class Section {
     /*
      * invariant: endPoints != null
      *
-     * && !(endPoints.contains(null))
+     *        && !(endPoints.contains(null))
      *
-     * && length > 0
+     *        && length > 0
      *
-     * && endPoint1 != endPoint2
+     *        && endPoint1 != endPoint2
      */
 
     /**
