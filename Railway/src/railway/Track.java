@@ -82,18 +82,21 @@ public class Track implements Iterable<Section> {
     public void addSection(Section section) throws NullPointerException,
             InvalidTrackException {
         if (section == null) {
+            // early halt
             throw new NullPointerException("section parameter is null");
         }
         else {
             for (Section i : trackSections) {
                 for (JunctionBranch j : i.getEndPoints()) {
                     if (section.getEndPoints().contains(j)) {
+                        // early halt
                         throw new InvalidTrackException("section parameter"
                         + " contains a JunctionBranch already contained"
                         + " within this Track");
                     }
                 }
             }
+            // fallthrough to mutation
             trackSections.add(section);
         }
     }
@@ -156,10 +159,12 @@ public class Track implements Iterable<Section> {
             for (JunctionBranch j : i.getEndPoints()) {
                 if (j.getJunction().equals(junction)
                         && j.getBranch().equals(branch)) {
+                    // early return
                     return i;
                 }
             }
         }
+        // fallthrough to fulfill contact
         return null;
     }
 
@@ -200,10 +205,12 @@ public class Track implements Iterable<Section> {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
+        // shortcircuit OR on failstates
         if (trackSections == null
                 || trackSections.contains(null)) {
             return false;
         }
+        // proceed to further checks
 
         ArrayList<Section> sectionArray = new ArrayList<>();
         ArrayList<JunctionBranch> endPointsArray = new ArrayList<>();

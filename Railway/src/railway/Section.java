@@ -124,7 +124,7 @@ public class Section {
         if (endPoints.contains(endPoint)) {
             for (JunctionBranch i : endPoints) {
                 if (!i.equals(endPoint)) {
-                    return i;
+                    return i; // early return
                 }
             }
         }
@@ -199,6 +199,7 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
+        // shortcircuit OR on failstates
         if (endPoints == null
                 || endPoints.contains(null)
                 || endPoints.size() != 2
@@ -207,6 +208,7 @@ public class Section {
             // if any invariants return not true (false), return true
             return false;
         }
+        // proceed to further checks
 
         Object[] endPointsArray = endPoints.toArray();
         return !endPointsArray[0].equals(endPointsArray[1]);

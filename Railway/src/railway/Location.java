@@ -188,9 +188,10 @@ public class Location {
 
             for (JunctionBranch i : section.getEndPoints()) {
                 if (thisJunction.equals(i.getJunction())) {
-                    return true;
+                    return true; // early return
                 }
             }
+            // fallthrough to
             return false;
         }
         else {
@@ -269,21 +270,26 @@ public class Location {
 
         Location location = (Location) o;
 
-        if (atAJunction() && location.atAJunction() // (i)
+
+        if (atAJunction() && location.atAJunction()
                 && getEndPoint().getJunction().equals(
                 (location.getEndPoint().getJunction()))) {
+            // (i)
             return true;
         }
-        else if (getEndPoint().equals(location.getEndPoint()) // (ii)
+        else if (getEndPoint().equals(location.getEndPoint())
                 && getOffset() == location.getOffset()) {
+            // (ii)
             return true;
         }
-        else if (getSection().equals(location.getSection()) //( (iii)
+        else if (getSection().equals(location.getSection())
                 && (getOffset() + location.getOffset()
                         == getSection().getLength())) {
+            //( (iii)
             return true;
         }
         else {
+            // all equal checks failed
             return false;
         }
     }
@@ -321,6 +327,7 @@ public class Location {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
+        // shortcircuit OR on failstates
         return !(section == null
                 || endPoint == null
                 || offset < 0
@@ -328,6 +335,7 @@ public class Location {
                 || !(section.getEndPoints().contains(endPoint))
                 || !(section.checkInvariant())
                 );
+        // no further checks
     }
 }
 
