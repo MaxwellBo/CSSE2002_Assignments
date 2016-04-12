@@ -245,4 +245,25 @@ public class Track implements Iterable<Section> {
         // fallthrough to
         return true;
     }
+
+    // TODO: Remove this if needed
+    /**
+     * Returns true if the ArrayList contains equal elements
+     * and false otherwise.
+     *
+     * @param array
+     *            the ArrayList whose members are to be searched
+     * @return true iff the ArrayList contains an element that is equal to
+     *         another element in the same ArrayList
+     */
+    private boolean containsEqualElems(ArrayList array) {
+        for (int i = 0; i < array.size(); i++) {
+            for (int j = i + 1; j < array.size(); j++) {
+                if (array.get(i).equals(array.get(j))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
