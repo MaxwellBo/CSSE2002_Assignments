@@ -1,7 +1,7 @@
 package railway;
 
-import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -188,12 +188,12 @@ public class Track implements Iterable<Section> {
      */
     @Override
     public String toString() {
-        String base = "";
-        for (Section i : trackSections) {
-            base += i.toString()
-                    + System.getProperty("line.separator");
-        }
-        return base;
+        return trackSections
+                .stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(
+                        System.getProperty("line.separator")));
+
     }
 
     /**
