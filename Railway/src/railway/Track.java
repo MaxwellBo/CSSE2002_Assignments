@@ -233,7 +233,7 @@ public class Track implements Iterable<Section> {
             }
         }
 
-        // No two sections can be connected to the same junction branch
+        // "No two sections can be connected to the same junction branch"
         // checking if any junction branch / endpoint is equal
         for (int i = 0; i < endPointsArray.size(); i++) {
             for (int j = i + 1; j < endPointsArray.size(); j++) {
