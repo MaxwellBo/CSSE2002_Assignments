@@ -174,12 +174,20 @@ public class Section {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Section section = (Section) o;
 
-        if (length != section.length) return false;
+        if (length != section.length) {
+            return false;
+        }
+
         return endPoints.equals(section.endPoints);
     }
 
