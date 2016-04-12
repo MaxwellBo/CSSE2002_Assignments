@@ -193,7 +193,6 @@ public class Track implements Iterable<Section> {
                 .map(Object::toString)
                 .collect(Collectors.joining(
                         System.getProperty("line.separator")));
-
     }
 
     /**
