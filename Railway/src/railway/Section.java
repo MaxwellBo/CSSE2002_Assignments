@@ -133,6 +133,7 @@ public class Section {
     public JunctionBranch otherEndPoint(JunctionBranch endPoint) {
         if (endPoints.contains(endPoint)) {
             for (JunctionBranch i : endPoints) {
+                // search for opposite
                 if (!i.equals(endPoint)) {
                     return i; // early return
                 }
@@ -198,7 +199,7 @@ public class Section {
         Section section = (Section) o;
 
         if (length != section.length) {
-            return false;
+            return false; // early return if length not equal
         }
 
         return endPoints.equals(section.endPoints);
@@ -226,11 +227,12 @@ public class Section {
                 || endPoints.size() != 2
                 || length <= 0
                 || endPoints.stream().anyMatch(i -> !i.checkInvariant())) {
-            // if any invariants return not true (false), return true
+            // if any invariants return not true (false), return false
             return false;
         }
         // proceed to further checks
 
+        // "endPoint1 != endPoint2"
         Object[] endPointsArray = endPoints.toArray();
         return !endPointsArray[0].equals(endPointsArray[1]);
     }

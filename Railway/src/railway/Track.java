@@ -94,6 +94,9 @@ public class Track implements Iterable<Section> {
         else {
             for (Section i : trackSections) {
                 for (JunctionBranch j : i.getEndPoints()) {
+                    // loop through all the end-points of all the Sections in
+                    // the track
+                    // if any match...
                     if (section.getEndPoints().contains(j)) {
                         // early halt
                         throw new InvalidTrackException("section parameter"
@@ -138,6 +141,7 @@ public class Track implements Iterable<Section> {
      * @return The set of junctions in the track.
      */
     public Set<Junction> getJunctions() {
+        // create collector
         HashSet<Junction> junctionSet = new HashSet<>();
         for (Section i : trackSections) {
             for (JunctionBranch j : i.getEndPoints()) {
@@ -161,8 +165,11 @@ public class Track implements Iterable<Section> {
      *         given branch, if there is one, otherwise null
      */
     public Section getTrackSection(Junction junction, Branch branch) {
+        // loop through all the end-points of all the Sections in
+        // the track
         for (Section i : trackSections) {
             for (JunctionBranch j : i.getEndPoints()) {
+                // check if end-point fields match params
                 if (j.getJunction().equals(junction)
                         && j.getBranch().equals(branch)) {
                     // early return
@@ -217,13 +224,15 @@ public class Track implements Iterable<Section> {
         }
         // proceed to further checks
 
+        // create collectors
         ArrayList<Section> sectionArray = new ArrayList<>();
         ArrayList<JunctionBranch> endPointsArray = new ArrayList<>();
 
         for (Section i : trackSections) {
             if (!i.checkInvariant()) {
-                return false;
+                return false; // early return
             }
+            // add objects to collectors for later comparison
             sectionArray.add(i);
             endPointsArray.addAll(i.getEndPoints());
         }
