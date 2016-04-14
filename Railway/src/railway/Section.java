@@ -33,7 +33,15 @@ import java.util.*;
  */
 public class Section {
 
+    /**
+     * The length of the section.
+     */
     private final int length;
+
+    /**
+     * A collection of the two distinct end-points of the section,
+     * which are unique branches of a junction.
+     */
     private final HashSet<JunctionBranch> endPoints;
 
     /*
@@ -44,6 +52,8 @@ public class Section {
      *        && length > 0
      *
      *        && endPoint1 != endPoint2
+     *
+     *        && All endPoints maintain their post-conditions and invariants
      */
 
     /**
@@ -174,14 +184,17 @@ public class Section {
      */
     @Override
     public boolean equals(Object o) {
+        // Check reference equality
         if (this == o) {
             return true;
         }
 
+        // Verify that o can be coerced without throwing errors
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
+        // Coerce the Object into a Section
         Section section = (Section) o;
 
         if (length != section.length) {

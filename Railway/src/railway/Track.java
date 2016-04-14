@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
  */
 public class Track implements Iterable<Section> {
 
+
+    /**
+     * The collection of unique tracks that the Track consists of.
+     */
     private final HashSet<Section> trackSections;
 
     /*
@@ -32,6 +36,8 @@ public class Track implements Iterable<Section> {
      *        && No two sections can be equal
      *
      *        && No two sections can be connected to the same junction branch
+     *
+     *        && All sections maintain their post-conditions and invariants
      */
 
     /**

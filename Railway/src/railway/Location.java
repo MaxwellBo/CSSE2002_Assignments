@@ -30,8 +30,20 @@ package railway;
  */
 public class Location {
 
+    /**
+     * The section on which the Location is defined against.
+     */
     private final Section section;
+
+    /**
+     * The end-point, on which the Location is defined, via its offset
+     * from the end-point along the section.
+     */
     private final JunctionBranch endPoint;
+
+    /**
+     * The offset from the end-point, along the section, to the Location.
+     */
     private final int offset;
 
     /*
@@ -46,6 +58,9 @@ public class Location {
      *         && section.getEndPoints.contains(endPoint)
      *         
      *         && section.checkInvariant()
+     *
+     *         && the section and endPoint maintain
+     *            their post-conditions and invariants
      */
 
     /**
@@ -183,10 +198,15 @@ public class Location {
      * @return true iff this location lies on the given section
      */
     public boolean onSection(Section section) {
+        // Case (i)
+        // "at a junction..."
         if (atAJunction()) {
+             // for easy comparison,
+             // save the Junction on which the Location resides as...
             Junction thisJunction = getEndPoint().getJunction();
 
             for (JunctionBranch i : section.getEndPoints()) {
+                // "... on an end-point of the given section"
                 if (thisJunction.equals(i.getJunction())) {
                     return true; // early return
                 }
@@ -194,7 +214,10 @@ public class Location {
             // fallthrough to
             return false;
         }
+        // Case (ii)
+        // "not at a junction..."
         else {
+            // "... and the given section is equivalent to this.getSection().
             return getSection().equals(section);
         }
     }
@@ -265,14 +288,17 @@ public class Location {
      */
     @Override
     public boolean equals(Object o) {
+        // Check reference equality
         if (this == o) {
             return true;
         }
 
+        // Verify that o can be coerced without throwing errors
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
+        // Coerce the Object into a Location
         Location location = (Location) o;
 
         if (atAJunction()
@@ -296,7 +322,7 @@ public class Location {
             return true;
         }
         else {
-            // all equal checks failed
+            // all equality checks failed
             return false;
         }
     }
@@ -341,6 +367,7 @@ public class Location {
                 || offset >= section.getLength()
                 || !(section.getEndPoints().contains(endPoint))
                 || !(section.checkInvariant())
+                || !(endPoint.checkInvariant())
                 );
         // no further checks
     }
