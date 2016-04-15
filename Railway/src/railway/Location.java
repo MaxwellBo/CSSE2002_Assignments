@@ -288,17 +288,17 @@ public class Location {
      */
     @Override
     public boolean equals(Object o) {
-        // Check reference equality
+        // check reference equality
         if (this == o) {
             return true;
         }
 
-        // Verify that o can be coerced without throwing errors
+        // verify that o can be coerced without throwing errors
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
 
-        // Coerce the Object into a Location
+        // coerce the Object into a Location
         Location location = (Location) o;
 
         if (atAJunction()
@@ -330,24 +330,29 @@ public class Location {
     @Override
     public int hashCode() {
         if (atAJunction()) {
+            // use the Junction's hashcode
             return getEndPoint().getJunction().hashCode();
         }
         else {
+            // start with section's hashcode as the collector
             int result = section.hashCode();
 
             if (offset < section.getLength() / 2.0) { // to prevent flooring
+                // introduce both the end-point hashcode and the offset
                 result = 31 * result + endPoint.hashCode();
                 result = 31 * result + offset;
             }
             else if (offset == section.getLength() / 2.0) {
-                // do nothing
+                // do nothing, and let only the section hashcode be returned
             }
             else if (offset > section.getLength() / 2.0) {
+                // via section this Location resides on, fetch the other
+                // end-point, invert the offset, and introduce them
                 result = 31 * result
                         + section.otherEndPoint(endPoint).hashCode();
                 result = 31 * result + (section.getLength() - offset);
             }
-            return result;
+            return result; // return collector
         }
     }
 
@@ -360,7 +365,7 @@ public class Location {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        // shortcircuit OR on failstates
+        // shortcircuit on invariant violation
         return !(section == null
                 || endPoint == null
                 || offset < 0

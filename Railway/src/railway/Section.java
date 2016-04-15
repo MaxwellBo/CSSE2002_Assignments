@@ -135,7 +135,7 @@ public class Section {
             for (JunctionBranch i : endPoints) {
                 // search for opposite
                 if (!i.equals(endPoint)) {
-                    return i; // early return
+                    return i; // early return the other end-point
                 }
             }
         }
@@ -207,7 +207,9 @@ public class Section {
 
     @Override
     public int hashCode() {
+        // start with length as the collector
         int result = length;
+        // introduce the hashcode of the end-points collection
         result = 31 * result + endPoints.hashCode();
         return result;
     }
@@ -221,7 +223,7 @@ public class Section {
      * @return true if this class is internally consistent, and false otherwise.
      */
     public boolean checkInvariant() {
-        // shortcircuit OR on failstates
+        // short circuit on invariant violation
         if (endPoints == null
                 || endPoints.contains(null)
                 || endPoints.size() != 2

@@ -143,12 +143,16 @@ public class Track implements Iterable<Section> {
     public Set<Junction> getJunctions() {
         // create collector
         HashSet<Junction> junctionSet = new HashSet<>();
+        // loop through all the end-points of all the Sections in
+        // the track...
         for (Section i : trackSections) {
             for (JunctionBranch j : i.getEndPoints()) {
+                // ... and add the Junctions they reside on
                 junctionSet.add(j.getJunction());
+                // the HashSet will remove duplicates
             }
         }
-        return junctionSet;
+        return junctionSet; // return collector
     }
 
     /**
@@ -172,8 +176,7 @@ public class Track implements Iterable<Section> {
                 // check if end-point fields match params
                 if (j.getJunction().equals(junction)
                         && j.getBranch().equals(branch)) {
-                    // early return
-                    return i;
+                    return i; // early return the requested section
                 }
             }
         }
@@ -242,7 +245,7 @@ public class Track implements Iterable<Section> {
         for (int i = 0; i < sectionArray.size(); i++) {
             for (int j = i + 1; j < sectionArray.size(); j++) {
                 if (sectionArray.get(i).equals(sectionArray.get(j))) {
-                    return false;
+                    return false; // early return
                 }
             }
         }
@@ -252,32 +255,11 @@ public class Track implements Iterable<Section> {
         for (int i = 0; i < endPointsArray.size(); i++) {
             for (int j = i + 1; j < endPointsArray.size(); j++) {
                 if (endPointsArray.get(i).equals(endPointsArray.get(j))) {
-                    return false;
+                    return false; // early return
                 }
             }
         }
         // fallthrough to
         return true;
-    }
-
-    // TODO: Remove this if needed
-    /**
-     * Returns true if the ArrayList contains equal elements
-     * and false otherwise.
-     *
-     * @param array
-     *            the ArrayList whose members are to be searched
-     * @return true iff the ArrayList contains an element that is equal to
-     *         another element in the same ArrayList
-     */
-    private boolean containsEqualElems(ArrayList array) {
-        for (int i = 0; i < array.size(); i++) {
-            for (int j = i + 1; j < array.size(); j++) {
-                if (array.get(i).equals(array.get(j))) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
