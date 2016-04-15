@@ -53,7 +53,7 @@ public class Section {
      *
      *        && endPoint1 != endPoint2
      *
-     *        && All endPoints maintain their post-conditions and invariants
+     *        && Both endPoints maintain their post-conditions and invariants
      */
 
     /**
