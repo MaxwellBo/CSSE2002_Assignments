@@ -190,7 +190,7 @@ public class Track implements Iterable<Section> {
      */
     @Override
     public Iterator<Section> iterator() {
-        return trackSections.iterator();
+        return new HashSet<>(trackSections).iterator();
     }
 
     /**
