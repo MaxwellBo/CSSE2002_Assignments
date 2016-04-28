@@ -102,7 +102,7 @@ public class Allocator {
                     break;
                 }
 
-                // Pop off a section
+                // Pop off a Segment...
                 Segment last = staged.remove(staged.size() - 1);
 
                 // Check if it can be reduced in size
@@ -114,11 +114,11 @@ public class Allocator {
                             , last.getStartOffset()
                             , last.getEndOffset() - 1);
 
-                    // ... and add it back ...
+                    // ... and add the Segment back ...
                     staged.add(toAdd);
-                    // ... or leave it popped off if it
-                    // can't be reduced in size
                 }
+                // ... or leave the Segment popped off
+                // if it can't be reduced in size
                 // Loop jump
             }
             // Staged route finalized
