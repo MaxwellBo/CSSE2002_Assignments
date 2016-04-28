@@ -67,16 +67,22 @@ public class Allocator {
 
         List<List<Segment>> collector = new ArrayList<>();
 
-        // route loop
-        for (List<Segment> rRoute : requested) {
+        // Select the requested route's index that we want to verify
+        for (int r = 0; r < requested.size(); r++) {
 
-            List<Segment> staged = new ArrayList<>(rRoute);
+            // Create a clone of the occupied routes...
+            List<List<Segment>> occupiedWOTrain = new ArrayList<>(occupied);
+            // ... and yank the train's old route that we're trying to move
+            occupied.remove(r);
+
+            // Create a new route that we can twiddle with
+            List<Segment> staged = new ArrayList<>(requested.get(r));
 
             while (true) {
                 boolean intersectOccupied = occupied
                     .stream()
                     .anyMatch(
-                        x -> checkRouteIntersection(staged, x));
+                        x -> checkRouteIntersection(occupiedWOTrain, x));
 
                 boolean intersectCollector = collector
                         .stream()
@@ -84,7 +90,16 @@ public class Allocator {
                             x -> checkRouteIntersection(staged, x));
 
                 if (intersectOccupied || intersectCollector) {
-                    staged.remove(staged.size() - 1);
+                    Segment last = staged.remove(staged.size() - 1);
+
+                    if (last.getEndOffset() > last.getStartOffset() + 1) {
+                        Segment toAdd = new Segment(last.getSection()
+                                , last.getDepartingEndPoint()
+                                , last.getStartOffset()
+                                , last.getEndOffset() - 1);
+
+                        staged.add(toAdd);
+                    }
                 }
                 else {
                     break;
@@ -98,7 +113,7 @@ public class Allocator {
     private static boolean checkRouteIntersection(List<Segment> A, List<Segment> B) {
         for (Segment segA : A) {
             for (Segment segB : B) {
-                if (   segB.contains(segA.getFirstLocation())
+                if (segB.contains(segA.getFirstLocation())
                     || segB.contains(segA.getLastLocation())
                     || segA.contains(segB.getFirstLocation())
                     || segA.contains(segB.getLastLocation())
