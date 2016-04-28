@@ -1,13 +1,6 @@
 package railway;
 
-import org.omg.CORBA.DynAnyPackage.Invalid;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.Format;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * Provides a method to read a track from a text file.
@@ -91,8 +84,10 @@ public class TrackReader {
             FormatException {
         Track collector = new Track();
 
-        try (Stream<String> lines = Files.lines(Paths.get(fileName))) {
-            lines.forEach(line -> {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line = null;
+
+            while ((line = br.readLine()) != null) {
                 String[] splitLine = line.split(" ");
 
                 try {
@@ -105,19 +100,13 @@ public class TrackReader {
                     if (collector.contains(toAdd)) {
                         throw new FormatException("Attempt to add duplicate section");
                     }
-                        collector.addSection(toAdd);
 
+                    collector.addSection(toAdd);
                 }
                 catch (Exception e) {
                     throw new FormatException(e.getMessage());
                 }
-            });
-        }
-        catch (InvalidTrackException | FormatException e) {
-            throw new FormatException(e.getMessage());
-        }
-        catch (IOException e) {
-            throw new IOException(e.getMessage());
+            }
         }
         return collector;
     }
