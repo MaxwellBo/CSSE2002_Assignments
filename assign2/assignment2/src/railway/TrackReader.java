@@ -108,11 +108,11 @@ public class TrackReader {
                 catch (Exception e) {
                     throw new FormatException(
                             "The exception "
-                                    + "\"" + e.getMessage() + "\""
-                                    + " was caused by line "
-                                    + Integer.toString(lineCount)
-                                    + " of "
-                                    + fileName);
+                                + "\"" + e.getMessage() + "\""
+                                + " was caused by line "
+                                + Integer.toString(lineCount)
+                                + " of "
+                                + fileName);
                 }
             }
         }
