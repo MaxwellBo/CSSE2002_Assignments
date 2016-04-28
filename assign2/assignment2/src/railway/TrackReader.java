@@ -1,6 +1,13 @@
 package railway;
 
+import org.omg.CORBA.DynAnyPackage.Invalid;
+
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.Format;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * Provides a method to read a track from a text file.
@@ -82,7 +89,49 @@ public class TrackReader {
      */
     public static Track read(String fileName) throws IOException,
             FormatException {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        Track collector = new Track();
+
+        try (Stream<String> lines = Files.lines(Paths.get(fileName))) {
+            lines.forEach(line -> {
+                String[] splitLine = line.split(" ");
+
+                try {
+                    JunctionBranch fst = new JunctionBranch(new Junction(splitLine[1])
+                            , stringToBranch(splitLine[2]));
+                    JunctionBranch snd = new JunctionBranch(new Junction(splitLine[3])
+                            , stringToBranch(splitLine[4]));
+                    Section toAdd = new Section(Integer.parseInt(splitLine[0]), fst, snd);
+
+                    if (collector.contains(toAdd)) {
+                        throw new FormatException("Attempt to add duplicate section");
+                    }
+                        collector.addSection(toAdd);
+
+                }
+                catch (Exception e) {
+                    throw new FormatException(e.getMessage());
+                }
+            });
+        }
+        catch (InvalidTrackException | FormatException e) {
+            throw new FormatException(e.getMessage());
+        }
+        catch (IOException e) {
+            throw new IOException(e.getMessage());
+        }
+        return collector;
     }
 
+    private static Branch stringToBranch(String string) throws FormatException {
+        switch (string) {
+            case "FACING":
+                return Branch.FACING;
+            case "NORMAL":
+                return Branch.NORMAL;
+            case "REVERSE":
+                return Branch.REVERSE;
+            default:
+                throw new FormatException("Invalid Branch type specified");
+        }
+    }
 }
