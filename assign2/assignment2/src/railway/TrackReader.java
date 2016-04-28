@@ -86,8 +86,10 @@ public class TrackReader {
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = null;
+            int lineCount = 0;
 
             while ((line = br.readLine()) != null) {
+                lineCount++;
                 String[] splitLine = line.split(" ");
 
                 try {
@@ -104,7 +106,13 @@ public class TrackReader {
                     collector.addSection(toAdd);
                 }
                 catch (Exception e) {
-                    throw new FormatException(e.getMessage());
+                    throw new FormatException(
+                            "The exception "
+                                    + "\"" + e.getMessage() + "\""
+                                    + " was caused by line "
+                                    + Integer.toString(lineCount)
+                                    + " of "
+                                    + fileName);
                 }
             }
         }
