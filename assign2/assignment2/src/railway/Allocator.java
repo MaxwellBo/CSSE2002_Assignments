@@ -132,10 +132,10 @@ public class Allocator {
                                                 , List<Segment> routeB) {
         for (Segment segA : routeA) {
             for (Segment segB : routeB) {
-                if (segB.contains(segA.getFirstLocation())
-                    || segB.contains(segA.getLastLocation())
-                    || segA.contains(segB.getFirstLocation())
+                if (segA.contains(segB.getFirstLocation())
                     || segA.contains(segB.getLastLocation())
+                    || segB.contains(segA.getFirstLocation())
+                    || segB.contains(segA.getLastLocation())
                     ) {
                         return true;
                 }
