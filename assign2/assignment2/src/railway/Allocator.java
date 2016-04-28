@@ -73,52 +73,65 @@ public class Allocator {
             // Create a clone of the occupied routes...
             List<List<Segment>> occupiedWOTrain = new ArrayList<>(occupied);
             // ... and yank the train's old route that we're trying to move
-            occupied.remove(r);
+            occupiedWOTrain.remove(r);
 
-            // Create a new route that we can twiddle with
+            // Create a new route for the train that we can twiddle with
             List<Segment> staged = new ArrayList<>(requested.get(r));
 
             while (true) {
-                boolean intersectOccupied = occupied
+
+                // "does not intersect with any of the routes
+                // currently occupied by any other train"
+                boolean intersectOccupied = occupiedWOTrain
                     .stream()
                     .anyMatch(
-                        x -> checkRouteIntersection(occupiedWOTrain, x));
+                        x -> checkRouteIntersection(staged, x));
 
+                // "or any of the routes [in the result]
                 boolean intersectCollector = collector
-                        .stream()
-                        .anyMatch(
-                            x -> checkRouteIntersection(staged, x));
+                    .stream()
+                    .anyMatch(
+                        x -> checkRouteIntersection(staged, x));
 
+                // Do we need to shorten the route?
                 if (intersectOccupied || intersectCollector) {
+                    // Pop off a section
                     Segment last = staged.remove(staged.size() - 1);
 
+                    // Check if it can be reduced in size
                     if (last.getEndOffset() > last.getStartOffset() + 1) {
                         Segment toAdd = new Segment(last.getSection()
                                 , last.getDepartingEndPoint()
                                 , last.getStartOffset()
                                 , last.getEndOffset() - 1);
 
+                        // Add it back if it can
                         staged.add(toAdd);
                     }
+                    // and leave it popped off if it can't
                 }
                 else {
+                    // No intersections
+                    // No need to shorten the route
                     break;
                 }
             }
+            // Add the twiddled route
             collector.add(staged);
         }
         return collector;
     }
 
-    private static boolean checkRouteIntersection(List<Segment> A, List<Segment> B) {
-        for (Segment segA : A) {
-            for (Segment segB : B) {
+    private static boolean checkRouteIntersection(List<Segment> routeA
+                                                , List<Segment> routeB) {
+        for (Segment segA : routeA) {
+            for (Segment segB : routeB) {
                 if (segB.contains(segA.getFirstLocation())
                     || segB.contains(segA.getLastLocation())
                     || segA.contains(segB.getFirstLocation())
                     || segA.contains(segB.getLastLocation())
-                    ); {
-                    return true;
+                    ) {
+                        return true;
                 }
             }
         }
