@@ -82,7 +82,53 @@ public class TrackReader {
      */
     public static Track read(String fileName) throws IOException,
             FormatException {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+        Track collector = new Track();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line = null;
+            int lineCount = 0;
+
+            while ((line = br.readLine()) != null) {
+                lineCount++;
+                String[] splitLine = line.split(" ");
+
+                try {
+                    JunctionBranch fst = new JunctionBranch(new Junction(splitLine[1])
+                            , stringToBranch(splitLine[2]));
+                    JunctionBranch snd = new JunctionBranch(new Junction(splitLine[3])
+                            , stringToBranch(splitLine[4]));
+                    Section toAdd = new Section(Integer.parseInt(splitLine[0]), fst, snd);
+
+                    if (collector.contains(toAdd)) {
+                        throw new FormatException("Attempt to add duplicate section");
+                    }
+
+                    collector.addSection(toAdd);
+                }
+                catch (Exception e) {
+                    throw new FormatException(
+                            "The exception "
+                                + "\"" + e.getMessage() + "\""
+                                + " was caused by line "
+                                + Integer.toString(lineCount)
+                                + " of "
+                                + fileName);
+                }
+            }
+        }
+        return collector;
     }
 
+    private static Branch stringToBranch(String string) throws FormatException {
+        switch (string) {
+            case "FACING":
+                return Branch.FACING;
+            case "NORMAL":
+                return Branch.NORMAL;
+            case "REVERSE":
+                return Branch.REVERSE;
+            default:
+                throw new FormatException("Invalid Branch type specified");
+        }
+    }
 }
