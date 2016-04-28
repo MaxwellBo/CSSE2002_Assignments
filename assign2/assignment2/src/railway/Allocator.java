@@ -64,7 +64,49 @@ public class Allocator {
      */
     public static List<List<Segment>> allocate(List<List<Segment>> occupied,
             List<List<Segment>> requested) {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
+
+        List<List<Segment>> collector = new ArrayList<>();
+
+        // route loop
+        for (List<Segment> rRoute : requested) {
+
+            List<Segment> staged = new ArrayList<>(rRoute);
+
+            while (true) {
+                boolean intersectOccupied = occupied
+                    .stream()
+                    .anyMatch(
+                        x -> checkRouteIntersection(staged, x));
+
+                boolean intersectCollector = collector
+                        .stream()
+                        .anyMatch(
+                            x -> checkRouteIntersection(staged, x));
+
+                if (intersectOccupied || intersectCollector) {
+                    staged.remove(staged.size() - 1);
+                }
+                else {
+                    break;
+                }
+            }
+            collector.add(staged);
+        }
+        return collector;
     }
 
+    private static boolean checkRouteIntersection(List<Segment> A, List<Segment> B) {
+        for (Segment segA : A) {
+            for (Segment segB : B) {
+                if (   segB.contains(segA.getFirstLocation())
+                    || segB.contains(segA.getLastLocation())
+                    || segA.contains(segB.getFirstLocation())
+                    || segA.contains(segB.getLastLocation())
+                    ); {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
