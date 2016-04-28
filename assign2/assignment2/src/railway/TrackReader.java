@@ -106,6 +106,7 @@ public class TrackReader {
                     collector.addSection(toAdd);
                 }
                 catch (Exception e) {
+                    // Rethrow all Exceptions as FormatExceptions
                     throw new FormatException(
                             "The exception "
                                 + "\"" + e.getMessage() + "\""

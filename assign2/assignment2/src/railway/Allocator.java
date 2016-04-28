@@ -70,7 +70,7 @@ public class Allocator {
         // Select the requested route's index that we want to verify
         for (int r = 0; r < requested.size(); r++) {
 
-            // Create a clone of the occupied routes...
+            // Create a clone of the occupied routes ...
             List<List<Segment>> occupiedWOTrain = new ArrayList<>(occupied);
             // ... and yank the train's old route that we're trying to move
             occupiedWOTrain.remove(r);
@@ -100,15 +100,16 @@ public class Allocator {
 
                     // Check if it can be reduced in size
                     if (last.getEndOffset() > last.getStartOffset() + 1) {
+                        // If it can, shorten it...
                         Segment toAdd = new Segment(last.getSection()
                                 , last.getDepartingEndPoint()
                                 , last.getStartOffset()
                                 , last.getEndOffset() - 1);
 
-                        // Add it back if it can
+                        // ... and add it back ...
                         staged.add(toAdd);
                     }
-                    // and leave it popped off if it can't
+                    // ... or leave it popped off if it can't
                 }
                 else {
                     // No intersections
@@ -116,7 +117,7 @@ public class Allocator {
                     break;
                 }
             }
-            // Add the twiddled route
+            // Add the twiddled route to be allocated
             collector.add(staged);
         }
         return collector;
