@@ -106,7 +106,8 @@ public class Allocator {
                 Segment last = staged.remove(staged.size() - 1);
 
                 // Check if it can be reduced in size
-                if (last.getEndOffset() > last.getStartOffset() + 1) {
+                // Invariant: "startOffSet < endOffset"
+                if ((last.getStartOffset()) < (last.getEndOffset() - 1)) {
                     // If it can, shorten it...
                     Segment toAdd = new Segment(last.getSection()
                             , last.getDepartingEndPoint()
