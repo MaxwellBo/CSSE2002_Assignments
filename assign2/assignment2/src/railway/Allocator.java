@@ -65,59 +65,62 @@ public class Allocator {
     public static List<List<Segment>> allocate(List<List<Segment>> occupied,
             List<List<Segment>> requested) {
 
+        // Create an empty list to contain the allocated routes
         List<List<Segment>> collector = new ArrayList<>();
 
         // Select the requested route's index that we want to verify
         for (int r = 0; r < requested.size(); r++) {
-
             // Create a clone of the occupied routes ...
             List<List<Segment>> occupiedWOTrain = new ArrayList<>(occupied);
             // ... and yank the train's old route that we're trying to move
             occupiedWOTrain.remove(r);
 
-            // Create a new route for the train that we can twiddle with
+            // Clone the route we're attempting to verify,
+            // so that we can mutate it to comply with other the other routes
             List<Segment> staged = new ArrayList<>(requested.get(r));
 
+            // Repeatedly shorten the route until no intersections
             while (true) {
-
                 // "does not intersect with any of the routes
                 // currently occupied by any other train"
                 boolean intersectOccupied = occupiedWOTrain
                     .stream()
                     .anyMatch(
-                        x -> checkRouteIntersection(staged, x));
+                        route -> checkRouteIntersection(staged, route));
 
                 // "or any of the routes [in the result]
                 boolean intersectCollector = collector
                     .stream()
                     .anyMatch(
-                        x -> checkRouteIntersection(staged, x));
+                        route -> checkRouteIntersection(staged, route));
 
                 // Do we need to shorten the route?
-                if (intersectOccupied || intersectCollector) {
-                    // Pop off a section
-                    Segment last = staged.remove(staged.size() - 1);
-
-                    // Check if it can be reduced in size
-                    if (last.getEndOffset() > last.getStartOffset() + 1) {
-                        // If it can, shorten it...
-                        Segment toAdd = new Segment(last.getSection()
-                                , last.getDepartingEndPoint()
-                                , last.getStartOffset()
-                                , last.getEndOffset() - 1);
-
-                        // ... and add it back ...
-                        staged.add(toAdd);
-                    }
-                    // ... or leave it popped off if it can't
-                }
-                else {
+                if (!(intersectOccupied || intersectCollector)) {
                     // No intersections
                     // No need to shorten the route
+                    // Escape the "shortening loop"
                     break;
                 }
+
+                // Pop off a section
+                Segment last = staged.remove(staged.size() - 1);
+
+                // Check if it can be reduced in size
+                if (last.getEndOffset() > last.getStartOffset() + 1) {
+                    // If it can, shorten it...
+                    Segment toAdd = new Segment(last.getSection()
+                            , last.getDepartingEndPoint()
+                            , last.getStartOffset()
+                            , last.getEndOffset() - 1);
+
+                    // ... and add it back ...
+                    staged.add(toAdd);
+                    // ... or leave it popped off if it can't
+                }
+                // Loop jump
             }
-            // Add the twiddled route to be allocated
+            // Staged route finalized
+            // Add the staged route to be allocated
             collector.add(staged);
         }
         return collector;
