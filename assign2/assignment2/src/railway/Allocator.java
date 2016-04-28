@@ -115,7 +115,8 @@ public class Allocator {
 
                     // ... and add it back ...
                     staged.add(toAdd);
-                    // ... or leave it popped off if it can't
+                    // ... or leave it popped off if it
+                    // can't be reduced in size
                 }
                 // Loop jump
             }
