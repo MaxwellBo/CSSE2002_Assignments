@@ -1,6 +1,7 @@
 package railway;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Allocator {
 
@@ -79,20 +80,35 @@ public class Allocator {
             // so that we can mutate it to comply with other the other routes
             List<Segment> staged = new ArrayList<>(requested.get(r));
 
+            // capture staged
+            Predicate<List<Segment>> checkRouteIntersectionWStaged =
+                    route -> {
+                        for (Segment segA : route) {
+                            for (Segment segB : staged) {
+                                if (segA.contains(segB.getFirstLocation())
+                                        || segA.contains(segB.getLastLocation())
+                                        || segB.contains(segA.getFirstLocation())
+                                        || segB.contains(segA.getLastLocation())
+                                        ) {
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    };
+
             // Repeatedly shorten the route until no intersections
             while (true) {
                 // "does not intersect with any of the routes
                 // currently occupied by any other train"
                 boolean intersectOccupied = occupiedWOTrain
-                    .stream()
-                    .anyMatch(
-                        route -> checkRouteIntersection(staged, route));
+                        .stream()
+                        .anyMatch(checkRouteIntersectionWStaged);
 
                 // "or any of the routes [in the result]"
                 boolean intersectCollector = collector
-                    .stream()
-                    .anyMatch(
-                        route -> checkRouteIntersection(staged, route));
+                        .stream()
+                        .anyMatch(checkRouteIntersectionWStaged);
 
                 // Do we need to shorten the route?
                 if (!(intersectOccupied || intersectCollector)) {
@@ -127,21 +143,5 @@ public class Allocator {
             collector.add(staged);
         }
         return collector;
-    }
-
-    private static boolean checkRouteIntersection(List<Segment> routeA
-                                                , List<Segment> routeB) {
-        for (Segment segA : routeA) {
-            for (Segment segB : routeB) {
-                if (segA.contains(segB.getFirstLocation())
-                    || segA.contains(segB.getLastLocation())
-                    || segB.contains(segA.getFirstLocation())
-                    || segB.contains(segA.getLastLocation())
-                    ) {
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 }
