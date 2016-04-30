@@ -105,20 +105,21 @@ public class Allocator {
                 // Pop off a Segment...
                 Segment last = staged.remove(staged.size() - 1);
 
-                // Check if it can be reduced in size
+                // Check if the segment can't be reduced in size
                 // Segment invariant: "startOffSet < endOffset"
-                if ((last.getStartOffset()) < (last.getEndOffset() - 1)) {
-                    // If it can, shorten it...
-                    Segment toAdd = new Segment(last.getSection()
-                            , last.getDepartingEndPoint()
-                            , last.getStartOffset()
-                            , last.getEndOffset() - 1);
-
-                    // ... and add the Segment back ...
-                    staged.add(toAdd);
+                if ((last.getStartOffset()) >= (last.getEndOffset() - 1)) {
+                    // if it can't be reduced in size,
+                    // leave the segment popped off
+                    continue;
                 }
-                // ... or leave the Segment popped off
-                // if it can't be reduced in size
+                // If it can, shorten it...
+                Segment toAdd = new Segment(last.getSection()
+                        , last.getDepartingEndPoint()
+                        , last.getStartOffset()
+                        , last.getEndOffset() - 1);
+
+                // ... and add the Segment back ...
+                staged.add(toAdd);
                 // Loop jump
             }
             // Staged route finalized
