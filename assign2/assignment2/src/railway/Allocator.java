@@ -70,15 +70,15 @@ public class Allocator {
         List<List<Segment>> collector = new ArrayList<>();
 
         // Select the requested route's index that we want to verify
-        for (int r = 0; r < requested.size(); r++) {
+        for (int train = 0; train < requested.size(); train++) {
+            // Clone the route we're attempting to verify,
+            // so that we can mutate it to comply with other the other routes
+            List<Segment> staged = new ArrayList<>(requested.get(train));
+
             // Create a clone of the occupied routes ...
             List<List<Segment>> occupiedWOTrain = new ArrayList<>(occupied);
             // ... and yank the train's old route that we're trying to move
-            occupiedWOTrain.remove(r);
-
-            // Clone the route we're attempting to verify,
-            // so that we can mutate it to comply with other the other routes
-            List<Segment> staged = new ArrayList<>(requested.get(r));
+            occupiedWOTrain.remove(train);
 
             // capture staged
             Predicate<List<Segment>> checkRouteIntersectionWStaged =
@@ -99,8 +99,8 @@ public class Allocator {
 
             // Repeatedly shorten the route until no intersections
             while (true) {
-                // "does not intersect with any of the routes
-                // currently occupied by any other train"
+                // "[must] not intersect with any of the routes
+                // currently occupied by *any other* train"
                 boolean intersectOccupied = occupiedWOTrain
                         .stream()
                         .anyMatch(checkRouteIntersectionWStaged);
@@ -121,13 +121,14 @@ public class Allocator {
                 // Pop off a Segment...
                 Segment last = staged.remove(staged.size() - 1);
 
-                // Check if the segment can't be reduced in size
+                // Check if the Segment can't be reduced in size
                 // Segment invariant: "startOffSet < endOffset"
                 if ((last.getStartOffset()) >= (last.getEndOffset() - 1)) {
                     // if it can't be reduced in size,
-                    // leave the segment popped off
+                    // leave the Segment popped off
                     continue;
                 }
+
                 // If it can, shorten it...
                 Segment toAdd = new Segment(last.getSection()
                         , last.getDepartingEndPoint()
