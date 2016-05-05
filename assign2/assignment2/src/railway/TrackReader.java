@@ -85,6 +85,7 @@ public class TrackReader {
             FormatException {
         Track collector = new Track();
 
+        // Function that takes a String and returns a Branch
         Function<String, Branch> stringToBranch = string -> {
             switch (string) {
                 case "FACING":

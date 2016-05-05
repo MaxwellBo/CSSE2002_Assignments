@@ -80,7 +80,8 @@ public class Allocator {
             // ... and yank the train's old route that we're trying to move
             occupiedWOTrain.remove(train);
 
-            // capture staged
+            // capture staged, in a function that takes a List<Segment>
+            // and returns a boolean as to whether it intersects with staged
             Predicate<List<Segment>> checkRouteIntersectionWStaged =
                     route -> {
                         for (Segment segA : route) {
