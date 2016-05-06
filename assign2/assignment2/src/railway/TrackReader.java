@@ -1,7 +1,6 @@
 package railway;
 
 import java.io.*;
-import java.util.function.Function;
 
 /**
  * Provides a method to read a track from a text file.
@@ -85,33 +84,20 @@ public class TrackReader {
             FormatException {
         Track collector = new Track();
 
-        // Function that takes a String and returns a Branch
-        Function<String, Branch> stringToBranch = string -> {
-            switch (string) {
-                case "FACING":
-                    return Branch.FACING;
-                case "NORMAL":
-                    return Branch.NORMAL;
-                case "REVERSE":
-                    return Branch.REVERSE;
-                default:
-                    throw new RuntimeException("Invalid Branch type specified");
-            }
-        };
-
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = null;
             int lineCount = 0;
 
             while ((line = br.readLine()) != null) {
                 lineCount++;
-                String[] splitLine = line.split(" ");
+                line = line.trim();
+                String[] splitLine = line.split("\\s+");
 
                 try {
                     JunctionBranch fst = new JunctionBranch(new Junction(splitLine[1])
-                            , stringToBranch.apply((splitLine[2])));
+                            , stringToBranch(splitLine[2]));
                     JunctionBranch snd = new JunctionBranch(new Junction(splitLine[3])
-                            , stringToBranch.apply((splitLine[4])));
+                            , stringToBranch(splitLine[4]));
                     Section toAdd = new Section(Integer.parseInt(splitLine[0]), fst, snd);
 
                     if (collector.contains(toAdd)) {
@@ -133,5 +119,18 @@ public class TrackReader {
             }
         }
         return collector;
+    }
+
+    private static Branch stringToBranch(String string) throws FormatException {
+        switch (string) {
+            case "FACING":
+                return Branch.FACING;
+            case "NORMAL":
+                return Branch.NORMAL;
+            case "REVERSE":
+                return Branch.REVERSE;
+            default:
+                throw new FormatException("Invalid Branch type specified");
+        }
     }
 }
