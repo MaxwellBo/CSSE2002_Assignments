@@ -1,6 +1,7 @@
 package railway;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Allocator {
 
@@ -64,7 +65,95 @@ public class Allocator {
      */
     public static List<List<Segment>> allocate(List<List<Segment>> occupied,
             List<List<Segment>> requested) {
-        return null; // REMOVE THIS LINE AND WRITE THIS METHOD
-    }
 
+        // Create an empty list to contain the allocated routes
+        List<List<Segment>> collector = new ArrayList<>();
+
+        // Select the requested route's index that we want to verify
+        for (int train = 0; train < requested.size(); train++) {
+            // Clone the route we're attempting to verify,
+            // so that we can mutate it to comply with other the other routes
+            List<Segment> staged = new ArrayList<>(requested.get(train));
+
+            // Create a clone of the occupied routes ...
+            List<List<Segment>> occupiedWOTrain = new ArrayList<>(occupied);
+            // ... and yank the train's old route that we're trying to move
+            occupiedWOTrain.remove(train);
+
+            // Bind a function that checks if a given route (List<Segment)
+            // intersects with the staged route, and returns a boolean
+            // as to whether it does
+            Predicate<List<Segment>> checkRouteIntersectionWStaged =
+                    route -> {
+                        for (Segment segA : route) {
+                            for (Segment segB : staged) {
+                                // Compare every Segment in route
+                                // against every Segment staged
+                                // and check if the segments overlap
+
+                                if (segA.contains(segB.getFirstLocation())
+                                        || segA.contains(segB.getLastLocation())
+                                        || segB.contains(segA.getFirstLocation())
+                                        || segB.contains(segA.getLastLocation())
+                                        ) {
+
+                                    // If they do, the routes intersect
+                                    return true;
+                                }
+                            }
+                        }
+                        return false;
+                    };
+
+            // Repeatedly shorten the route until no intersections
+            while (true) {
+                // "[must] not intersect with any of the routes
+                // currently occupied by *any other* train"
+                // Map the comparison function across the collection
+                // of routes. Returns true if any intersect
+                boolean intersectOccupied = occupiedWOTrain
+                        .stream()
+                        .anyMatch(checkRouteIntersectionWStaged);
+
+                // "or any of the routes [in the result]"
+                boolean intersectCollector = collector
+                        .stream()
+                        .anyMatch(checkRouteIntersectionWStaged);
+
+                // Do we need to shorten the route?
+                if (!(intersectOccupied || intersectCollector)) {
+                    // No intersections
+                    // No need to shorten the route
+                    // Escape the "shortening loop"
+                    break;
+                }
+
+                // If we need to shorten the route, pop off a Segment...
+                Segment last = staged.remove(staged.size() - 1);
+
+                // Check if the Segment can't be reduced in size
+                // Segment invariant: "startOffSet < endOffset"
+                if ((last.getStartOffset()) >= (last.getEndOffset() - 1)) {
+                    // if it can't be reduced in size,
+                    // leave the Segment popped off
+                    continue;
+                }
+
+                // If it can, shorten it...
+                Segment toAdd = new Segment(
+                        last.getSection()
+                        , last.getDepartingEndPoint()
+                        , last.getStartOffset()
+                        , last.getEndOffset() - 1);
+
+                // ... and add the Segment back ...
+                staged.add(toAdd);
+                // Loop jump
+            }
+            // Staged route finalized
+            // Add the staged route to be allocated
+            collector.add(staged);
+        }
+        return collector;
+    }
 }
