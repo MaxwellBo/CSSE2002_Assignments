@@ -90,20 +90,34 @@ public class TrackReader {
 
             while ((line = br.readLine()) != null) {
                 lineCount++;
+
+                // Remove "trailing and leading" whitespace
                 line = line.trim();
+
+                // Split on any whitespace, where whitespace is "\\s"
+                // Where Regex "\\s+" is also "[ \\t\\n\\x0B\\f\\r]+"
                 String[] splitLine = line.split("\\s+");
 
                 try {
-                    JunctionBranch fst = new JunctionBranch(new Junction(splitLine[1])
-                            , stringToBranch(splitLine[2]));
-                    JunctionBranch snd = new JunctionBranch(new Junction(splitLine[3])
-                            , stringToBranch(splitLine[4]));
-                    Section toAdd = new Section(Integer.parseInt(splitLine[0]), fst, snd);
+                    JunctionBranch fst = new JunctionBranch(
+                            new Junction(splitLine[1])
+                            , parseBranch(splitLine[2]));
+
+                    JunctionBranch snd = new JunctionBranch(
+                            new Junction(splitLine[3])
+                            , parseBranch(splitLine[4]));
+
+                    Section toAdd = new Section(
+                            Integer.parseInt(splitLine[0])
+                            , fst
+                            , snd);
 
                     if (collector.contains(toAdd)) {
+                        // Early panic
                         throw new FormatException("Attempt to add duplicate section");
                     }
 
+                    // Fallthrough to
                     collector.addSection(toAdd);
                 }
                 catch (Exception e) {
@@ -121,7 +135,19 @@ public class TrackReader {
         return collector;
     }
 
-    private static Branch stringToBranch(String string) throws FormatException {
+    /**
+     * Parses the string argument as a member of the Branch Enum. The string to
+     * be parsed must be equivalent to a the name of a member of the
+     * Branch Enum.
+     *
+     * @param string
+     *      the string to parse
+     * @return a member of the Branch enum where the member name and string
+     *         are equivalent
+     * @throws FormatException if the string is no member of the Branch enum
+     *                         with a name that is equivalent to the string
+     */
+    private static Branch parseBranch(String string) throws FormatException {
         switch (string) {
             case "FACING":
                 return Branch.FACING;

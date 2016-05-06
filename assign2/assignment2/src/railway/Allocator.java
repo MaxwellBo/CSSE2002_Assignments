@@ -80,8 +80,9 @@ public class Allocator {
             // ... and yank the train's old route that we're trying to move
             occupiedWOTrain.remove(train);
 
-            // capture staged, in a function that takes a List<Segment>
-            // and returns a boolean as to whether it intersects with staged
+            // Bind a function that checks if a given route (List<Segment)
+            // intersects with the staged route, and returns a boolean
+            // as to whether it does
             Predicate<List<Segment>> checkRouteIntersectionWStaged =
                     route -> {
                         for (Segment segA : route) {
@@ -102,6 +103,8 @@ public class Allocator {
             while (true) {
                 // "[must] not intersect with any of the routes
                 // currently occupied by *any other* train"
+                // Map the comparison function across the collection
+                // of routes. Returns true if any intersect
                 boolean intersectOccupied = occupiedWOTrain
                         .stream()
                         .anyMatch(checkRouteIntersectionWStaged);
@@ -119,7 +122,7 @@ public class Allocator {
                     break;
                 }
 
-                // Pop off a Segment...
+                // If we need to shorten the route, pop off a Segment...
                 Segment last = staged.remove(staged.size() - 1);
 
                 // Check if the Segment can't be reduced in size
