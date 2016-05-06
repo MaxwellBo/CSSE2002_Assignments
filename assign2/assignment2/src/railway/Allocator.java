@@ -85,23 +85,34 @@ public class Allocator {
             // as to whether it does
             Predicate<List<Segment>> checkRouteIntersectionWStaged =
                     route -> {
+                        // Compare every Segment in route
+                        // against every Segment staged
+                        // and check if the segments overlap
                         for (Segment segA : route) {
                             for (Segment segB : staged) {
-                                // Compare every Segment in route
-                                // against every Segment staged
-                                // and check if the segments overlap
 
-                                if (segA.contains(segB.getFirstLocation())
-                                        || segA.contains(segB.getLastLocation())
-                                        || segB.contains(segA.getFirstLocation())
-                                        || segB.contains(segA.getLastLocation())
+                                // Use their endpoints to check for overlap
+                                Location aF = segA.getFirstLocation();
+                                Location aL = segA.getLastLocation();
+
+                                Location bF = segB.getFirstLocation();
+                                Location bL = segB.getLastLocation();
+
+                                // If a Segment contains another Segment's
+                                // endpoint, it overlaps with that other
+                                // Segment
+                                if (segA.contains(bF)
+                                        || segA.contains(bL)
+                                        || segB.contains(aF)
+                                        || segB.contains(aL)
                                         ) {
-
-                                    // If they do, the routes intersect
+                                    // If two Segments in two different routes
+                                    // intersect, their parent routes intersect
                                     return true;
                                 }
                             }
                         }
+                        // Fallthrough to
                         return false;
                     };
 
