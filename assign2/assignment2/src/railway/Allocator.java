@@ -87,11 +87,17 @@ public class Allocator {
                     route -> {
                         for (Segment segA : route) {
                             for (Segment segB : staged) {
+                                // Compare every Segment in route
+                                // against every Segment staged
+                                // and check if the segments overlap
+
                                 if (segA.contains(segB.getFirstLocation())
                                         || segA.contains(segB.getLastLocation())
                                         || segB.contains(segA.getFirstLocation())
                                         || segB.contains(segA.getLastLocation())
                                         ) {
+
+                                    // If they do, the routes intersect
                                     return true;
                                 }
                             }
@@ -134,7 +140,8 @@ public class Allocator {
                 }
 
                 // If it can, shorten it...
-                Segment toAdd = new Segment(last.getSection()
+                Segment toAdd = new Segment(
+                        last.getSection()
                         , last.getDepartingEndPoint()
                         , last.getStartOffset()
                         , last.getEndOffset() - 1);
