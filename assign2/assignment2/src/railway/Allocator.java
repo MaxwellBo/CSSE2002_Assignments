@@ -69,7 +69,7 @@ public class Allocator {
         // Create an empty list to contain the allocated routes
         List<List<Segment>> collector = new ArrayList<>();
 
-        // Early return if no routes exist
+        // Early return empty list if no trains exist
         if (occupied.size() == 0 || requested.size() == 0) {
             return collector;
         }
