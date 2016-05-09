@@ -72,7 +72,7 @@ public class Allocator {
         // Select the requested route's index that we want to verify
         for (int train = 0; train < requested.size(); train++) {
             // Clone the route we're attempting to verify,
-            // so that we can mutate it to comply with other the other routes
+            // so that we can mutate it to comply with the other routes
             List<Segment> staged = new ArrayList<>(requested.get(train));
 
             // Create a clone of the occupied routes ...
