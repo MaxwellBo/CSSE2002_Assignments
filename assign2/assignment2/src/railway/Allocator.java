@@ -70,7 +70,7 @@ public class Allocator {
         List<List<Segment>> collector = new ArrayList<>();
 
         // Early return empty list if no trains exist
-        if (occupied.size() == 0 || requested.size() == 0) {
+        if (occupied.isEmpty() || requested.isEmpty()) {
             return collector;
         }
 
