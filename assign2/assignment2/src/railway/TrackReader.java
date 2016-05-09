@@ -156,7 +156,8 @@ public class TrackReader {
             case "REVERSE":
                 return Branch.REVERSE;
             default:
-                throw new FormatException("Invalid Branch type specified");
+                throw new FormatException(string
+                        + " is not a valid Branch type");
         }
     }
 }
