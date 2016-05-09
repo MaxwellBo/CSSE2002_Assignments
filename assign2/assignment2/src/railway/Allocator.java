@@ -69,10 +69,15 @@ public class Allocator {
         // Create an empty list to contain the allocated routes
         List<List<Segment>> collector = new ArrayList<>();
 
+        // Early return if no routes exist
+        if (occupied.size() == 0 || requested.size() == 0) {
+            return collector;
+        }
+
         // Select the requested route's index that we want to verify
         for (int train = 0; train < requested.size(); train++) {
             // Clone the route we're attempting to verify,
-            // so that we can mutate it to comply with other the other routes
+            // so that we can mutate it to comply with the other routes
             List<Segment> staged = new ArrayList<>(requested.get(train));
 
             // Create a clone of the occupied routes ...
