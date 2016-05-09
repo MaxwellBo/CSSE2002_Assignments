@@ -87,10 +87,9 @@ public class Allocator {
                     route -> {
                         // Compare every Segment in route
                         // against every Segment staged
-                        // and check if the segments overlap
+                        // and check if they overlap
                         for (Segment segA : route) {
                             for (Segment segB : staged) {
-
                                 // Use their endpoints to check for overlap
                                 Location aF = segA.getFirstLocation();
                                 Location aL = segA.getLastLocation();
