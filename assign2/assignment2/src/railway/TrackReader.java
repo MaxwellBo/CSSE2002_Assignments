@@ -101,6 +101,7 @@ public class TrackReader {
 
                 try {
                     if (splitLine.length != 5) {
+                        // Early panic
                         throw new FormatException(
                                 "Invalid number of arguments specified on line");
                     }
