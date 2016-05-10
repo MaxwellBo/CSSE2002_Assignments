@@ -99,7 +99,14 @@ public class TrackReader {
                 // where "\\s+" <-> "[ \\t\\n\\x0B\\f\\r]+"
                 String[] splitLine = line.split("\\s+");
 
+
                 try {
+                    if (splitLine.length != 5) {
+                        // Early panic
+                        throw new FormatException(
+                                "Invalid number of arguments specified on line");
+                    }
+
                     JunctionBranch fst = new JunctionBranch(
                             new Junction(splitLine[1])
                             , parseBranch(splitLine[2]));
@@ -115,7 +122,8 @@ public class TrackReader {
 
                     if (collector.contains(toAdd)) {
                         // Early panic
-                        throw new FormatException("Attempt to add duplicate section");
+                        throw new FormatException(
+                                "Attempt to add duplicate section");
                     }
 
                     // Fallthrough to
@@ -157,7 +165,8 @@ public class TrackReader {
             case "REVERSE":
                 return Branch.REVERSE;
             default:
-                throw new FormatException("Invalid Branch type specified");
+                throw new FormatException(string
+                        + " is not a valid Branch type");
         }
     }
 }

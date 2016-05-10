@@ -69,8 +69,8 @@ public class Allocator {
         // Create an empty list to contain the allocated routes
         List<List<Segment>> collector = new ArrayList<>();
 
-        // Early return if no routes exist
-        if (occupied.size() == 0 || requested.size() == 0) {
+        // Early return empty list if no trains exist
+        if (occupied.isEmpty() || requested.isEmpty()) {
             return collector;
         }
 
@@ -148,7 +148,7 @@ public class Allocator {
 
                 // Check if the Segment can't be reduced in size
                 // Segment invariant: "startOffSet < endOffset"
-                if ((last.getStartOffset()) >= (last.getEndOffset() - 1)) {
+                if (last.getLength() <= 1) {
                     // if it can't be reduced in size,
                     // leave the Segment popped off
                     continue;
