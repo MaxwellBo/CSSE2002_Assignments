@@ -138,7 +138,7 @@ public class Allocator {
 
                 // Check if the Segment can't be reduced in size
                 // Segment invariant: "startOffSet < endOffset"
-                if ((last.getStartOffset()) >= (last.getEndOffset() - 1)) {
+                if (last.getLength() <= 1) {
                     // if it can't be reduced in size,
                     // leave the Segment popped off
                     continue;
