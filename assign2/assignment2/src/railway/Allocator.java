@@ -96,9 +96,9 @@ public class Allocator {
                         for (Segment segA : route) {
                             for (Segment segB : staged) {
                                 // Use their endpoints to check for overlap
+                                // (These are bound because of 80 char limit)
                                 Location aF = segA.getFirstLocation();
                                 Location aL = segA.getLastLocation();
-
                                 Location bF = segB.getFirstLocation();
                                 Location bL = segB.getLastLocation();
 
