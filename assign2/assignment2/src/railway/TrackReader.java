@@ -98,7 +98,13 @@ public class TrackReader {
                 // Where Regex "\\s+" is also "[ \\t\\n\\x0B\\f\\r]+"
                 String[] splitLine = line.split("\\s+");
 
+
                 try {
+                    if (splitLine.length != 5) {
+                        throw new FormatException(
+                                "Invalid number of arguments specified on line");
+                    }
+
                     JunctionBranch fst = new JunctionBranch(
                             new Junction(splitLine[1])
                             , parseBranch(splitLine[2]));
@@ -114,7 +120,8 @@ public class TrackReader {
 
                     if (collector.contains(toAdd)) {
                         // Early panic
-                        throw new FormatException("Attempt to add duplicate section");
+                        throw new FormatException(
+                                "Attempt to add duplicate section");
                     }
 
                     // Fallthrough to
