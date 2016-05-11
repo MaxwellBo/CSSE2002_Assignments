@@ -125,7 +125,7 @@ public class Allocator {
                 // "[must] not intersect with any of the routes
                 // currently occupied by *any other* train"
                 // Map the comparison function across the collection
-                // of routes. Returns true if any intersect
+                // of occupied routes. Returns true if any intersect
                 boolean intersectOccupied = occupiedWOTrain
                         .stream()
                         .anyMatch(checkRouteIntersectionWStaged);
