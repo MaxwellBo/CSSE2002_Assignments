@@ -149,6 +149,7 @@ public class TrackReader {
      * be parsed must be equivalent to the name of a member of the
      * Branch Enum.
      *
+     * @require string != null
      * @param string
      *      the string to parse
      * @return a member of the Branch enum where the member name and string
