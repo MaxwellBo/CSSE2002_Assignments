@@ -91,7 +91,7 @@ public class Allocator {
             Predicate<List<Segment>> checkRouteIntersectionWStaged =
                     route -> {
                         // Compare every Segment in route
-                        // against every Segment staged
+                        // against every Segment in staged
                         // and check if they overlap
                         for (Segment segA : route) {
                             for (Segment segB : staged) {
