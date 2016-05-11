@@ -115,19 +115,21 @@ public class TrackReader {
                             new Junction(splitLine[3])
                             , parseBranch(splitLine[4]));
 
-                    Section toAdd = new Section(
+                    // The Section to be added
+                    Section candidate = new Section(
                             Integer.parseInt(splitLine[0])
                             , fst
                             , snd);
 
-                    if (collector.contains(toAdd)) {
+                    // Check if candidate is compatible
+                    if (collector.contains(candidate)) {
                         // Early panic
                         throw new FormatException(
                                 "Attempt to add duplicate section");
                     }
 
                     // Fallthrough to
-                    collector.addSection(toAdd);
+                    collector.addSection(candidate);
                 }
                 catch (Exception e) {
                     // Rethrow all Exceptions as FormatExceptions
