@@ -155,14 +155,14 @@ public class Allocator {
                 }
 
                 // If it can, shorten it...
-                Segment toAdd = new Segment(
+                Segment shorterLast = new Segment(
                         last.getSection()
                         , last.getDepartingEndPoint()
                         , last.getStartOffset()
                         , last.getEndOffset() - 1);
 
                 // ... and add the Segment back ...
-                staged.add(toAdd);
+                staged.add(shorterLast);
                 // Loop jump
             }
             // Staged route finalized
