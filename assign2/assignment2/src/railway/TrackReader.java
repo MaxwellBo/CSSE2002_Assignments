@@ -94,8 +94,9 @@ public class TrackReader {
                 // Remove "trailing and leading" whitespace
                 line = line.trim();
 
-                // Split on any whitespace, where whitespace is "\\s"
-                // Where Regex "\\s+" is also "[ \\t\\n\\x0B\\f\\r]+"
+                // Split on any whitespace,
+                // where whitespace is regex "\\s"
+                // where "\\s+" <-> "[ \\t\\n\\x0B\\f\\r]+"
                 String[] splitLine = line.split("\\s+");
 
 
