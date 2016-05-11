@@ -146,14 +146,14 @@ public class TrackReader {
 
     /**
      * Parses the string argument as a member of the Branch Enum. The string to
-     * be parsed must be equivalent to a the name of a member of the
+     * be parsed must be equivalent to the name of a member of the
      * Branch Enum.
      *
      * @param string
      *      the string to parse
      * @return a member of the Branch enum where the member name and string
      *         are equivalent
-     * @throws FormatException if the string is no member of the Branch enum
+     * @throws FormatException if the string is not a member of the Branch enum
      *                         with a name that is equivalent to the string
      */
     private static Branch parseBranch(String string) throws FormatException {
