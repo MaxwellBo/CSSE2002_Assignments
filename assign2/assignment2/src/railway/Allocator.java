@@ -97,18 +97,18 @@ public class Allocator {
                             for (Segment segB : staged) {
                                 // Use their endpoints to check for overlap
                                 // (These are bound because of 80 char limit)
-                                Location aF = segA.getFirstLocation();
-                                Location aL = segA.getLastLocation();
-                                Location bF = segB.getFirstLocation();
-                                Location bL = segB.getLastLocation();
+                                Location segAFirst = segA.getFirstLocation();
+                                Location segALast = segA.getLastLocation();
+                                Location segBFirst = segB.getFirstLocation();
+                                Location segBLast = segB.getLastLocation();
 
                                 // If a Segment contains another Segment's
                                 // endpoint, it overlaps with that other
                                 // Segment
-                                if (segA.contains(bF)
-                                        || segA.contains(bL)
-                                        || segB.contains(aF)
-                                        || segB.contains(aL)
+                                if (segA.contains(segBFirst)
+                                        || segA.contains(segBLast)
+                                        || segB.contains(segAFirst)
+                                        || segB.contains(segALast)
                                         ) {
                                     // If two Segments in two different routes
                                     // intersect, their parent routes intersect
