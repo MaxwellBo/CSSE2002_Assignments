@@ -1,5 +1,9 @@
 package railway.gui;
 
+import railway.FormatException;
+
+import java.io.IOException;
+
 /**
  * The controller for the Railway Manager.
  */
@@ -18,8 +22,34 @@ public class RailwayController {
     public RailwayController(RailwayModel model, RailwayView view) {
         this.model = model;
         this.view = view;
-        // REMOVE THIS LINE AND COMPLETE THIS METHOD
+
+        loadTrack();
+        addTrain();
     }
 
-    // REMOVE THIS LINE AND ADD YOUR OWN METHODS ETC HERE
+    public void loadTrack() {
+        try {
+            model.loadTrack("track.txt");
+            System.out.println("FILE LOAD SUCCESS");
+        }
+        catch (Exception e) {
+            view.makeDialogBox("File load error", e.toString());
+        }
+    }
+
+    public void addTrain() {
+        try {
+            // TODO: Remove this boilerplate
+            model.loadRoute("route0.txt", 0, 22);
+            System.out.println("ROUTE LOAD SUCCESS");
+            model.loadRoute("route1.txt", 0, 22);
+            System.out.println("ROUTE LOAD SUCCESS");
+        }
+        catch (IOException | FormatException e) {
+            view.makeDialogBox("File load error", e.toString());
+        }
+        catch (RuntimeException e) {
+            view.makeDialogBox("Invalid route request", e.getMessage());
+        }
+    }
 }
