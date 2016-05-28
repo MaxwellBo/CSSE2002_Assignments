@@ -18,8 +18,16 @@ public class RailwayController {
     public RailwayController(RailwayModel model, RailwayView view) {
         this.model = model;
         this.view = view;
-        // REMOVE THIS LINE AND COMPLETE THIS METHOD
+
+        loadTrack();
     }
 
-    // REMOVE THIS LINE AND ADD YOUR OWN METHODS ETC HERE
+    public void loadTrack() {
+        try {
+            model.loadTrack("track.txt");
+        }
+        catch (Exception e) {
+            view.makeDialogBox("track.txt could not be loaded", e.toString());
+        }
+    }
 }

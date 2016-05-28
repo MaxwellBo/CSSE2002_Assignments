@@ -23,5 +23,11 @@ public class RailwayView extends JFrame {
         // REMOVE THIS LINE AND COMPLETE THIS METHOD
     }
 
-    // REMOVE THIS LINE AND ADD YOUR OWN METHODS ETC HERE
+    public void makeDialogBox(String eClass, String eMessage) {
+        JOptionPane.showMessageDialog(
+                this
+                , eMessage
+                , eClass
+                , JOptionPane.ERROR_MESSAGE);
+    }
 }

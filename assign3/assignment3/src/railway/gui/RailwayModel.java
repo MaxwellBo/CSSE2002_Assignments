@@ -1,19 +1,25 @@
 package railway.gui;
 
+import railway.FormatException;
+import railway.TrackReader;
+import railway.Track;
+
+import java.io.IOException;
+
 /**
  * The model for the Railway Manager.
  */
 public class RailwayModel {
 
-    // REMOVE THIS LINE AND DECLARE ANY VARIABLES YOU REQUIRE HERE
+    Track track;
 
     /**
      * Initialises the model for the Railway Manager.
      */
     public RailwayModel() {
-        // REMOVE THIS LINE AND WRITE THIS METHOD
     }
 
-    // REMOVE THIS LINE AND ADD YOUR OWN METHODS ETC HERE
-
+    public void loadTrack(String filename) throws IOException, FormatException {
+            track = TrackReader.read(filename);
+    }
 }
