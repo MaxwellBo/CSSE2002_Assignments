@@ -30,4 +30,14 @@ public class RailwayController {
             view.makeDialogBox("track.txt could not be loaded", e.toString());
         }
     }
+
+    public void addTrain() {
+        try {
+            // TODO: Remove this boilerplate
+            model.loadRoute("route0", 1, 5);
+        }
+        catch (Exception e) {
+
+        }
+    }
 }
