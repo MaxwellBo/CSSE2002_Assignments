@@ -7,7 +7,6 @@ import railway.Track;
 import railway.Route;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
