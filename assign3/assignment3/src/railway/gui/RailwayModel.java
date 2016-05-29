@@ -9,6 +9,7 @@ import railway.Route;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -71,6 +72,19 @@ public class RailwayModel {
 
     public String getTrain(int id) {
         return trains.get(id).route.toString();
+    }
+
+    public Set<Integer> getTrainIDs() {
+        return trains.keySet();
+    }
+
+    public String[] getTrainInfo(int id) {
+        Train requested = trains.get(id);
+        String[] info = { Integer.toString(requested.id)
+                , Integer.toString(requested.startOffset)
+                , Integer.toString(requested.endOffset)
+                , requested.route.toString() };
+        return info;
     }
 
     public void updateSubroute(int id, int startOffset, int endOffset) {
