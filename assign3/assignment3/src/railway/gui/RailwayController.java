@@ -25,6 +25,7 @@ public class RailwayController {
 
         loadTrack();
         addTrain();
+        getTrain();
     }
 
     public void loadTrack() {
@@ -52,5 +53,10 @@ public class RailwayController {
         catch (RuntimeException e) {
             view.makeDialogBox("Invalid route request", e.getMessage());
         }
+    }
+
+
+    public void getTrain() {
+        System.out.println(model.getTrain(0));
     }
 }

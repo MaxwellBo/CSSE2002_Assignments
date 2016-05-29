@@ -69,6 +69,10 @@ public class RailwayModel {
 
     }
 
+    public String getTrain(int id) {
+        return trains.get(id).route.toString();
+    }
+
     public void updateSubroute(int id, int startOffset, int endOffset) {
         setSubroute(trains.get(id), startOffset, endOffset);
     }
