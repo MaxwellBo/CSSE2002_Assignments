@@ -40,10 +40,11 @@ public class RailwayController {
     public void addTrain() {
         try {
             // TODO: Remove this boilerplate
-            model.loadRoute("route0.txt", 0, 22);
+            model.spawnTrain("route0.txt", 0, 22);
             System.out.println("ROUTE LOAD SUCCESS");
-            model.loadRoute("route1.txt", 0, 22);
+            model.spawnTrain("route1.txt", 0, 22);
             System.out.println("ROUTE LOAD SUCCESS");
+            model.updateSubroute(0, 0, 17);
         }
         catch (IOException | FormatException e) {
             view.makeDialogBox("File load error", e.toString());

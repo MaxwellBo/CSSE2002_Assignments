@@ -22,17 +22,20 @@ public class RailwayModel {
     private class Train {
 
         final int id;
-        final int startOffset;
-        final int endOffset;
-        final Route subroute;
         final Route route;
+        int startOffset;
+        int endOffset;
+        Route subroute;
 
-        public Train(int id, int startOffset, int endOffSet, Route route) {
+        Train(int id, Route route) {
             this.id = id;
-            this.startOffset = startOffset;
-            this.endOffset = endOffSet;
-            this.subroute = route.getSubroute(startOffset, endOffSet);
             this.route = route;
+        }
+
+        void setSubroute(int startOffset, int endOffset) {
+            this.startOffset = startOffset;
+            this.endOffset = endOffset;
+            this.subroute = route.getSubroute(startOffset, endOffset);
         }
     }
 
@@ -48,19 +51,50 @@ public class RailwayModel {
         track = TrackReader.read(filename);
     }
 
-    public void loadRoute(String filename, int startOffset, int endOffset)
+    public void spawnTrain(String filename, int startOffset, int endOffset)
             throws IOException, FormatException {
 
         // Throws for (i) the route could not be loaded
         Route route = RouteReader.read(filename);
 
-        // (ii)
+        // Throws for (ii)
         if (!(route.onTrack(track))) {
             throw new RuntimeException("The route was loaded,"
                     + " but it is not on the train management system’s track");
         }
 
-        // (iii)
+        Train spawned = new Train(trains.size(), route);
+
+        setSubroute(spawned, startOffset, endOffset);
+
+    }
+
+    public void updateSubroute(int id, int startOffset, int endOffset) {
+        setSubroute(trains.get(id), startOffset, endOffset);
+    }
+
+    private void setSubroute(Train target, int startOffset, int endOffset) {
+        // Clear the train from the model, if it exists
+        Map<Integer, Train> trainsWORequested = new HashMap<>(trains);
+        trainsWORequested.remove(target.id);
+
+        // Check the subroute can exist
+        verifyInterval(target.route, startOffset, endOffset);
+
+        // Stage the subroute
+        Route requested = target.route.getSubroute(startOffset, endOffset);
+
+        // Make sure the subroute is valid
+        verifyNoIntersections(trainsWORequested, requested);
+
+        // Mutate the train so it has the new subroute
+        target.setSubroute(startOffset, endOffset);
+
+        // Either bind or overwrite
+        trains.put(target.id, target);
+    }
+
+    private void verifyInterval(Route route, int startOffset, int endOffset) {
         if (!(0 <= startOffset
                 && startOffset < endOffset
                 && endOffset <= route.getLength())) {
@@ -68,13 +102,11 @@ public class RailwayModel {
                     + " on the track, but the offsets do not"
                     + " define a valid sub-route of the route that was read");
         }
+    }
 
-        // (iv)
-        // Checks if a train intersects with the captured requested route
+    private void verifyNoIntersections(Map<Integer, Train> trains, Route route) {
         Predicate<Train> checkIntersectWithRoute = train -> {
-            // Capture here
-            Route requested = route.getSubroute(startOffset, endOffset);
-            return train.subroute.intersects(requested);
+            return train.subroute.intersects(route);
         };
 
         if (trains.values()
@@ -84,10 +116,5 @@ public class RailwayModel {
                     + " at least one of the sub-routes currently"
                     + " allocated to another train");
         }
-
-        // all checks finished
-        // fallthrough to
-        Train toAdd = new Train(trains.size(), startOffset, endOffset, route);
-        trains.put(trains.size(), toAdd);
     }
 }
