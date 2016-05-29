@@ -20,7 +20,9 @@ public class RailwayView extends JFrame {
     public RailwayView(RailwayModel model) {
         this.model = model;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        // REMOVE THIS LINE AND COMPLETE THIS METHOD
+        setTitle("Train Management System");
+        setBounds(400, 200, 250, 300);
+        Container c = getContentPane();
     }
 
     public void makeDialogBox(String eClass, String eMessage) {
