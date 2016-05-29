@@ -11,6 +11,7 @@ public class RailwayView extends JFrame {
 
     // the model of the Railway Manager
     private RailwayModel model;
+    private JList<String> list;
 
     // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
 
@@ -23,6 +24,21 @@ public class RailwayView extends JFrame {
         setTitle("Train Management System");
         setBounds(400, 200, 250, 300);
         Container c = getContentPane();
+        addList(c);
+    }
+
+    private void addList(Container c) {
+        JPanel p = new JPanel();
+        String[] testData = { "DANK", "FUCKING", "MEMES"};
+        list = new JList<>(testData);
+
+        // I might be able to do cool stuff here
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setLayoutOrientation(JList.VERTICAL);
+        list.setVisibleRowCount(-1);
+        
+        p.add(list);
+        c.add(p, "West");
     }
 
     public void makeDialogBox(String eClass, String eMessage) {
