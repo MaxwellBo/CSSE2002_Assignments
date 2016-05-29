@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 public class RailwayModel {
 
     private Track track;
-    private Map<Integer, Train> trains;
+    private final Map<Integer, Train> trains;
 
     private class Train {
 
@@ -79,18 +79,20 @@ public class RailwayModel {
         trainsWORequested.remove(target.id);
 
         // Check the subroute can exist
+        // Throws for (iii)
         verifyInterval(target.route, startOffset, endOffset);
 
         // Stage the subroute
         Route requested = target.route.getSubroute(startOffset, endOffset);
 
         // Make sure the subroute is valid
+        // Throws for (iv)
         verifyNoIntersections(trainsWORequested, requested);
 
         // Mutate the train so it has the new subroute
         target.setSubroute(startOffset, endOffset);
 
-        // Either bind or overwrite
+        // Either bind or overwrite the target into the model
         trains.put(target.id, target);
     }
 
@@ -105,9 +107,8 @@ public class RailwayModel {
     }
 
     private void verifyNoIntersections(Map<Integer, Train> trains, Route route) {
-        Predicate<Train> checkIntersectWithRoute = train -> {
-            return train.subroute.intersects(route);
-        };
+        Predicate<Train> checkIntersectWithRoute = train ->
+                train.subroute.intersects(route);
 
         if (trains.values()
                 .stream()
