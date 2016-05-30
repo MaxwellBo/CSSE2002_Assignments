@@ -76,6 +76,12 @@ public class RailwayView extends JFrame {
 
     }
 
+
+    // TODO: Remove
+    public void debugMethod() {
+//        addListElement("MEME");
+    }
+
     public void makeDialogBox(String eClass, String eMessage) {
         JOptionPane.showMessageDialog(
                 this
@@ -90,5 +96,9 @@ public class RailwayView extends JFrame {
 
     public void addViewListener(ActionListener pl) {
         viewButton.addActionListener(pl);
+    }
+
+    public void addSetListener(ActionListener pl) {
+        setButton.addActionListener(pl);
     }
 }

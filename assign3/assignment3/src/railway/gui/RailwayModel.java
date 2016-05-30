@@ -78,6 +78,7 @@ public class RailwayModel {
         return trains.keySet();
     }
 
+    // precond not null
     public String[] getTrainInfo(int id) {
         Train requested = trains.get(id);
         String[] info = { Integer.toString(requested.id)

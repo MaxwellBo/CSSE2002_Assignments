@@ -29,6 +29,7 @@ public class RailwayController {
 //        addTrain();
         view.addLoadListener(new LoadActionListener());
         view.addViewListener(new ViewActionListener());
+        view.addSetListener(new SetActionListener());
     }
 
     public void loadTrack(String filename) {
@@ -87,6 +88,12 @@ public class RailwayController {
 
             // TODO: Pipe to display screen
             System.out.println(model.getTrainInfo(selected)[3]);
+        }
+    }
+
+    private class SetActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            view.debugMethod();
         }
     }
 }
