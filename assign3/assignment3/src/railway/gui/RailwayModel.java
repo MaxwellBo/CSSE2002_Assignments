@@ -71,10 +71,6 @@ public class RailwayModel {
 
     }
 
-    public String getTrain(int id) {
-        return trains.get(id).route.toString();
-    }
-
     public Set<Integer> getTrainIDs() {
         return trains.keySet();
     }
@@ -91,6 +87,7 @@ public class RailwayModel {
         return info;
     }
 
+    // TODO: Change name to updateTrainSubroute
     public void updateSubroute(int id, int startOffset, int endOffset) {
         setSubroute(trains.get(id), startOffset, endOffset);
     }
