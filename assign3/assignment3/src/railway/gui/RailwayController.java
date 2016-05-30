@@ -105,16 +105,23 @@ public class RailwayController {
 
     private class SetActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            int startOffset = 0;
-            int endOffset = 3;
+            int selected = -1;
 
             try {
-                int selected = Integer.parseInt(view.getListSelectedValue());
-                model.updateSubroute(selected, startOffset, endOffset);
+                selected = Integer.parseInt(view.getListSelectedValue());
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
+            }
+
+            try {
+                int startOffset = Integer.parseInt(view.getEndOffsetFieldValue());
+                int endOffset = Integer.parseInt(view.getEndOffsetFieldValue());
+                model.updateSubroute(selected, startOffset, endOffset);
+            }
+            catch (NumberFormatException e) {
+                view.makeDialogBox("Invalid field input", e.getMessage());
             }
             catch (RuntimeException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());

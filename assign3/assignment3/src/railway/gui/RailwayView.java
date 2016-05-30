@@ -17,6 +17,8 @@ public class RailwayView extends JFrame {
     private JButton setButton;
     private JList<String> list;
     private DefaultListModel<String> listModel;
+    private JTextField startOffsetField;
+    private JTextField endOffsetField;
 
     // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
 
@@ -32,6 +34,7 @@ public class RailwayView extends JFrame {
 
         addButtons(c);
         addList(c);
+        addFields(c);
     }
 
     private void addButtons(Container c) {
@@ -70,15 +73,22 @@ public class RailwayView extends JFrame {
         return list.getSelectedValue();
     }
 
+    // TODO: Rename this method
     public void addListElement(String elem) {
         listModel.addElement(elem);
     }
 
+    private void addFields(Container c) {
+        JPanel p = new JPanel();
 
-    // TODO: Remove
-    public void debugMethod() {
-//        addListElement("MEME");
+        startOffsetField = new JTextField(10);
+        endOffsetField = new JTextField(10);
+
+        p.add(startOffsetField);
+        p.add(endOffsetField);
+        c.add(p, "East");
     }
+
 
     public void makeDialogBox(String eClass, String eMessage) {
         JOptionPane.showMessageDialog(
@@ -98,5 +108,13 @@ public class RailwayView extends JFrame {
 
     public void addSetListener(ActionListener pl) {
         setButton.addActionListener(pl);
+    }
+
+    public String getStartOffsetFieldValue() {
+        return startOffsetField.getText();
+    }
+
+    public String getEndOffsetFieldValue() {
+        return endOffsetField.getText();
     }
 }
