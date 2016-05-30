@@ -5,7 +5,6 @@ import railway.FormatException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.text.NumberFormat;
 
 /**
  * The controller for the Railway Manager.
@@ -45,32 +44,34 @@ public class RailwayController {
         }
     }
 
-    public void addTrain() {
+    private int parseStartOffset() {
         try {
-            // TODO: Remove this boilerplate
-            model.spawnTrain("route0.txt", 0, 22);
-            System.out.println("ROUTE LOAD SUCCESS");
-            model.spawnTrain("route1.txt", 0, 22);
-            System.out.println("ROUTE LOAD SUCCESS");
-            model.updateSubroute(0, 0, 17);
+            return Integer.parseInt(view.getStartOffsetFieldValue());
         }
-        catch (IOException | FormatException e) {
-            view.makeDialogBox("File load error", e.toString());
+        catch (NumberFormatException e) {
+            view.makeDialogBox("Invalid start offset value",
+                    "Start offset field must be an integer");
         }
-        catch (RuntimeException e) {
-            view.makeDialogBox("Invalid route request", e.getMessage());
+        return -1; // TODO: Check if this is illegal
+    }
+
+    private int parseEndOffset() {
+        try {
+            return Integer.parseInt(view.getEndOffsetFieldValue());
         }
+        catch (NumberFormatException e) {
+            view.makeDialogBox("Invalid end offset value",
+                   "End offset field must be an integer");
+        }
+        return -1;
     }
 
     private class LoadActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
 
             String filename = view.getRouteFilenameFieldValue();
-
-
-            // TODO: ASK ABOUT SEPARATE TRY BLOCKS
-            int startOffset = 0;
-            int endOffset = 22;
+            int startOffset = parseStartOffset();
+            int endOffset = parseEndOffset();
 
             try {
                 int id = model.spawnTrain(filename, startOffset, endOffset);
@@ -98,7 +99,7 @@ public class RailwayController {
                 System.out.println("End offset: " + model.getTrainInfo(selected)[2]);
                 System.out.println("Route: \n " + model.getTrainInfo(selected)[3]);
             }
-            catch (Exception e) {
+            catch (NumberFormatException e) {
                 System.out.println(e.toString());
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
@@ -108,23 +109,16 @@ public class RailwayController {
 
     private class SetActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            int selected = -1;
+            int startOffset = parseStartOffset();
+            int endOffset = parseEndOffset();
 
             try {
-                selected = Integer.parseInt(view.getListSelectedValue());
+                int selected = Integer.parseInt(view.getListSelectedValue());
+                model.updateSubroute(selected, startOffset, endOffset);
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
-            }
-
-            try {
-                int startOffset = Integer.parseInt(view.getStartOffsetFieldValue());
-                int endOffset = Integer.parseInt(view.getEndOffsetFieldValue());
-                model.updateSubroute(selected, startOffset, endOffset);
-            }
-            catch (NumberFormatException e) {
-                view.makeDialogBox("Invalid field input", e.getMessage());
             }
             catch (RuntimeException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());
