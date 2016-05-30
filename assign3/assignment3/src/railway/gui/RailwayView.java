@@ -84,6 +84,10 @@ public class RailwayView extends JFrame {
                 , JOptionPane.ERROR_MESSAGE);
     }
 
+    public void addLoadListener(ActionListener pl) {
+        loadButton.addActionListener(pl);
+    }
+
     public void addViewListener(ActionListener pl) {
         viewButton.addActionListener(pl);
     }

@@ -25,15 +25,18 @@ public class RailwayController {
         this.model = model;
         this.view = view;
 
-        loadTrack();
-        addTrain();
+        loadTrack("track.txt");
+//        addTrain();
+        view.addLoadListener(new LoadActionListener());
         view.addViewListener(new ViewActionListener());
     }
 
-    public void loadTrack() {
+    public void loadTrack(String filename) {
         try {
-            model.loadTrack("track.txt");
-            System.out.println("FILE LOAD SUCCESS");
+            model.loadTrack(filename);
+
+            // TODO: Remove
+            System.out.println(filename + " loaded successfully");
         }
         catch (Exception e) {
             view.makeDialogBox("File load error", e.toString());
@@ -57,8 +60,29 @@ public class RailwayController {
         }
     }
 
+    private class LoadActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+
+            String filename = "route0.txt";
+            int startOffset = 0;
+            int endOffset = 22;
+
+            try {
+                model.spawnTrain(filename, startOffset, endOffset);
+                // TODO: Remove
+                System.out.println(filename + " loaded successfully");
+            }
+            catch (IOException | FormatException e) {
+                view.makeDialogBox("Failed to load " + filename, e.toString());
+            }
+            catch (RuntimeException e) {
+                view.makeDialogBox("Invalid route request", e.getMessage());
+            }
+        }
+    }
+
     private class ViewActionListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent event) {
             int selected = view.getListSelectedIndex();
 
             // TODO: Pipe to display screen
