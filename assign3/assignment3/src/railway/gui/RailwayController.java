@@ -116,7 +116,7 @@ public class RailwayController {
             }
 
             try {
-                int startOffset = Integer.parseInt(view.getEndOffsetFieldValue());
+                int startOffset = Integer.parseInt(view.getStartOffsetFieldValue());
                 int endOffset = Integer.parseInt(view.getEndOffsetFieldValue());
                 model.updateSubroute(selected, startOffset, endOffset);
             }
