@@ -16,6 +16,7 @@ public class RailwayView extends JFrame {
     private JButton viewButton;
     private JButton setButton;
     private JList<String> list;
+    private DefaultListModel<String> listModel;
 
     // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
 
@@ -53,10 +54,7 @@ public class RailwayView extends JFrame {
 
         String[] testData = { "0", "1" };
 
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        listModel.addElement("0");
-        listModel.addElement("1");
-
+        listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
 
         // I might be able to do cool stuff here
@@ -73,7 +71,7 @@ public class RailwayView extends JFrame {
     }
 
     public void addListElement(String elem) {
-
+        listModel.addElement(elem);
     }
 
 

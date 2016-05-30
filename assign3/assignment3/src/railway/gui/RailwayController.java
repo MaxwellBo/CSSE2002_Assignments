@@ -69,7 +69,9 @@ public class RailwayController {
             int endOffset = 22;
 
             try {
-                model.spawnTrain(filename, startOffset, endOffset);
+                int id = model.spawnTrain(filename, startOffset, endOffset);
+                view.addListElement(Integer.toString(id));
+
                 // TODO: Remove
                 System.out.println(filename + " loaded successfully");
             }

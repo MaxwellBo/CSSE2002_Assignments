@@ -52,7 +52,7 @@ public class RailwayModel {
         track = TrackReader.read(filename);
     }
 
-    public void spawnTrain(String filename, int startOffset, int endOffset)
+    public int spawnTrain(String filename, int startOffset, int endOffset)
             throws IOException, FormatException {
 
         // Throws for (i) the route could not be loaded
@@ -66,7 +66,7 @@ public class RailwayModel {
 
         Train spawned = new Train(trains.size(), route);
 
-        setSubroute(spawned, startOffset, endOffset);
+        return setSubroute(spawned, startOffset, endOffset);
 
     }
 
@@ -92,7 +92,7 @@ public class RailwayModel {
         setSubroute(trains.get(id), startOffset, endOffset);
     }
 
-    private void setSubroute(Train target, int startOffset, int endOffset) {
+    private int setSubroute(Train target, int startOffset, int endOffset) {
         // Clear the train from the model, if it exists
         Map<Integer, Train> trainsWORequested = new HashMap<>(trains);
         trainsWORequested.remove(target.id);
@@ -113,6 +113,8 @@ public class RailwayModel {
 
         // Either bind or overwrite the target into the model
         trains.put(target.id, target);
+
+        return target.id;
     }
 
     private void verifyInterval(Route route, int startOffset, int endOffset) {
