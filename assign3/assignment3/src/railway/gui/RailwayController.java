@@ -2,6 +2,8 @@ package railway.gui;
 
 import railway.FormatException;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 /**
@@ -26,6 +28,8 @@ public class RailwayController {
         loadTrack();
         addTrain();
         getTrain();
+
+        view.addViewListener(new ViewActionListener());
     }
 
     public void loadTrack() {
@@ -58,5 +62,12 @@ public class RailwayController {
 
     public void getTrain() {
         System.out.println(model.getTrain(0));
+    }
+
+    private class ViewActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+
+            System.out.println("MEME");
+        }
     }
 }

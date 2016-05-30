@@ -2,6 +2,7 @@ package railway.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * The view for the Railway Manager.
@@ -50,7 +51,7 @@ public class RailwayView extends JFrame {
     private void addList(Container c) {
         JPanel p = new JPanel();
 
-        String[] testData = { "DANK", "FUCKING", "MEMES"};
+        String[] testData = { "0", "1" };
 
         list = new JList<>(testData);
 
@@ -69,5 +70,9 @@ public class RailwayView extends JFrame {
                 , eMessage
                 , eClass
                 , JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void addViewListener(ActionListener pl) {
+        viewButton.addActionListener(pl);
     }
 }
