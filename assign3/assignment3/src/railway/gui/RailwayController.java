@@ -26,7 +26,6 @@ public class RailwayController {
         this.view = view;
 
         loadTrack("track.txt");
-//        addTrain();
         view.addLoadListener(new LoadActionListener());
         view.addViewListener(new ViewActionListener());
         view.addSetListener(new SetActionListener());
@@ -35,9 +34,6 @@ public class RailwayController {
     public void loadTrack(String filename) {
         try {
             model.loadTrack(filename);
-
-            // TODO: Remove
-            System.out.println(filename + " loaded successfully");
         }
         catch (Exception e) {
             view.makeDialogBox("File load error", e.toString());
@@ -76,9 +72,6 @@ public class RailwayController {
             try {
                 int id = model.spawnTrain(filename, startOffset, endOffset);
                 view.addListElement(Integer.toString(id));
-
-                // TODO: Remove
-                System.out.println(filename + " loaded successfully");
             }
             catch (IOException | FormatException e) {
                 view.makeDialogBox("Failed to load " + filename, e.toString());
