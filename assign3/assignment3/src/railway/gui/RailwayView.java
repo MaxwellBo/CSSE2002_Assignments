@@ -21,8 +21,6 @@ public class RailwayView extends JFrame {
     private JTextField endOffsetField;
     private JTextField routeFilenameField;
 
-    // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
-
     /**
      * Creates a new Railway Manager window.
      */
