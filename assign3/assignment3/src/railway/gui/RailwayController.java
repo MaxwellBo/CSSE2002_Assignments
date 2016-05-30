@@ -86,10 +86,15 @@ public class RailwayController {
 
     private class ViewActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            int selected = view.getListSelectedIndex();
-
-            // TODO: Pipe to display screen
-            System.out.println(model.getTrainInfo(selected)[3]);
+            try {
+                int selected = Integer.parseInt(view.getListSelectedValue());
+                // TODO: Pipe to display screen
+                System.out.println(model.getTrainInfo(selected)[3]);
+            }
+            catch (Exception e) {
+                view.makeDialogBox("No train selected", "Please select a train"
+                        + " to view its information");
+            }
         }
     }
 

@@ -66,8 +66,8 @@ public class RailwayView extends JFrame {
         c.add(p, "West");
     }
 
-    public int getListSelectedIndex() {
-        return list.getSelectedIndex();
+    public String getListSelectedValue() {
+        return list.getSelectedValue();
     }
 
     public void addListElement(String elem) {
