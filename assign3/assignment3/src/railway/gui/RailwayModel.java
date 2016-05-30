@@ -66,6 +66,7 @@ public class RailwayModel {
 
         Train spawned = new Train(trains.size(), route);
 
+        // Continue with building the rest of the train's attributes
         return setSubroute(spawned, startOffset, endOffset);
 
     }
@@ -79,6 +80,8 @@ public class RailwayModel {
     }
 
     // precond not null
+    // precond train exists
+    // --> requested becomes null, checks fail
     public String[] getTrainInfo(int id) {
         Train requested = trains.get(id);
         String[] info = { Integer.toString(requested.id)
@@ -93,27 +96,28 @@ public class RailwayModel {
     }
 
     private int setSubroute(Train target, int startOffset, int endOffset) {
-        // Clear the train from the model, if it exists
+        // Clear the train from a cloned model, if it exists
         Map<Integer, Train> trainsWORequested = new HashMap<>(trains);
         trainsWORequested.remove(target.id);
 
-        // Check the subroute can exist
+        // Check that the subroute can exist
         // Throws for (iii)
         verifyInterval(target.route, startOffset, endOffset);
 
         // Stage the subroute
         Route requested = target.route.getSubroute(startOffset, endOffset);
 
-        // Make sure the subroute is valid
+        // Check that the subroute is compatible
         // Throws for (iv)
         verifyNoIntersections(trainsWORequested, requested);
 
-        // Mutate the train so it has the new subroute
+        // Mutate the train so that it has the new subroute
         target.setSubroute(startOffset, endOffset);
 
-        // Either bind or overwrite the target into the model
+        // Either bind or overwrite the target into the real model
         trains.put(target.id, target);
 
+        // Return the id / key of the train in the map
         return target.id;
     }
 
