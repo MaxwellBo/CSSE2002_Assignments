@@ -90,10 +90,10 @@ public class RailwayController {
             try {
                 int selected = Integer.parseInt(view.getListSelectedValue());
                 // TODO: Pipe to display screen
-                System.out.println(model.getTrainInfo(selected)[0]);
-                System.out.println(model.getTrainInfo(selected)[1]);
-                System.out.println(model.getTrainInfo(selected)[2]);
-                System.out.println(model.getTrainInfo(selected)[3]);
+                System.out.println("ID: " + model.getTrainInfo(selected)[0]);
+                System.out.println("Start offset: " + model.getTrainInfo(selected)[1]);
+                System.out.println("End offset: " + model.getTrainInfo(selected)[2]);
+                System.out.println("Route: \n " + model.getTrainInfo(selected)[3]);
             }
             catch (Exception e) {
                 System.out.println(e.toString());
@@ -105,7 +105,6 @@ public class RailwayController {
 
     private class SetActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            view.debugMethod();
             int startOffset = 0;
             int endOffset = 3;
 
