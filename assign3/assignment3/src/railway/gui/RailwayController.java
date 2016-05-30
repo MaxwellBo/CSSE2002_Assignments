@@ -65,7 +65,10 @@ public class RailwayController {
     private class LoadActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
 
-            String filename = "route0.txt";
+            String filename = view.getRouteFilenameFieldValue();
+
+
+            // TODO: ASK ABOUT SEPARATE TRY BLOCKS
             int startOffset = 0;
             int endOffset = 22;
 

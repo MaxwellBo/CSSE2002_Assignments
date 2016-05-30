@@ -19,6 +19,7 @@ public class RailwayView extends JFrame {
     private DefaultListModel<String> listModel;
     private JTextField startOffsetField;
     private JTextField endOffsetField;
+    private JTextField routeFilenameField;
 
     // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
 
@@ -55,8 +56,6 @@ public class RailwayView extends JFrame {
     private void addList(Container c) {
         JPanel p = new JPanel();
 
-        String[] testData = { "0", "1" };
-
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
 
@@ -81,9 +80,11 @@ public class RailwayView extends JFrame {
     private void addFields(Container c) {
         JPanel p = new JPanel();
 
-        startOffsetField = new JTextField(10);
-        endOffsetField = new JTextField(10);
+        routeFilenameField = new JTextField(15);
+        startOffsetField = new JTextField(5);
+        endOffsetField = new JTextField(5);
 
+        p.add(routeFilenameField);
         p.add(startOffsetField);
         p.add(endOffsetField);
         c.add(p, "East");
@@ -116,5 +117,9 @@ public class RailwayView extends JFrame {
 
     public String getEndOffsetFieldValue() {
         return endOffsetField.getText();
+    }
+
+    public String getRouteFilenameFieldValue() {
+        return routeFilenameField.getText();
     }
 }
