@@ -27,8 +27,6 @@ public class RailwayController {
 
         loadTrack();
         addTrain();
-        getTrain();
-
         view.addViewListener(new ViewActionListener());
     }
 
@@ -59,15 +57,12 @@ public class RailwayController {
         }
     }
 
-
-    public void getTrain() {
-        System.out.println(model.getTrain(0));
-    }
-
     private class ViewActionListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            int selected = view.getListSelectedIndex();
 
-            System.out.println("MEME");
+            // TODO: Pipe to display screen
+            System.out.println(model.getTrainInfo(selected)[3]);
         }
     }
 }

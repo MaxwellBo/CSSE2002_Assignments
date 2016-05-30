@@ -15,7 +15,7 @@ public class RailwayView extends JFrame {
     private JButton loadButton;
     private JButton viewButton;
     private JButton setButton;
-    private JList<Object> list;
+    private JList<String> list;
 
     // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
 
@@ -53,7 +53,11 @@ public class RailwayView extends JFrame {
 
         String[] testData = { "0", "1" };
 
-        list = new JList<>(testData);
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel.addElement("0");
+        listModel.addElement("1");
+
+        list = new JList<>(listModel);
 
         // I might be able to do cool stuff here
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -62,6 +66,14 @@ public class RailwayView extends JFrame {
 
         p.add(list);
         c.add(p, "West");
+    }
+
+    public int getListSelectedIndex() {
+        return list.getSelectedIndex();
+    }
+
+    public void addListElement(String elem) {
+
     }
 
     public void makeDialogBox(String eClass, String eMessage) {
