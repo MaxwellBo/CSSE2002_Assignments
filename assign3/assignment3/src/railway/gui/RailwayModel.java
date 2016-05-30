@@ -95,6 +95,7 @@ public class RailwayModel {
     private int setSubroute(Train target, int startOffset, int endOffset) {
         // Clear the train from a cloned model, if it exists
         Map<Integer, Train> trainsWORequested = new HashMap<>(trains);
+        // When adding a new train, this call is redundant
         trainsWORequested.remove(target.id);
 
         // Check that the subroute can exist
@@ -112,6 +113,7 @@ public class RailwayModel {
         target.setSubroute(startOffset, endOffset);
 
         // Either bind or overwrite the target into the real model
+        // When mutating train, this call is redundant
         trains.put(target.id, target);
 
         // Return the id / key of the train in the map
