@@ -72,6 +72,7 @@ public class RailwayController {
             try {
                 int id = model.spawnTrain(filename, startOffset, endOffset);
                 view.addListElement(Integer.toString(id));
+                view.clearFields();
             }
             catch (IOException | FormatException e) {
                 view.makeDialogBox("Failed to load " + filename, e.toString());
@@ -86,11 +87,22 @@ public class RailwayController {
         public void actionPerformed(ActionEvent event) {
             try {
                 int selected = Integer.parseInt(view.getListSelectedValue());
-                // TODO: Pipe to display screen
-                System.out.println("ID: " + model.getTrainInfo(selected)[0]);
-                System.out.println("Start offset: " + model.getTrainInfo(selected)[1]);
-                System.out.println("End offset: " + model.getTrainInfo(selected)[2]);
-                System.out.println("Route: \n " + model.getTrainInfo(selected)[3]);
+
+                String newline = System.getProperty("line.separator");
+
+                view.clearDisplay();
+                view.appendToDisplay("ID: "
+                        + model.getTrainInfo(selected)[0]
+                        + newline);
+                view.appendToDisplay("Start offset: "
+                        + model.getTrainInfo(selected)[1]
+                        + newline);
+                view.appendToDisplay("End offset: "
+                        + model.getTrainInfo(selected)[2]
+                        + newline);
+                view.appendToDisplay("Route: "
+                        + model.getTrainInfo(selected)[3]
+                        + newline);
             }
             catch (NumberFormatException e) {
                 System.out.println(e.toString());
@@ -108,6 +120,7 @@ public class RailwayController {
             try {
                 int selected = Integer.parseInt(view.getListSelectedValue());
                 model.updateSubroute(selected, startOffset, endOffset);
+                view.clearFields();
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"

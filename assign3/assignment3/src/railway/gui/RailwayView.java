@@ -20,6 +20,7 @@ public class RailwayView extends JFrame {
     private JTextField startOffsetField;
     private JTextField endOffsetField;
     private JTextField routeFilenameField;
+    private JTextArea display;
 
     /**
      * Creates a new Railway Manager window.
@@ -34,6 +35,7 @@ public class RailwayView extends JFrame {
         addButtons(c);
         addList(c);
         addFields(c);
+        addDisplay(c);
     }
 
     private void addButtons(Container c) {
@@ -66,6 +68,17 @@ public class RailwayView extends JFrame {
         c.add(p, "West");
     }
 
+    private void addDisplay(Container c) {
+        JPanel p = new JPanel();
+
+        display = new JTextArea(10, 40);
+        display.setEditable(false);
+
+        p.add(display);
+        c.add(p, "South");
+
+    }
+
     public String getListSelectedValue() {
         return list.getSelectedValue();
     }
@@ -73,6 +86,20 @@ public class RailwayView extends JFrame {
     // TODO: Rename this method
     public void addListElement(String elem) {
         listModel.addElement(elem);
+    }
+
+    public void appendToDisplay(String text) {
+        display.append(text);
+    }
+
+    public void clearDisplay() {
+        display.setText("");
+    }
+
+    public void clearFields() {
+        startOffsetField.setText("");
+        endOffsetField.setText("");
+        routeFilenameField.setText("");
     }
 
     private void addFields(Container c) {
