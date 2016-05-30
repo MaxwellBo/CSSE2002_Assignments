@@ -5,6 +5,7 @@ import railway.FormatException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.text.NumberFormat;
 
 /**
  * The controller for the Railway Manager.
@@ -89,9 +90,13 @@ public class RailwayController {
             try {
                 int selected = Integer.parseInt(view.getListSelectedValue());
                 // TODO: Pipe to display screen
+                System.out.println(model.getTrainInfo(selected)[0]);
+                System.out.println(model.getTrainInfo(selected)[1]);
+                System.out.println(model.getTrainInfo(selected)[2]);
                 System.out.println(model.getTrainInfo(selected)[3]);
             }
             catch (Exception e) {
+                System.out.println(e.toString());
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
             }
@@ -101,6 +106,20 @@ public class RailwayController {
     private class SetActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
             view.debugMethod();
+            int startOffset = 0;
+            int endOffset = 3;
+
+            try {
+                int selected = Integer.parseInt(view.getListSelectedValue());
+                model.updateSubroute(selected, startOffset, endOffset);
+            }
+            catch (NumberFormatException e) {
+                view.makeDialogBox("No train selected", "Please select a train"
+                        + " to view its information");
+            }
+            catch (RuntimeException e) {
+                view.makeDialogBox("Invalid route request", e.getMessage());
+            }
         }
     }
 }
