@@ -1,8 +1,11 @@
 package railway.gui;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 /**
  * The view for the Railway Manager.
@@ -17,8 +20,8 @@ public class RailwayView extends JFrame {
     private JButton setButton;
     private JList<String> list;
     private DefaultListModel<String> listModel;
-    private JTextField startOffsetField;
-    private JTextField endOffsetField;
+    private JFormattedTextField startOffsetField;
+    private JFormattedTextField endOffsetField;
     private JTextField routeFilenameField;
     private JTextArea display;
 
@@ -104,15 +107,26 @@ public class RailwayView extends JFrame {
 
     private void addFields(Container c) {
         JPanel p = new JPanel();
+        MaskFormatter formatter;
 
-        routeFilenameField = new JTextField(15);
-        startOffsetField = new JTextField(5);
-        endOffsetField = new JTextField(5);
 
-        p.add(routeFilenameField);
-        p.add(startOffsetField);
-        p.add(endOffsetField);
-        c.add(p, "East");
+        try {
+            formatter = new MaskFormatter("#####");
+
+            routeFilenameField = new JTextField(15);
+            startOffsetField = new JFormattedTextField(formatter);
+            startOffsetField.setColumns(10);
+            endOffsetField = new JFormattedTextField(formatter);
+            endOffsetField.setColumns(10);
+            p.add(routeFilenameField);
+            p.add(startOffsetField);
+            p.add(endOffsetField);
+            c.add(p, "East");
+        }
+        catch (Exception e) {
+            makeDialogBox("You realy screwed up", "You meme");
+        }
+
     }
 
 
