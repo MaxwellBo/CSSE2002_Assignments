@@ -42,6 +42,21 @@ public class RailwayModel {
 
 
     /**
+     * An exception that is thrown to indicate an invalid train request.
+     */
+    public class InvalidTrainRequestException extends RuntimeException {
+
+        public InvalidTrainRequestException() {
+            super();
+        }
+
+        public InvalidTrainRequestException(String s) {
+            super(s);
+        }
+    }
+
+
+    /**
      * Initialises the model for the Railway Manager.
      */
     public RailwayModel() {
@@ -88,8 +103,15 @@ public class RailwayModel {
     }
 
     // TODO: Change name to updateTrainSubroute
-    public void updateSubroute(int id, int startOffset, int endOffset) {
-        setSubroute(trains.get(id), startOffset, endOffset);
+    public void updateSubroute(int id, int startOffset, int endOffset)
+            throws InvalidTrainRequestException {
+        try {
+            setSubroute(trains.get(id), startOffset, endOffset);
+        }
+        catch (NumberFormatException e) {
+            throw new InvalidTrainRequestException("The train requested to"
+                    + " be updated does not exist");
+        }
     }
 
     private int setSubroute(Train target, int startOffset, int endOffset) {
