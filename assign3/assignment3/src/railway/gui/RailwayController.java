@@ -41,25 +41,11 @@ public class RailwayController {
     }
 
     private int parseStartOffset() {
-        try {
-            return Integer.parseInt(view.getStartOffsetFieldValue());
-        }
-        catch (NumberFormatException e) {
-            view.makeDialogBox("Invalid start offset value",
-                    "Start offset field must be an integer");
-        }
-        return -1; // TODO: Check if this is illegal
+        return Integer.parseInt(view.getStartOffsetFieldValue());
     }
 
     private int parseEndOffset() {
-        try {
-            return Integer.parseInt(view.getEndOffsetFieldValue());
-        }
-        catch (NumberFormatException e) {
-            view.makeDialogBox("Invalid end offset value",
-                   "End offset field must be an integer");
-        }
-        return -1;
+        return Integer.parseInt(view.getEndOffsetFieldValue());
     }
 
     private class LoadActionListener implements ActionListener {
