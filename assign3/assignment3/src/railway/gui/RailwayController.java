@@ -108,7 +108,7 @@ public class RailwayController {
                 model.updateSubroute(selected, startOffset, endOffset);
                 view.clearFields();
             }
-            catch (NumberFormatException e) {
+            catch (RailwayModel.InvalidTrainRequestException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
             }
