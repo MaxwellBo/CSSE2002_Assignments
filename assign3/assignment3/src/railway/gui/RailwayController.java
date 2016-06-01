@@ -43,9 +43,13 @@ public class RailwayController {
      */
     public void loadTrack(String filename) {
         try {
+            // throws IOException and FormatException
             model.loadTrack(filename);
         }
         catch (Exception e) {
+            // toString provides the full diagnostic / stack trace
+            // which may be useful for debugging IO errors
+            // thus, Exception details are not hidden
             view.makeDialogBox("File load error", e.toString());
         }
     }
@@ -94,17 +98,20 @@ public class RailwayController {
         public void actionPerformed(ActionEvent event) {
 
             String filename = view.getRouteFilenameFieldValue();
-
-            // No exceptions
             int startOffset = parseStartOffset();
             int endOffset = parseEndOffset();
 
             try {
+                // throws invalid RouteRequestException
                 int id = model.spawnTrain(filename, startOffset, endOffset);
+
                 view.appendToList(Integer.toString(id));
                 view.clearFields();
             }
             catch (IOException | FormatException e) {
+                // toString provides the full diagnostic / stack trace
+                // which may be useful for debugging IO errors
+                // thus, Exception details are not hidden
                 view.makeDialogBox("Failed to load " + filename, e.toString());
             }
             catch (RailwayModel.InvalidRouteRequestException e) {
@@ -126,6 +133,7 @@ public class RailwayController {
          */
         public void actionPerformed(ActionEvent event) {
             try {
+                // throws NumberFormatException when the view returns null
                 int selected = Integer.parseInt(view.getListSelectedValue());
 
                 String newline = System.getProperty("line.separator");
@@ -169,8 +177,12 @@ public class RailwayController {
             int endOffset = parseEndOffset();
 
             try {
+                // throws NumberFormatException when the view returns null
                 int selected = Integer.parseInt(view.getListSelectedValue());
+
+                // throws InvalidRouteRequestException
                 model.setTrainSubroute(selected, startOffset, endOffset);
+
                 view.clearFields();
             }
             catch (NumberFormatException e) {
