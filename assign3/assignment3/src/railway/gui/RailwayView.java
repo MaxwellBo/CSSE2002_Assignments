@@ -30,7 +30,7 @@ public class RailwayView extends JFrame {
         this.model = model;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Train Management System");
-        setBounds(400, 200, 250, 300);
+        setBounds(400, 400, 500, 500);
         Container container = getContentPane();
 
         addButtons(container);
@@ -39,6 +39,15 @@ public class RailwayView extends JFrame {
         addDisplay(container);
     }
 
+    /**
+     * Given a title string and a message string, pop up a dialog box
+     * with "Error" styling
+     *
+     * @param eClass
+     *              the title of the dialog box
+     * @param eMessage
+     *              the text contained within the dialog box
+     */
     public void makeDialogBox(String eClass, String eMessage) {
         JOptionPane.showMessageDialog(
                 this
@@ -47,6 +56,11 @@ public class RailwayView extends JFrame {
                 , JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Returns the string of the highlighted
+     *
+     * @return
+     */
     public String getListSelectedValue() {
         return list.getSelectedValue();
     }
@@ -81,14 +95,32 @@ public class RailwayView extends JFrame {
         display.setText("");
     }
 
+    /**
+     * Bind an ActionListener to the "New" button
+     *
+     * @param listener
+     *              The listener to be bound
+     */
     public void addLoadListener(ActionListener listener) {
         loadButton.addActionListener(listener);
     }
 
+    /**
+     * Bind an ActionListener to the "View" button
+     *
+     * @param listener
+     *              The listener to be bound
+     */
     public void addViewListener(ActionListener listener) {
         viewButton.addActionListener(listener);
     }
 
+    /**
+     * Bind an ActionListener to the "Update" button
+     *
+     * @param listener
+     *              The listener to be bound
+     */
     public void addSetListener(ActionListener listener) {
         setButton.addActionListener(listener);
     }
@@ -97,9 +129,10 @@ public class RailwayView extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 3));
 
-        loadButton = new JButton("Load");
+        // Grandfathered variable names, apologies
+        loadButton = new JButton("New");
         viewButton = new JButton("View");
-        setButton = new JButton("Set");
+        setButton = new JButton("Update");
 
         panel.add(loadButton);
         panel.add(viewButton);
@@ -111,24 +144,31 @@ public class RailwayView extends JFrame {
     private void addFields(Container container) {
         JPanel panel = new JPanel();
 
+        // Defend against invalid user input
         NumberFormat onlyNumbers = NumberFormat.getNumberInstance();
         onlyNumbers.setGroupingUsed(false);
 
+        JLabel routeFilenameFieldLabel = new JLabel(" Route filename");
         routeFilenameField = new JTextField(15);
 
+        JLabel startOffsetFieldLabel = new JLabel(" Start offset");
         startOffsetField = new JFormattedTextField(onlyNumbers);
         startOffsetField.setValue(new Double(0));
         startOffsetField.setColumns(7);
 
+        JLabel endOffsetFieldLabel = new JLabel(" End offset");
         endOffsetField = new JFormattedTextField(onlyNumbers);
         endOffsetField.setValue(new Double(0));
         endOffsetField.setColumns(7);
 
+        panel.add(routeFilenameFieldLabel);
         panel.add(routeFilenameField);
+        panel.add(startOffsetFieldLabel);
         panel.add(startOffsetField);
+        panel.add(endOffsetFieldLabel);
         panel.add(endOffsetField);
-        container.add(panel, "East");
 
+        container.add(panel, "East");
     }
 
     private void addList(Container container) {

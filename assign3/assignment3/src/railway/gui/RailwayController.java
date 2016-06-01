@@ -53,6 +53,10 @@ public class RailwayController {
     /**
      * Retrieves the string currently contained within the start offset
      * text field and converts it into an integer.
+     *
+     * This helper method exists so that the controller may be adapted to
+     * defend against invalid input, currently handled by the view.
+     *
      * @require the textfield to defend itself against invalid user input
      *              that typically causes parseInt to throw Exceptions
      * @return the value of the string
@@ -64,6 +68,10 @@ public class RailwayController {
     /**
      * Retrieves the string currently contained within the end offset
      * text field and converts it into an integer.
+     *
+     * This helper method exists so that the controller may be adapted to
+     * defend against invalid input, currently handled by the view.
+     *
      * @require the textfield to defend itself against invalid user input
      *              that typically causes parseInt to throw Exceptions
      * @return the value of the string
