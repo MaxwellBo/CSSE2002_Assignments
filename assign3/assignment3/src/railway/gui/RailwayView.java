@@ -29,13 +29,16 @@ public class RailwayView extends JFrame {
     public RailwayView(RailwayModel model) {
         this.model = model;
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle("Train Management System");
-        setBounds(400, 400, 500, 500);
-        Container container = getContentPane();
+        setTitle("Train Management System - 43926871");
+        setBounds(400, 400, 800, 500);
+        setResizable(false);
 
+        Container container = getContentPane();
+        container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
+
+        addFields(container);
         addButtons(container);
         addList(container);
-        addFields(container);
         addDisplay(container);
     }
 
@@ -126,8 +129,7 @@ public class RailwayView extends JFrame {
     }
 
     private void addButtons(Container container) {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 3));
+        JPanel panel = new JPanel(new GridLayout(1, 3));
 
         // Grandfathered variable names, apologies
         loadButton = new JButton("New");
