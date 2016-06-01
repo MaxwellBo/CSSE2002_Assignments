@@ -120,7 +120,7 @@ public class RailwayModel {
 
     // TODO: Change name to updateTrainSubroute
     public void updateSubroute(int id, int startOffset, int endOffset)
-            throws InvalidTrainRequestException {
+            throws InvalidTrainRequestException, InvalidRouteRequestException {
         try {
             setSubroute(trains.get(id), startOffset, endOffset);
         }
@@ -130,7 +130,8 @@ public class RailwayModel {
         }
     }
 
-    private int setSubroute(Train target, int startOffset, int endOffset) {
+    private int setSubroute(Train target, int startOffset, int endOffset)
+            throws InvalidRouteRequestException {
         // Clear the train from a cloned model, if it exists
         Map<Integer, Train> trainsWORequested = new HashMap<>(trains);
         // When adding a new train, this call is redundant

@@ -105,8 +105,8 @@ public class RailwayView extends JFrame {
     }
 
     public void clearFields() {
-        startOffsetField.setText("");
-        endOffsetField.setText("");
+        startOffsetField.setText("0");
+        endOffsetField.setText("0");
         routeFilenameField.setText("");
     }
 

@@ -90,7 +90,7 @@ public class RailwayController {
                         + model.getTrainInfo(selected)[3]
                         + newline);
             }
-            catch (RailwayModel.InvalidTrainRequestException e) {
+            catch (NumberFormatException e) {
                 System.out.println(e.toString());
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
@@ -110,7 +110,7 @@ public class RailwayController {
                 model.updateSubroute(selected, startOffset, endOffset);
                 view.clearFields();
             }
-            catch (RailwayModel.InvalidTrainRequestException e) {
+            catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
             }
