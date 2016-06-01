@@ -75,7 +75,14 @@ public class RailwayView extends JFrame {
         display = new JTextArea(10, 40);
         display.setEditable(false);
 
+        JScrollPane scrollPane = new JScrollPane(display);
+        scrollPane.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
         p.add(display);
+        p.add(scrollPane);
         c.add(p, "South");
 
     }

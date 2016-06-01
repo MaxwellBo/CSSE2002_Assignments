@@ -55,6 +55,20 @@ public class RailwayModel {
         }
     }
 
+    /**
+     * An exception that is thrown to indicate an invalid route request.
+     */
+    public class InvalidRouteRequestException extends RuntimeException {
+
+        public InvalidRouteRequestException() {
+            super();
+        }
+
+        public InvalidRouteRequestException(String s) {
+            super(s);
+        }
+    }
+
 
     /**
      * Initialises the model for the Railway Manager.
@@ -75,7 +89,7 @@ public class RailwayModel {
 
         // Throws for (ii)
         if (!(route.onTrack(track))) {
-            throw new RuntimeException("The route was loaded,"
+            throw new InvalidRouteRequestException("The route was loaded,"
                     + " but it is not on the train management system’s track");
         }
 
@@ -109,7 +123,7 @@ public class RailwayModel {
             setSubroute(trains.get(id), startOffset, endOffset);
         }
         catch (NumberFormatException e) {
-            throw new InvalidTrainRequestException("The train requested to"
+            throw new InvalidRouteRequestException("The train requested to"
                     + " be updated does not exist");
         }
     }
@@ -146,7 +160,7 @@ public class RailwayModel {
         if (!(0 <= startOffset
                 && startOffset < endOffset
                 && endOffset <= route.getLength())) {
-            throw new RuntimeException("The route could be loaded and is"
+            throw new InvalidRouteRequestException("The route could be loaded and is"
                     + " on the track, but the offsets do not"
                     + " define a valid sub-route of the route that was read");
         }
@@ -159,7 +173,7 @@ public class RailwayModel {
         if (trains.values()
                 .stream()
                 .anyMatch(checkIntersectWithRoute)) {
-            throw new RuntimeException("Requested subroute intersects with"
+            throw new InvalidRouteRequestException("Requested subroute intersects with"
                     + " at least one of the sub-routes currently"
                     + " allocated to another train");
         }

@@ -63,7 +63,7 @@ public class RailwayController {
             catch (IOException | FormatException e) {
                 view.makeDialogBox("Failed to load " + filename, e.toString());
             }
-            catch (RuntimeException e) {
+            catch (RailwayModel.InvalidRouteRequestException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());
             }
         }
@@ -90,7 +90,7 @@ public class RailwayController {
                         + model.getTrainInfo(selected)[3]
                         + newline);
             }
-            catch (NumberFormatException e) {
+            catch (RailwayModel.InvalidTrainRequestException e) {
                 System.out.println(e.toString());
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
@@ -104,6 +104,8 @@ public class RailwayController {
             int endOffset = parseEndOffset();
 
             try {
+                // Will always succeed, as the entry box defends against
+                // invalid data being input
                 int selected = Integer.parseInt(view.getListSelectedValue());
                 model.updateSubroute(selected, startOffset, endOffset);
                 view.clearFields();
@@ -112,7 +114,7 @@ public class RailwayController {
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
             }
-            catch (RuntimeException e) {
+            catch (RailwayModel.InvalidRouteRequestException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());
             }
         }
