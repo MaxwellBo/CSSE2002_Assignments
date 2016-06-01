@@ -2,6 +2,7 @@ package railway.gui;
 
 import railway.FormatException;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -16,6 +17,10 @@ public class RailwayController {
     // the view that is being controlled
     private RailwayView view;
 
+    // Button listeners
+    private ActionListener loadActionListener;
+    private ActionListener viewActionListener;
+    private ActionListener setActionListener;
 
     /**
      * Initialises the Controller for the Railway Manager.
@@ -30,9 +35,14 @@ public class RailwayController {
 
         // Initialize the view
         // No exceptions
-        view.addLoadListener(new LoadActionListener());
-        view.addViewListener(new ViewActionListener());
-        view.addSetListener(new SetActionListener());
+        // Bind these so that other listeners can call their actions
+        loadActionListener = new LoadActionListener();
+        viewActionListener = new ViewActionListener();
+        setActionListener = new SetActionListener();
+
+        view.addLoadListener(loadActionListener);
+        view.addViewListener(viewActionListener);
+        view.addSetListener(setActionListener);
     }
 
     /**
@@ -184,6 +194,7 @@ public class RailwayController {
                 model.setTrainSubroute(selected, startOffset, endOffset);
 
                 view.clearFields();
+                viewActionListener.actionPerformed(event);
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"

@@ -36,8 +36,8 @@ public class RailwayView extends JFrame {
         Container container = getContentPane();
         container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
 
-        addFields(container);
         addButtons(container);
+        addFields(container);
         addList(container);
         addDisplay(container);
     }
@@ -140,7 +140,7 @@ public class RailwayView extends JFrame {
         panel.add(viewButton);
         panel.add(setButton);
 
-        container.add(panel, "Center");
+        container.add(panel);
     }
 
     private void addFields(Container container) {
@@ -170,7 +170,7 @@ public class RailwayView extends JFrame {
         panel.add(endOffsetFieldLabel);
         panel.add(endOffsetField);
 
-        container.add(panel, "East");
+        container.add(panel);
     }
 
     private void addList(Container container) {
@@ -184,7 +184,7 @@ public class RailwayView extends JFrame {
         list.setVisibleRowCount(-1);
 
         panel.add(list);
-        container.add(panel, "West");
+        container.add(panel);
     }
 
     private void addDisplay(Container container) {
@@ -201,7 +201,7 @@ public class RailwayView extends JFrame {
 
         panel.add(display);
         panel.add(scrollPane);
-        container.add(panel, "South");
+        container.add(panel);
 
     }
 }
