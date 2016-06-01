@@ -72,28 +72,54 @@ public class RailwayView extends JFrame {
         listModel.addElement(elem);
     }
 
+    /**
+     * Returns the string currently contained within the start offset field
+     *
+     * @return the string currently contained within the start offset field
+     */
     public String getStartOffsetFieldValue() {
         return startOffsetField.getText();
     }
 
+    /**
+     * Returns the string currently contained within the end offset field
+     *
+     * @return the string currently contained within the end offset field
+     */
     public String getEndOffsetFieldValue() {
         return endOffsetField.getText();
     }
 
+    /**
+     * Returns the string currently contained within the route filename field
+     *
+     * @return the string currently contained within the route filename field
+     */
     public String getRouteFilenameFieldValue() {
         return routeFilenameField.getText();
     }
 
+    /**
+     * Clears all fields and adds "default" values in their place
+     */
     public void clearFields() {
         startOffsetField.setText("0");
         endOffsetField.setText("0");
         routeFilenameField.setText("");
     }
 
+    /**
+     * Appends the specified text to the display
+     *
+     * @param text the String to be added
+     */
     public void appendToDisplay(String text) {
         display.append(text);
     }
 
+    /**
+     * Removes all text from the display
+     */
     public void clearDisplay() {
         display.setText("");
     }
@@ -128,6 +154,14 @@ public class RailwayView extends JFrame {
         setButton.addActionListener(listener);
     }
 
+    /**
+     * Given a container, initialize the "New", "View" and "Update" buttons,
+     * and add them to the container
+     *
+     * @param container
+     *              the container in which to put the buttons and their labels
+     *                  into
+     */
     private void addButtons(Container container) {
         JPanel panel = new JPanel(new GridLayout(1, 3));
 
@@ -145,7 +179,7 @@ public class RailwayView extends JFrame {
 
 
     /**
-     * Given a container, make the route filename field, start offset field,
+     * Given a container, initialize the route filename field, start offset field,
      * end offset field and their respective labels and add them to the container
      *
      * @param container
@@ -196,6 +230,14 @@ public class RailwayView extends JFrame {
         container.add(panel);
     }
 
+    /**
+     * Given a container, initialize the display / console area, bind its
+     * scrollbars, and add the union to the container
+     *
+     * @param container
+     *              the container in which to put the buttons and their labels
+     *                  into
+     */
     private void addDisplay(Container container) {
         JPanel panel = new JPanel();
 
@@ -203,8 +245,6 @@ public class RailwayView extends JFrame {
         display.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(display);
-//        scrollPane.setHorizontalScrollBarPolicy(
-//                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
