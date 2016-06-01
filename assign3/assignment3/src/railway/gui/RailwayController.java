@@ -2,6 +2,7 @@ package railway.gui;
 
 import railway.FormatException;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -16,7 +17,10 @@ public class RailwayController {
     // the view that is being controlled
     private RailwayView view;
 
-    // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
+    // Button listeners
+    private ActionListener loadActionListener;
+    private ActionListener viewActionListener;
+    private ActionListener setActionListener;
 
     /**
      * Initialises the Controller for the Railway Manager.
@@ -25,30 +29,82 @@ public class RailwayController {
         this.model = model;
         this.view = view;
 
+        // Initialize the model
+        // Exceptions handled
         loadTrack("track.txt");
-        view.addLoadListener(new LoadActionListener());
-        view.addViewListener(new ViewActionListener());
-        view.addSetListener(new SetActionListener());
+
+        // Initialize the view
+        // No exceptions
+        // Bind these so that other listeners can call their actions
+        loadActionListener = new LoadActionListener();
+        viewActionListener = new ViewActionListener();
+        setActionListener = new SetActionListener();
+
+        view.addLoadListener(loadActionListener);
+        view.addViewListener(viewActionListener);
+        view.addSetListener(setActionListener);
     }
 
+    /**
+     * Using a file written in the format specified by TrackReader.read,
+     * load the Track specified into the Model
+     * @param filename
+     *              the file to read from
+     */
     public void loadTrack(String filename) {
         try {
+            // throws IOException and FormatException
             model.loadTrack(filename);
         }
         catch (Exception e) {
+            // toString provides the full diagnostic / stack trace
+            // which may be useful for debugging IO errors
+            // thus, Exception details are not hidden
             view.makeDialogBox("File load error", e.toString());
         }
     }
 
+    /**
+     * Retrieves the string currently contained within the start offset
+     * text field and converts it into an integer.
+     *
+     * This helper method exists so that the controller may be adapted to
+     * defend against invalid input, currently handled by the view.
+     *
+     * @require the textfield to defend itself against invalid user input
+     *              that typically causes parseInt to throw Exceptions
+     * @return the value of the string
+     */
     private int parseStartOffset() {
         return Integer.parseInt(view.getStartOffsetFieldValue());
     }
 
+    /**
+     * Retrieves the string currently contained within the end offset
+     * text field and converts it into an integer.
+     *
+     * This helper method exists so that the controller may be adapted to
+     * defend against invalid input, currently handled by the view.
+     *
+     * @require the textfield to defend itself against invalid user input
+     *              that typically causes parseInt to throw Exceptions
+     * @return the value of the string
+     */
     private int parseEndOffset() {
         return Integer.parseInt(view.getEndOffsetFieldValue());
     }
 
+    /**
+     * The listener for the "New train" user action
+     */
     private class LoadActionListener implements ActionListener {
+
+        /**
+         * Given a trigger, attempt to add a new train to the track,
+         * updating the view and model accordingly
+         *
+         * @param event the trigger
+         */
         public void actionPerformed(ActionEvent event) {
 
             String filename = view.getRouteFilenameFieldValue();
@@ -56,63 +112,94 @@ public class RailwayController {
             int endOffset = parseEndOffset();
 
             try {
+                // throws invalid RouteRequestException
                 int id = model.spawnTrain(filename, startOffset, endOffset);
-                view.addListElement(Integer.toString(id));
+
+                view.appendToList(Integer.toString(id));
                 view.clearFields();
             }
             catch (IOException | FormatException e) {
+                // toString provides the full diagnostic / stack trace
+                // which may be useful for debugging IO errors
+                // thus, Exception details are not hidden
                 view.makeDialogBox("Failed to load " + filename, e.toString());
             }
-            catch (RuntimeException e) {
+            catch (RailwayModel.InvalidRouteRequestException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());
             }
         }
     }
 
+    /**
+     * The listener for the "view allocation" user action
+     */
     private class ViewActionListener implements ActionListener {
+
+        /**
+         * Given a trigger, attempt to view the allocation of a particular
+         * train contained within the model, and update the view accordingly
+         *
+         * @param event the trigger
+         */
         public void actionPerformed(ActionEvent event) {
             try {
+                // throws NumberFormatException when the view returns null
                 int selected = Integer.parseInt(view.getListSelectedValue());
 
                 String newline = System.getProperty("line.separator");
+                String[] info = model.getTrainInfo(selected);
 
                 view.clearDisplay();
-                view.appendToDisplay("ID: "
-                        + model.getTrainInfo(selected)[0]
+                view.appendToDisplay("ID: " + info[0]
                         + newline);
-                view.appendToDisplay("Start offset: "
-                        + model.getTrainInfo(selected)[1]
+                view.appendToDisplay("Start offset: " + info[1]
                         + newline);
-                view.appendToDisplay("End offset: "
-                        + model.getTrainInfo(selected)[2]
+                view.appendToDisplay("End offset: " + info[2]
+                        + newline
                         + newline);
                 view.appendToDisplay("Route: "
-                        + model.getTrainInfo(selected)[3]
-                        + newline);
+                        + newline
+                        + info[3]);
             }
             catch (NumberFormatException e) {
-                System.out.println(e.toString());
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
             }
         }
     }
 
+    /**
+     * The listener for the "update allocation" user action
+     */
     private class SetActionListener implements ActionListener {
+
+        /**
+         * Given a trigger, attempt to update the allocation of a particular
+         * train contained within the model, and update the model (and view)
+         * accordingly
+         *
+         * @param event the trigger
+         */
         public void actionPerformed(ActionEvent event) {
+
             int startOffset = parseStartOffset();
             int endOffset = parseEndOffset();
 
             try {
+                // throws NumberFormatException when the view returns null
                 int selected = Integer.parseInt(view.getListSelectedValue());
-                model.updateSubroute(selected, startOffset, endOffset);
+
+                // throws InvalidRouteRequestException
+                model.setTrainSubroute(selected, startOffset, endOffset);
+
                 view.clearFields();
+                viewActionListener.actionPerformed(event);
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
-                        + " to view its information");
+                        + " to change its subroute");
             }
-            catch (RuntimeException e) {
+            catch (RailwayModel.InvalidRouteRequestException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());
             }
         }
