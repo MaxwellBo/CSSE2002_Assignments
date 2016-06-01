@@ -18,9 +18,9 @@ public class RailwayView extends JFrame {
     private JButton setButton;
     private JList<String> list;
     private DefaultListModel<String> listModel;
+    private JTextField routeFilenameField;
     private JFormattedTextField startOffsetField;
     private JFormattedTextField endOffsetField;
-    private JTextField routeFilenameField;
     private JTextArea display;
 
     /**
@@ -39,6 +39,61 @@ public class RailwayView extends JFrame {
         addDisplay(c);
     }
 
+    public void makeDialogBox(String eClass, String eMessage) {
+        JOptionPane.showMessageDialog(
+                this
+                , eMessage
+                , eClass
+                , JOptionPane.ERROR_MESSAGE);
+    }
+
+    public String getListSelectedValue() {
+        return list.getSelectedValue();
+    }
+
+    // TODO: Rename this method
+    public void addListElement(String elem) {
+        listModel.addElement(elem);
+    }
+
+
+    public String getStartOffsetFieldValue() {
+        return startOffsetField.getText();
+    }
+
+    public String getEndOffsetFieldValue() {
+        return endOffsetField.getText();
+    }
+
+    public String getRouteFilenameFieldValue() {
+        return routeFilenameField.getText();
+    }
+    public void clearFields() {
+        startOffsetField.setText("0");
+        endOffsetField.setText("0");
+        routeFilenameField.setText("");
+    }
+
+    public void appendToDisplay(String text) {
+        display.append(text);
+    }
+
+    public void clearDisplay() {
+        display.setText("");
+    }
+
+    public void addLoadListener(ActionListener pl) {
+        loadButton.addActionListener(pl);
+    }
+
+    public void addViewListener(ActionListener pl) {
+        viewButton.addActionListener(pl);
+    }
+
+    public void addSetListener(ActionListener pl) {
+        setButton.addActionListener(pl);
+    }
+
     private void addButtons(Container c) {
         JPanel p = new JPanel();
         p.setLayout(new GridLayout(3, 3));
@@ -52,6 +107,29 @@ public class RailwayView extends JFrame {
         p.add(setButton);
 
         c.add(p, "Center");
+    }
+
+    private void addFields(Container c) {
+        JPanel p = new JPanel();
+
+        NumberFormat onlyNumbers = NumberFormat.getNumberInstance();
+        onlyNumbers.setGroupingUsed(false);
+
+        routeFilenameField = new JTextField(15);
+
+        startOffsetField = new JFormattedTextField(onlyNumbers);
+        startOffsetField.setValue(new Double(0));
+        startOffsetField.setColumns(7);
+
+        endOffsetField = new JFormattedTextField(onlyNumbers);
+        endOffsetField.setValue(new Double(0));
+        endOffsetField.setColumns(7);
+
+        p.add(routeFilenameField);
+        p.add(startOffsetField);
+        p.add(endOffsetField);
+        c.add(p, "East");
+
     }
 
     private void addList(Container c) {
@@ -85,83 +163,5 @@ public class RailwayView extends JFrame {
         p.add(scrollPane);
         c.add(p, "South");
 
-    }
-
-    public String getListSelectedValue() {
-        return list.getSelectedValue();
-    }
-
-    // TODO: Rename this method
-    public void addListElement(String elem) {
-        listModel.addElement(elem);
-    }
-
-    public void appendToDisplay(String text) {
-        display.append(text);
-    }
-
-    public void clearDisplay() {
-        display.setText("");
-    }
-
-    public void clearFields() {
-        startOffsetField.setText("0");
-        endOffsetField.setText("0");
-        routeFilenameField.setText("");
-    }
-
-    private void addFields(Container c) {
-        JPanel p = new JPanel();
-
-        NumberFormat onlyNumbers = NumberFormat.getNumberInstance();
-        onlyNumbers.setGroupingUsed(false);
-
-        routeFilenameField = new JTextField(15);
-
-        startOffsetField = new JFormattedTextField(onlyNumbers);
-        startOffsetField.setValue(new Double(0));
-        startOffsetField.setColumns(7);
-
-        endOffsetField = new JFormattedTextField(onlyNumbers);
-        endOffsetField.setValue(new Double(0));
-        endOffsetField.setColumns(7);
-
-        p.add(routeFilenameField);
-        p.add(startOffsetField);
-        p.add(endOffsetField);
-        c.add(p, "East");
-
-    }
-
-    public void makeDialogBox(String eClass, String eMessage) {
-        JOptionPane.showMessageDialog(
-                this
-                , eMessage
-                , eClass
-                , JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void addLoadListener(ActionListener pl) {
-        loadButton.addActionListener(pl);
-    }
-
-    public void addViewListener(ActionListener pl) {
-        viewButton.addActionListener(pl);
-    }
-
-    public void addSetListener(ActionListener pl) {
-        setButton.addActionListener(pl);
-    }
-
-    public String getStartOffsetFieldValue() {
-        return startOffsetField.getText();
-    }
-
-    public String getEndOffsetFieldValue() {
-        return endOffsetField.getText();
-    }
-
-    public String getRouteFilenameFieldValue() {
-        return routeFilenameField.getText();
     }
 }

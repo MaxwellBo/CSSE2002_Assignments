@@ -149,7 +149,7 @@ public class RailwayModel {
             verifyNoIntersections(trainsWORequested, requested);
         }
         catch (IllegalArgumentException e) {
-            throw new InvalidRouteRequestException("The route could be "
+            throw new InvalidRouteRequestException("The route could be"
                     + " loaded and is on the track, but the offsets do not"
                     + " define a valid sub-route of the route that was read");
         }
