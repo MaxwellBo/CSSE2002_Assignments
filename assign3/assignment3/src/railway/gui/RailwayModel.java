@@ -82,7 +82,7 @@ public class RailwayModel {
     }
 
     public int spawnTrain(String filename, int startOffset, int endOffset)
-            throws IOException, FormatException {
+            throws IOException, FormatException, InvalidRouteRequestException {
 
         // Throws for (i) the route could not be loaded
         Route route = RouteReader.read(filename);
@@ -109,10 +109,12 @@ public class RailwayModel {
     // --> requested becomes null, checks fail
     public String[] getTrainInfo(int id) {
         Train requested = trains.get(id);
+
         String[] info = { Integer.toString(requested.id)
                 , Integer.toString(requested.startOffset)
                 , Integer.toString(requested.endOffset)
                 , requested.route.toString() };
+
         return info;
     }
 
@@ -156,7 +158,8 @@ public class RailwayModel {
         return target.id;
     }
 
-    private void verifyInterval(Route route, int startOffset, int endOffset) {
+    private void verifyInterval(Route route, int startOffset, int endOffset)
+            throws InvalidRouteRequestException {
         if (!(0 <= startOffset
                 && startOffset < endOffset
                 && endOffset <= route.getLength())) {
@@ -166,7 +169,8 @@ public class RailwayModel {
         }
     }
 
-    private void verifyNoIntersections(Map<Integer, Train> trains, Route route) {
+    private void verifyNoIntersections(Map<Integer, Train> trains, Route route)
+            throws InvalidRouteRequestException {
         Predicate<Train> checkIntersectWithRoute = train ->
                 train.subroute.intersects(route);
 
