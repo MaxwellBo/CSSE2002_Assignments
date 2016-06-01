@@ -184,8 +184,9 @@ public class RailwayView extends JFrame {
 
 
     /**
-     * Given a container, initialize the route filename field, start offset field,
-     * end offset field and their respective labels and add them to the container
+     * Given a container, initialize the route filename field,
+     * start offset field, end offset field and their
+     * respective labels and add them to the container
      *
      * @param container
      *              the container put the buttons and their labels
@@ -233,6 +234,7 @@ public class RailwayView extends JFrame {
 
         trainIDs = new JComboBox<>();
         panel.add(trainIDs);
+
         container.add(panel);
     }
 
@@ -254,7 +256,7 @@ public class RailwayView extends JFrame {
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         panel.add(scrollPane);
-        container.add(panel);
 
+        container.add(panel);
     }
 }
