@@ -140,13 +140,14 @@ public class RailwayView extends JFrame {
     }
 
     /**
-     * Bind an ActionListener to the "View" button
+     * Bind an ActionListener to the dropdown box
      *
      * @param listener
      *              the listener to be bound
      */
     public void addViewListener(ActionListener listener) {
-        viewButton.addActionListener(listener);
+        // viewButton.addActionListener(listener)
+        trainIDs.addActionListener(listener);
     }
 
     /**
@@ -176,12 +177,12 @@ public class RailwayView extends JFrame {
         setButton = new JButton("Update");
 
         panel.add(loadButton);
-        panel.add(viewButton);
+        // panel.add(viewButton);
+        // Last minute change
         panel.add(setButton);
 
         container.add(panel);
     }
-
 
     /**
      * Given a container, initialize the route filename field,

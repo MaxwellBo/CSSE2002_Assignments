@@ -71,9 +71,9 @@ public class RailwayController {
      * This helper method exists so that the controller may be adapted to
      * defend against invalid input, currently handled by the view.
      *
-     * @require the textfield to defend itself against invalid user input
+     * @require the text field to defend itself against invalid user input
      *              that typically causes parseInt to throw Exceptions
-     * @return the value of the string
+     * @return the converted string
      */
     private int parseStartOffset() {
         return Integer.parseInt(view.getStartOffsetFieldValue());
@@ -86,9 +86,9 @@ public class RailwayController {
      * This helper method exists so that the controller may be adapted to
      * defend against invalid input, currently handled by the view.
      *
-     * @require the textfield to defend itself against invalid user input
+     * @require the text field to defend itself against invalid user input
      *              that typically causes parseInt to throw Exceptions
-     * @return the value of the string
+     * @return the converted string
      */
     private int parseEndOffset() {
         return Integer.parseInt(view.getEndOffsetFieldValue());

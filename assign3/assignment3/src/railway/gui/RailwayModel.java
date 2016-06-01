@@ -69,7 +69,6 @@ public class RailwayModel {
         }
     }
 
-
     /**
      * An exception that is thrown to indicate an invalid train request.
      */
@@ -83,7 +82,6 @@ public class RailwayModel {
             super(s);
         }
     }
-
 
     /**
      * An exception that is thrown to indicate an invalid route request.
