@@ -35,6 +35,12 @@ public class RailwayController {
         view.addSetListener(new SetActionListener());
     }
 
+    /**
+     * Using a file written in the format specified by TrackReader.read,
+     * load the Track specified into the Model
+     * @param filename
+     *              the file to read from
+     */
     public void loadTrack(String filename) {
         try {
             model.loadTrack(filename);
@@ -46,19 +52,37 @@ public class RailwayController {
 
     /**
      * Retrieves the string currently contained within the start offset
-     * text field and converts it into a string. The method assumes that
-     * the view is defending itself against invalid user input.
-     * @return
+     * text field and converts it into an integer.
+     * @require the textfield to defend itself against invalid user input
+     *              that typically causes parseInt to throw Exceptions
+     * @return the value of the string
      */
     private int parseStartOffset() {
         return Integer.parseInt(view.getStartOffsetFieldValue());
     }
 
+    /**
+     * Retrieves the string currently contained within the end offset
+     * text field and converts it into an integer.
+     * @require the textfield to defend itself against invalid user input
+     *              that typically causes parseInt to throw Exceptions
+     * @return the value of the string
+     */
     private int parseEndOffset() {
         return Integer.parseInt(view.getEndOffsetFieldValue());
     }
 
+    /**
+     * The listener for the "New train" user action
+     */
     private class LoadActionListener implements ActionListener {
+
+        /**
+         * Given a trigger, attempt to add a new train to the track,
+         * updating the view and model accordingly
+         *
+         * @param event the trigger
+         */
         public void actionPerformed(ActionEvent event) {
 
             String filename = view.getRouteFilenameFieldValue();
@@ -81,7 +105,17 @@ public class RailwayController {
         }
     }
 
+    /**
+     * The listener for the "view allocation" user action
+     */
     private class ViewActionListener implements ActionListener {
+
+        /**
+         * Given a trigger, attempt to view the allocation of a particular
+         * train contained within the model, and update the view accordingly
+         *
+         * @param event the trigger
+         */
         public void actionPerformed(ActionEvent event) {
             try {
                 int selected = Integer.parseInt(view.getListSelectedValue());
@@ -109,7 +143,18 @@ public class RailwayController {
         }
     }
 
+    /**
+     * The listener for the "update allocation" user action
+     */
     private class SetActionListener implements ActionListener {
+
+        /**
+         * Given a trigger, attempt to update the allocation of a particular
+         * train contained within the model, and update the model (and view)
+         * accordingly
+         *
+         * @param event the trigger
+         */
         public void actionPerformed(ActionEvent event) {
 
             int startOffset = parseStartOffset();

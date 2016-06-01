@@ -109,7 +109,7 @@ public class RailwayModel {
 
     /**
      * Using a file written in the format specified by TrackReader.read,
-     * load the returned Track into this RailwayModel for use by trains.
+     * load the Track specified in the file into this RailwayModel
      *
      * @param filename
      *            the file to read from
@@ -300,7 +300,7 @@ public class RailwayModel {
      *              the map of IDs to Trains
      * @param subroute
      *              the (sub)route to check intersects the existing model
-*      @require
+     * @require
      *              trains and subroute both not null
      * @throws InvalidRouteRequestException
      *              iff the route intersects a route belonging to a Train
@@ -308,6 +308,7 @@ public class RailwayModel {
      */
     private void verifyNoIntersections(Map<Integer, Train> trains
             , Route subroute) throws InvalidRouteRequestException {
+
         Predicate<Train> checkIntersectWithRoute = train ->
                 train.subroute.intersects(subroute);
 
