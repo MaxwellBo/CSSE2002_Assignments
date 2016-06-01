@@ -88,10 +88,9 @@ public class RailwayModel {
     public int spawnTrain(String filename, int startOffset, int endOffset)
             throws IOException, FormatException, InvalidRouteRequestException {
 
-        // Throws for (i) the route could not be loaded
+        // Throws IOException and FormatException
         Route route = RouteReader.read(filename);
 
-        // Throws for (ii)
         if (!(route.onTrack(track))) {
             throw new InvalidRouteRequestException("The route was loaded,"
                     + " but it is not on the train management system’s track");
@@ -100,6 +99,8 @@ public class RailwayModel {
         Train spawned = new Train(trains.size(), route);
 
         // Continue with building the rest of the train's attributes
+        // Throws InvalidRouteRequestException
+        // Returns the ID of the train that was built
         return setSubroute(spawned, startOffset, endOffset);
 
     }
@@ -118,14 +119,14 @@ public class RailwayModel {
         return info;
     }
 
-    // TODO: Change name to updateTrainSubroute
+    // TODO: Change name to setTrainSubroute
     public void updateSubroute(int id, int startOffset, int endOffset)
             throws InvalidTrainRequestException, InvalidRouteRequestException {
         try {
             setSubroute(trains.get(id), startOffset, endOffset);
         }
         catch (NumberFormatException e) {
-            throw new InvalidRouteRequestException("The train requested to"
+            throw new InvalidTrainRequestException("The train requested to"
                     + " be updated does not exist");
         }
     }
@@ -134,51 +135,50 @@ public class RailwayModel {
             throws InvalidRouteRequestException {
         // Clear the train from a cloned model, if it exists
         Map<Integer, Train> trainsWORequested = new HashMap<>(trains);
+
         // When adding a new train, this call is redundant
+        // Fails silently and without harm
         trainsWORequested.remove(target.id);
 
-        // Check that the subroute can exist
-        // Throws for (iii)
-        verifyInterval(target.route, startOffset, endOffset);
+        // Verify the validity of the subroute
+        try {
+            // Throws IllegalArgumentException
+            Route requested = target.route.getSubroute(startOffset, endOffset);
 
-        // Stage the subroute
-        Route requested = target.route.getSubroute(startOffset, endOffset);
-
-        // Check that the subroute is compatible
-        // Throws for (iv)
-        verifyNoIntersections(trainsWORequested, requested);
+            // Throws InvalidRouteRequestException
+            verifyNoIntersections(trainsWORequested, requested);
+        }
+        catch (IllegalArgumentException e) {
+            throw new InvalidRouteRequestException("The route could be "
+                    + " loaded and is on the track, but the offsets do not"
+                    + " define a valid sub-route of the route that was read");
+        }
+        catch (InvalidRouteRequestException e) {
+            throw e;
+        }
 
         // Mutate the train so that it has the new subroute
         target.setSubroute(startOffset, endOffset);
 
         // Either bind or overwrite the target into the real model
         // When mutating train, this call is redundant
+        // Fails silenty and without harm
         trains.put(target.id, target);
 
-        // Return the id / key of the train in the map
+        // Return the ID / key of the train in the map
         return target.id;
     }
 
-    private void verifyInterval(Route route, int startOffset, int endOffset)
-            throws InvalidRouteRequestException {
-        if (!(0 <= startOffset
-                && startOffset < endOffset
-                && endOffset <= route.getLength())) {
-            throw new InvalidRouteRequestException("The route could be loaded and is"
-                    + " on the track, but the offsets do not"
-                    + " define a valid sub-route of the route that was read");
-        }
-    }
-
-    private void verifyNoIntersections(Map<Integer, Train> trains, Route route)
-            throws InvalidRouteRequestException {
+    private void verifyNoIntersections(Map<Integer, Train> trains
+            , Route subroute) throws InvalidRouteRequestException {
         Predicate<Train> checkIntersectWithRoute = train ->
-                train.subroute.intersects(route);
+                train.subroute.intersects(subroute);
 
         if (trains.values()
                 .stream()
                 .anyMatch(checkIntersectWithRoute)) {
-            throw new InvalidRouteRequestException("Requested subroute intersects with"
+            throw new InvalidRouteRequestException("Requested subroute"
+                    + " intersects with"
                     + " at least one of the sub-routes currently"
                     + " allocated to another train");
         }
