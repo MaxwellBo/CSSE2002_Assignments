@@ -16,7 +16,6 @@ public class RailwayController {
     // the view that is being controlled
     private RailwayView view;
 
-    // REMOVE THIS LINE AND DECLARE ANY ADDITIONAL VARIABLES YOU REQUIRE HERE
 
     /**
      * Initialises the Controller for the Railway Manager.
@@ -25,7 +24,12 @@ public class RailwayController {
         this.model = model;
         this.view = view;
 
+        // Initialize the model
+        // Exceptions handled
         loadTrack("track.txt");
+
+        // Initialize the view
+        // No exceptions
         view.addLoadListener(new LoadActionListener());
         view.addViewListener(new ViewActionListener());
         view.addSetListener(new SetActionListener());
@@ -58,6 +62,8 @@ public class RailwayController {
         public void actionPerformed(ActionEvent event) {
 
             String filename = view.getRouteFilenameFieldValue();
+
+            // No exceptions
             int startOffset = parseStartOffset();
             int endOffset = parseEndOffset();
 
@@ -105,8 +111,7 @@ public class RailwayController {
 
     private class SetActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
-            // Will always succeed, as the entry box defends against
-            // invalid data being input
+
             int startOffset = parseStartOffset();
             int endOffset = parseEndOffset();
 
