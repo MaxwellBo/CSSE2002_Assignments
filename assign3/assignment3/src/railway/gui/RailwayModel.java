@@ -43,8 +43,10 @@ public class RailwayModel {
         /**
          * Creates a new Train running on a route
          *
-         * @param id the ID to assign this train
-         * @param route the route on which this Train runs
+         * @param id
+         *              the ID to assign this train
+         * @param route
+         *              the route on which this Train runs
          */
         Train(int id, Route route) {
             this.id = id;
@@ -55,8 +57,10 @@ public class RailwayModel {
          * Sets the subroute of this train with two offset lengths
          * using this Train's internal route attribute
          *
-         * @param startOffset the start offset of the subroute
-         * @param endOffset the end offset of the subroute
+         * @param startOffset
+         *              the start offset of the subroute
+         * @param endOffset
+         *              the end offset of the subroute
          */
         void setSubroute(int startOffset, int endOffset) {
             this.startOffset = startOffset;
@@ -132,7 +136,7 @@ public class RailwayModel {
      *            the start offset of the new Train's subroute
      * @param endOffset
      *            the end offset of the new Train's subroute
-     * @require the filename is not null
+     * @require the filename, startOffset, endOffset are not null
      * @return the ID of the Train that was spawned in the model
      * @throws IOException
      *              if there is an error reading from the input file
@@ -190,12 +194,27 @@ public class RailwayModel {
     }
 
     /**
+     * Given an ID, a start offset and an end offset, mutates
+     * the Train currently present in the model (with the same ID)'s
+     * subroute with the given start offset and end offset
      *
      * @param id
+     *              the ID of the train to set the subroute of
      * @param startOffset
+     *              the new start offset of the Train
      * @param endOffset
+     *              the new end offset of the Train
+     * @require
+     *              id, startOffset, endOffset is not null
      * @throws InvalidTrainRequestException
+     *              if no train with the specified ID can be found in the model
      * @throws InvalidRouteRequestException
+     *              if the offsets do not define a
+     *                  valid sub-route of the route that was read
+     *              if the sub-route is valid w.r.t. the train’s route,
+     *                  but the sub-route route.getSubroute(startOffset, endOffset)
+     *                  intersects with at least one of the sub-routes
+     *                  currently allocated to another train
      */
     public void setTrainSubroute(int id, int startOffset, int endOffset)
             throws InvalidTrainRequestException, InvalidRouteRequestException {
@@ -208,6 +227,31 @@ public class RailwayModel {
         }
     }
 
+    /**
+     *  Given a Train, a start offset and an end offset, mutates the Train's
+     *  subroute with the given start offset and end offset, and proceeds to
+     *  add the Train to the model. Thus, this method can be used to complete
+     *  and add a newly spawned Train to the model, or mutate a pre-existing
+     *  Train
+     *
+     * @param target
+     *              the train to be added or mutated
+     * @param startOffset
+     *              the (new) start offset of the Train
+     * @param endOffset
+     *              the (new) end offset of the Train
+     * @require
+     *              target, startOffset, endOffset are not null
+     * @return
+     *              the ID of the train that was modified or added to the model
+     * @throws InvalidRouteRequestException
+     *              if the offsets do not define a
+     *                  valid sub-route of the route that was read
+     *              if the sub-route is valid w.r.t. the train’s route,
+     *                  but the sub-route route.getSubroute(startOffset, endOffset)
+     *                  intersects with at least one of the sub-routes
+     *                  currently allocated to another train
+     */
     private int setSubroute(Train target, int startOffset, int endOffset)
             throws InvalidRouteRequestException {
         // Clear the train from a cloned model, if it exists
@@ -246,6 +290,22 @@ public class RailwayModel {
         return target.id;
     }
 
+    /**
+     * Given a map of Integers to Trains, and a Route, throws an Exception
+     * iff the route intersects a route belonging to a Train in the map.
+     * This method is intended to prevent incompatible Trains and their
+     * routes from being added to the model.
+     *
+     * @param trains
+     *              the map of IDs to Trains
+     * @param subroute
+     *              the (sub)route to check intersects the existing model
+*      @require
+     *              trains and subroute both not null
+     * @throws InvalidRouteRequestException
+     *              iff the route intersects a route belonging to a Train
+     *                  in the map
+     */
     private void verifyNoIntersections(Map<Integer, Train> trains
             , Route subroute) throws InvalidRouteRequestException {
         Predicate<Train> checkIntersectWithRoute = train ->
