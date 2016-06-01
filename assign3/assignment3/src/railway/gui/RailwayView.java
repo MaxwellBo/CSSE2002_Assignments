@@ -16,8 +16,7 @@ public class RailwayView extends JFrame {
     private JButton loadButton;
     private JButton viewButton;
     private JButton setButton;
-    private JList<String> list;
-    private DefaultListModel<String> listModel;
+    private JComboBox<String> trainIDs;
     private JTextField routeFilenameField;
     private JFormattedTextField startOffsetField;
     private JFormattedTextField endOffsetField;
@@ -60,16 +59,22 @@ public class RailwayView extends JFrame {
     }
 
     /**
-     * Returns the string of the highlighted
+     * Returns the currently selected string in the dropdown box
      *
-     * @return
+     * @return the currently selected string in the dropdown bo
      */
     public String getListSelectedValue() {
-        return list.getSelectedValue();
+        return (String)trainIDs.getSelectedItem();
     }
 
+    /**
+     * Add a new string to the dropdown box
+     *
+     * @param elem
+     *              the string to be added to the dropdown box
+     */
     public void appendToList(String elem) {
-        listModel.addElement(elem);
+        trainIDs.addItem(elem);
     }
 
     /**
@@ -183,7 +188,7 @@ public class RailwayView extends JFrame {
      * end offset field and their respective labels and add them to the container
      *
      * @param container
-     *              the container in which to put the buttons and their labels
+     *              the container put the buttons and their labels
      *                  into
      */
     private void addFields(Container container) {
@@ -216,17 +221,18 @@ public class RailwayView extends JFrame {
         container.add(panel);
     }
 
+    /**
+     * Given a container, initialize the dropdown box, and add it to the
+     * container
+     *
+     * @param container
+     *              the container to put the dropdown box into
+     */
     private void addList(Container container) {
         JPanel panel = new JPanel();
 
-        listModel = new DefaultListModel<>();
-        list = new JList<>(listModel);
-
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setLayoutOrientation(JList.VERTICAL);
-        list.setVisibleRowCount(-1);
-
-        panel.add(list);
+        trainIDs = new JComboBox<>();
+        panel.add(trainIDs);
         container.add(panel);
     }
 
@@ -235,8 +241,7 @@ public class RailwayView extends JFrame {
      * scrollbars, and add the union to the container
      *
      * @param container
-     *              the container in which to put the buttons and their labels
-     *                  into
+     *              the container to put the display into
      */
     private void addDisplay(Container container) {
         JPanel panel = new JPanel();
