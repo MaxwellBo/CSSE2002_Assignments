@@ -9,7 +9,6 @@ import railway.Route;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -20,6 +19,11 @@ public class RailwayModel {
     private Track track;
     private final Map<Integer, Train> trains;
 
+
+    /**
+     * A struct-like Train datatype with a single setter to ensure internal
+     * consistency.
+     */
     private class Train {
 
         final int id;
@@ -98,10 +102,6 @@ public class RailwayModel {
         // Continue with building the rest of the train's attributes
         return setSubroute(spawned, startOffset, endOffset);
 
-    }
-
-    public Set<Integer> getTrainIDs() {
-        return trains.keySet();
     }
 
     // precond not null

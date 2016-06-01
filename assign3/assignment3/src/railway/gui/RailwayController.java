@@ -40,6 +40,12 @@ public class RailwayController {
         }
     }
 
+    /**
+     * Retrieves the string currently contained within the start offset
+     * text field and converts it into a string. The method assumes that
+     * the view is defending itself against invalid user input.
+     * @return
+     */
     private int parseStartOffset() {
         return Integer.parseInt(view.getStartOffsetFieldValue());
     }
@@ -91,7 +97,6 @@ public class RailwayController {
                         + newline);
             }
             catch (NumberFormatException e) {
-                System.out.println(e.toString());
                 view.makeDialogBox("No train selected", "Please select a train"
                         + " to view its information");
             }
@@ -100,19 +105,19 @@ public class RailwayController {
 
     private class SetActionListener implements ActionListener {
         public void actionPerformed(ActionEvent event) {
+            // Will always succeed, as the entry box defends against
+            // invalid data being input
             int startOffset = parseStartOffset();
             int endOffset = parseEndOffset();
 
             try {
-                // Will always succeed, as the entry box defends against
-                // invalid data being input
                 int selected = Integer.parseInt(view.getListSelectedValue());
                 model.updateSubroute(selected, startOffset, endOffset);
                 view.clearFields();
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
-                        + " to view its information");
+                        + " to change its subroute");
             }
             catch (RailwayModel.InvalidRouteRequestException e) {
                 view.makeDialogBox("Invalid route request", e.getMessage());
