@@ -102,7 +102,7 @@ public class RailwayView extends JFrame {
      * Bind an ActionListener to the "New" button
      *
      * @param listener
-     *              The listener to be bound
+     *              the listener to be bound
      */
     public void addLoadListener(ActionListener listener) {
         loadButton.addActionListener(listener);
@@ -112,7 +112,7 @@ public class RailwayView extends JFrame {
      * Bind an ActionListener to the "View" button
      *
      * @param listener
-     *              The listener to be bound
+     *              the listener to be bound
      */
     public void addViewListener(ActionListener listener) {
         viewButton.addActionListener(listener);
@@ -122,7 +122,7 @@ public class RailwayView extends JFrame {
      * Bind an ActionListener to the "Update" button
      *
      * @param listener
-     *              The listener to be bound
+     *              the listener to be bound
      */
     public void addSetListener(ActionListener listener) {
         setButton.addActionListener(listener);
@@ -143,6 +143,15 @@ public class RailwayView extends JFrame {
         container.add(panel);
     }
 
+
+    /**
+     * Given a container, make the route filename field, start offset field,
+     * end offset field and their respective labels and add them to the container
+     *
+     * @param container
+     *              the container in which to put the buttons and their labels
+     *                  into
+     */
     private void addFields(Container container) {
         JPanel panel = new JPanel();
 
@@ -190,16 +199,15 @@ public class RailwayView extends JFrame {
     private void addDisplay(Container container) {
         JPanel panel = new JPanel();
 
-        display = new JTextArea(10, 40);
+        display = new JTextArea(15, 50);
         display.setEditable(false);
 
         JScrollPane scrollPane = new JScrollPane(display);
-        scrollPane.setHorizontalScrollBarPolicy(
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+//        scrollPane.setHorizontalScrollBarPolicy(
+//                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        panel.add(display);
         panel.add(scrollPane);
         container.add(panel);
 

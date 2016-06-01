@@ -147,20 +147,19 @@ public class RailwayController {
                 int selected = Integer.parseInt(view.getListSelectedValue());
 
                 String newline = System.getProperty("line.separator");
+                String[] info = model.getTrainInfo(selected);
 
                 view.clearDisplay();
-                view.appendToDisplay("ID: "
-                        + model.getTrainInfo(selected)[0]
+                view.appendToDisplay("ID: " + info[0]
                         + newline);
-                view.appendToDisplay("Start offset: "
-                        + model.getTrainInfo(selected)[1]
+                view.appendToDisplay("Start offset: " + info[1]
                         + newline);
-                view.appendToDisplay("End offset: "
-                        + model.getTrainInfo(selected)[2]
+                view.appendToDisplay("End offset: " + info[2]
+                        + newline
                         + newline);
                 view.appendToDisplay("Route: "
-                        + model.getTrainInfo(selected)[3]
-                        + newline);
+                        + newline
+                        + info[3]);
             }
             catch (NumberFormatException e) {
                 view.makeDialogBox("No train selected", "Please select a train"
