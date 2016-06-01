@@ -69,7 +69,7 @@ public class RailwayController {
 
             try {
                 int id = model.spawnTrain(filename, startOffset, endOffset);
-                view.addListElement(Integer.toString(id));
+                view.appendToList(Integer.toString(id));
                 view.clearFields();
             }
             catch (IOException | FormatException e) {
@@ -117,7 +117,7 @@ public class RailwayController {
 
             try {
                 int selected = Integer.parseInt(view.getListSelectedValue());
-                model.updateSubroute(selected, startOffset, endOffset);
+                model.setTrainSubroute(selected, startOffset, endOffset);
                 view.clearFields();
             }
             catch (NumberFormatException e) {

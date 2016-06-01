@@ -31,12 +31,12 @@ public class RailwayView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Train Management System");
         setBounds(400, 200, 250, 300);
-        Container c = getContentPane();
+        Container container = getContentPane();
 
-        addButtons(c);
-        addList(c);
-        addFields(c);
-        addDisplay(c);
+        addButtons(container);
+        addList(container);
+        addFields(container);
+        addDisplay(container);
     }
 
     public void makeDialogBox(String eClass, String eMessage) {
@@ -51,11 +51,9 @@ public class RailwayView extends JFrame {
         return list.getSelectedValue();
     }
 
-    // TODO: Rename this method
-    public void addListElement(String elem) {
+    public void appendToList(String elem) {
         listModel.addElement(elem);
     }
-
 
     public String getStartOffsetFieldValue() {
         return startOffsetField.getText();
@@ -68,6 +66,7 @@ public class RailwayView extends JFrame {
     public String getRouteFilenameFieldValue() {
         return routeFilenameField.getText();
     }
+
     public void clearFields() {
         startOffsetField.setText("0");
         endOffsetField.setText("0");
@@ -82,35 +81,35 @@ public class RailwayView extends JFrame {
         display.setText("");
     }
 
-    public void addLoadListener(ActionListener pl) {
-        loadButton.addActionListener(pl);
+    public void addLoadListener(ActionListener listener) {
+        loadButton.addActionListener(listener);
     }
 
-    public void addViewListener(ActionListener pl) {
-        viewButton.addActionListener(pl);
+    public void addViewListener(ActionListener listener) {
+        viewButton.addActionListener(listener);
     }
 
-    public void addSetListener(ActionListener pl) {
-        setButton.addActionListener(pl);
+    public void addSetListener(ActionListener listener) {
+        setButton.addActionListener(listener);
     }
 
-    private void addButtons(Container c) {
-        JPanel p = new JPanel();
-        p.setLayout(new GridLayout(3, 3));
+    private void addButtons(Container container) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 3));
 
         loadButton = new JButton("Load");
         viewButton = new JButton("View");
         setButton = new JButton("Set");
 
-        p.add(loadButton);
-        p.add(viewButton);
-        p.add(setButton);
+        panel.add(loadButton);
+        panel.add(viewButton);
+        panel.add(setButton);
 
-        c.add(p, "Center");
+        container.add(panel, "Center");
     }
 
-    private void addFields(Container c) {
-        JPanel p = new JPanel();
+    private void addFields(Container container) {
+        JPanel panel = new JPanel();
 
         NumberFormat onlyNumbers = NumberFormat.getNumberInstance();
         onlyNumbers.setGroupingUsed(false);
@@ -125,30 +124,29 @@ public class RailwayView extends JFrame {
         endOffsetField.setValue(new Double(0));
         endOffsetField.setColumns(7);
 
-        p.add(routeFilenameField);
-        p.add(startOffsetField);
-        p.add(endOffsetField);
-        c.add(p, "East");
+        panel.add(routeFilenameField);
+        panel.add(startOffsetField);
+        panel.add(endOffsetField);
+        container.add(panel, "East");
 
     }
 
-    private void addList(Container c) {
-        JPanel p = new JPanel();
+    private void addList(Container container) {
+        JPanel panel = new JPanel();
 
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
 
-        // I might be able to do cool stuff here
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);
         list.setVisibleRowCount(-1);
 
-        p.add(list);
-        c.add(p, "West");
+        panel.add(list);
+        container.add(panel, "West");
     }
 
-    private void addDisplay(Container c) {
-        JPanel p = new JPanel();
+    private void addDisplay(Container container) {
+        JPanel panel = new JPanel();
 
         display = new JTextArea(10, 40);
         display.setEditable(false);
@@ -159,9 +157,9 @@ public class RailwayView extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        p.add(display);
-        p.add(scrollPane);
-        c.add(p, "South");
+        panel.add(display);
+        panel.add(scrollPane);
+        container.add(panel, "South");
 
     }
 }

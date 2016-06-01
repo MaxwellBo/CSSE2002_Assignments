@@ -119,8 +119,7 @@ public class RailwayModel {
         return info;
     }
 
-    // TODO: Change name to setTrainSubroute
-    public void updateSubroute(int id, int startOffset, int endOffset)
+    public void setTrainSubroute(int id, int startOffset, int endOffset)
             throws InvalidTrainRequestException, InvalidRouteRequestException {
         try {
             setSubroute(trains.get(id), startOffset, endOffset);
